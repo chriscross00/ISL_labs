@@ -1,0 +1,78 @@
+---
+title: "ch3"
+author: "Christoper Chan"
+date: "November 20, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(MASS)
+library(ISLR)
+library(ggplot2)
+print('done')
+```
+
+Load in dataframe and begin to understand the variables
+```{r}
+data(Boston)
+names(Boston)
+?Boston
+head(Boston)
+```
+
+```{r}
+dim(Boston)
+```
+
+
+# 3.6.2
+Fit a simple linear regression model to lower status of population (lstat) &median home value (medv)
+
+```{r}
+lm.fit = lm(medv~lstat, data=Boston)
+summary(lm.fit)
+```
+
+```{r}
+confint(lm.fit)
+```
+
+```{r}
+predict(lm.fit, data.frame(lstat=c(5,10, 15)), interval='confidence')
+```
+
+```{r}
+coef(lm.fit)
+```
+
+```{r}
+ggplot(Boston, aes(lstat, medv)) +
+  geom_point() +
+  labs('lstat', 'medv', title = 'linear regression of lstat and medv') +
+  geom_abline(intercept = 34.55, slope = -0.95, color = '#E41A1C')
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
