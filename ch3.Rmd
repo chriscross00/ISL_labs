@@ -20,7 +20,6 @@ Load in dataframe and begin to understand the variables
 ```{r}
 data(Boston)
 names(Boston)
-?Boston
 head(Boston)
 ```
 
@@ -29,11 +28,11 @@ dim(Boston)
 ```
 
 
-# 3.6.2
+## 3.6.2
 Fit a simple linear regression model to lower status of population (lstat) &median home value (medv)
 
 ```{r}
-lm.fit = lm(medv~lstat, data=Boston)
+lm.fit <- lm(medv~lstat, data=Boston)
 summary(lm.fit)
 ```
 
@@ -57,15 +56,27 @@ ggplot(Boston, aes(lstat, medv)) +
 ```
 
 
+```{r}
+ggplot(lm.fit, aes(predict(lm.fit), residuals(lm.fit))) +
+  geom_point()
+```
 
+```{r}
+ggplot(lm.fit, aes(predict(lm.fit), rstudent(lm.fit))) +
+  geom_point()
+```
 
+## 3.6.3
+```{r}
+mlm.fit = lm(medv~lstat + age, data=Boston)
+summary(mlm.fit)
+```
 
-
-
-
-
-
-
+Linear regression model with y = medv and x = the rest of the variables
+```{r}
+all_lm.fit = lm(medv ~ ., data = Boston)
+summary(all_lm.fit)
+```
 
 
 
