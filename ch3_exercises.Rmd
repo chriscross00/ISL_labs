@@ -1,0 +1,7 @@
+---
+title: "ch3_exercises"
+author: "Christoper Chan"
+date: "November 23, 2018"
+output: html_notebook
+---
+

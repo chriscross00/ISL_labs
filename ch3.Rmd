@@ -131,14 +131,6 @@ LoadLibraries <- function(){
 }
 ```
 
-# 3.7 Exercises
-```{r}
-LoadLibraries()
-```
-
-#### 1
-Null hypothesis:
-
 
 
 
