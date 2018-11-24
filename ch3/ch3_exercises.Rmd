@@ -1,0 +1,24 @@
+---
+title: "ch3_exercises"
+author: "Christoper Chan"
+date: "November 23, 2018"
+output: html_document
+---
+
+#Chapter 3 Exercises
+
+##Conceptual
+
+###1
+The null hypothesis is that advertising on TV, radio and newspaper contribute a equal amount to changes in sales. The alternative hypothesis is that this is not true, that in fact at least one of the following: TV, radio and newspaper advertising contribute an non-zero amount to sales. Based on Table 3.4 TV and radio advertising have p-values less than 0.0001, meaning that their coefficients are statistically significant. This implies that their impact is real, and based on their non-negative cofficients, that an increase in spending on TV and radio advertising brings a positive increase in units sold. The large p-value for newspaper implies that it is not significant and does not contribute to sales. 
+
+###2
+KNN classifiers return a qualitative value while KNN regression returns a quantitative value, of f(x).
+
+###3
+(a) iii
+(b) `r 50 + 20*4.0 + 0.07*110 + 35*1 + 0.01*110*4.0 - 10*1*4.0`
+(c) False, depends on the p-value.
+
+##Applied
+
