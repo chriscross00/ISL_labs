@@ -29,6 +29,7 @@ KNN classifiers return a qualitative value while KNN regression returns a quanti
 library(ISLR)
 library(MASS)
 library(tidyverse)
+library(GGally)
 
 summary(Auto)
 
@@ -46,6 +47,92 @@ predict(fit_auto, data.frame(horsepower=c(98)), interval = 'confidence')
 predict(fit_auto, data.frame(horsepower=c(98)), interval = 'prediction')
 
 ```
+
+(b)
+```{r}
+ggplot(Auto, aes(horsepower, mpg)) +
+  geom_point() +
+  labs(title='LR of horsepower and mpg')
+  geom_abline(intercept=39.936, slope=-0.158, color='#E41A1C')
+```
+
+(c)
+```{r}
+par(mfrow=c(2,2))
+plot(fit_auto)
+```
+Plot 1 has a slight curve to it, with most of the points concentrated around 20-30. However, in plot 3 the mean line is roughly linear. Points roughly follow the line for the Normal Q-Q plot and few points are outliers, shown in plot 4.
+
+
+###9
+(a)
+
+
+```{r}
+dim(Auto)
+data(Auto)
+ggpairs(Auto, columns = 1:8)
+```
+
+(b)
+```{r}
+cor(Auto[,1:8])
+```
+
+(c)
+```{r}
+fit_auto9 <- lm(mpg~.-name, Auto)
+summary(fit_auto9)
+```
+  i. Yes, this is given by the near zeor p-value for the F-statistic.
+  ii. There is a relationship for mpg and the following predictor variables: displacement, weight, year, origin. 
+  iii. The relatively large coefficient for preditor variable year and the low p-value indicates that there it has a large effect. 
+
+(d) 
+```{r}
+par(mfrow=c(2,2))
+plot(fit_auto9)
+```
+The residual plot shows a number of outliers at the higher fitted value. On the leverage plot point 14 has a disprportionate amount of leverage.
+
+
+###10
+(a)
+```{r}
+fit_seats <- lm(Sales~Price + Urban + US, data=Carseats)
+summary(fit_seats)
+```
+
+(b) Price is statistically significant, with a negative relationship between price and sales. USYes is also statistically significant, indicating a positive relationship between being in the US and sales.
+
+(c) $Sales = \beta_0 + Price*\beta_1 + (1-US)*\beta_2 $
+(d) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
