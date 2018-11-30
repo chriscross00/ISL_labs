@@ -37,7 +37,7 @@ fit_auto <- lm(mpg~horsepower, data=Auto)
 summary(fit_auto)
 ```
 
-  i. Yes, there is a relationship between mpg and horsepower. This is indicated by the F-statistic that is close to zero. That      means we can reject the null hypothesis, that there is no relationship between mpg and horsepower. 
+  i. Yes, there is a relationship between mpg and horsepower. This is indicated by the F-statistic that is close to zero. That means we can reject the null hypothesis, that there is no relationship between mpg and horsepower. 
   ii. The residual standard error (RSE) will tell us the quality of the relationship between mpg and horsepower. Because the RSE is 4.906 for 390 DF and the mean for mpg is 23.45, the RSE is `r (4.906/23.45)*100`%.The adjusted $R^2$ is 0.6049, meaning that 60.49% of the variance in mpg can be explained by the horsepower.
   iii. The relationship between mpg and horsepower is negative, given by the negative slope horsepower.
   iv. 
@@ -105,12 +105,23 @@ summary(fit_seats)
 
 (b) Price is statistically significant, with a negative relationship between price and sales. USYes is also statistically significant, indicating a positive relationship between being in the US and sales.
 
-(c) $Sales = \beta_0 + Price*\beta_1 + (1-US)*\beta_2 $
-(d) 
+(c) $Sales = \beta_0 + Price*\beta_1 + (1-US)*\beta_2$
+(d) Price and USYes are the only predictors whose null hypothesis can be rejected.
+(e) 
+```{r}
+data(Auto)
+fit_seats_real <- lm(Sales~Price + US, data=Carseats)
+summary(fit_seats_real)
+```
 
+(f) Both models, from part (a) and (e), fit the data reasonably well. This is based on the RSE and $R^2$, with the model from part (e) fitting the data slightly better.
 
+(g) 
+```{r}
+confint(fit_seats_real)
+```
 
-
+(h) 
 
 
 
