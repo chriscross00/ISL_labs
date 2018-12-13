@@ -39,7 +39,7 @@ dim(Hitters)
 
 ```{r}
 regfit_full <- regsubsets(Salary~., Hitters)
-
+summary(regfit_full)
 ```
 
 
