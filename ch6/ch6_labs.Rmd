@@ -1,5 +1,5 @@
 ---
-title: "ch6_labs"
+title: "ch6_lab"
 author: "Christopher Chan"
 date: "December 12, 2018"
 output:
@@ -10,3 +10,45 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(forecast)
+library(ISLR)
+library(leaps)
+```
+*Note: I'm going to try my best to use the tidyverse package for everything, just to get use to the environment.
+
+
+##6.5.1
+Getting a sense of the data, Hitters
+```{r}
+dim(Hitters)
+colnames(Hitters)
+glimpse(Hitters)
+summary(Hitters)
+```
+
+Dropping rows that are missing the salary value. Base R uses na.omit.
+```{r}
+sum(is.na(Hitters$Salary))
+
+Hitters <- drop_na(Hitters, Salary)
+dim(Hitters)
+```
+
+```{r}
+regfit_full <- regsubsets(Salary~., Hitters)
+
+```
+
+
+
+
+
+
+
+
+
+
+
