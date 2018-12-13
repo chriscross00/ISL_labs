@@ -2,7 +2,9 @@
 title: "ch3"
 author: "Christoper Chan"
 date: "November 20, 2018"
-output: html_document
+output:
+    rmarkdown::github_document:
+        pandoc_arg: --webtex
 ---
 
 ```{r setup, include=FALSE}

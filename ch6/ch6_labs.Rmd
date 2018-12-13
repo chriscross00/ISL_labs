@@ -1,0 +1,12 @@
+---
+title: "ch6_labs"
+author: "Christopher Chan"
+date: "December 12, 2018"
+output:
+    rmarkdown::github_document:
+    pandoc_arg: --webtex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```

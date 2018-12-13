@@ -2,7 +2,9 @@
 title: "ch3_exercises"
 author: "Christoper Chan"
 date: "November 23, 2018"
-output: html_document
+output:
+    rmarkdown::github_document:
+        pandoc_arg: --webtex
 ---
 
 #Chapter 3 Exercises
