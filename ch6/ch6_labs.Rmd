@@ -56,15 +56,35 @@ regfit_full <- regsubsets(Salary~., Hitters, nvmax=19)
 
 summary() returns all the GLM created. We are trying to find the best model. Notice that as we add variables $R^2$ increases.
 ```{r}
-regfit_best <- summary(regfit_full)
-head(regfit_best)
-regfit_best$rsq
+regfit_summary <- summary(regfit_full)
+head(regfit_summary)
+regfit_summary$rsq
 ```
 
+Plots of the accuracy of our models. BIC and $C_p$ are model selection parameters that penalize the model. In both cases we want the smallest value.
 ```{r}
+par(mfrow=c(2,2))
+plot(regfit_summary$rss, xlab='# variables', ylab='RSS', type='l')
+plot(regfit_summary$adjr2, xlab='# variables', ylab='Adjusted RSq', type='l')
+points(11, regfit_summary$adjr2[11], col='red', cex=1.5, pch =20)
 
+
+plot(regfit_summary$cp, xlab='# variables', ylab='Cp', type='l')
+#which.min(regfit_summary$cp) #10
+points(10, regfit_summary$cp[10], col='red', cex=1.5, pch=20)
+
+plot(regfit_summary$bic, xlab='# variables', ylab='BIC', type='l')
+#which.min(regfit_summary$bic) #6
+points(6, regfit_summary$bic[6], col='red', cex=1.5, pch=20)
 ```
 
+Using regsubsets() built-in plot().
+```{r}
+plot(regfit_full, scale='r2')
+plot(regfit_full, scale='adjr2')
+plot(regfit_full, scale='Cp')
+plot(regfit_full, scale='bic')
+```
 
 
 
