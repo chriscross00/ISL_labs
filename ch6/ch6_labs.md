@@ -12,6 +12,9 @@ library(leaps)
 
 \*Note: I'm going to try my best to use the tidyverse package for everything, just to get use to the environment.
 
+Lab 1: Subset Selection Methods
+===============================
+
 6.5.1
 -----
 
@@ -119,6 +122,441 @@ dim(Hitters)
 
     ## [1] 263  20
 
+A model with default nvmax, nvmax=8
+
 ``` r
-regfit_full <- regsubsets(Salary~., Hitters)
+regfit_norm <- regsubsets(Salary~., Hitters)
+summary(regfit_norm)
+```
+
+    ## Subset selection object
+    ## Call: regsubsets.formula(Salary ~ ., Hitters)
+    ## 19 Variables  (and intercept)
+    ##            Forced in Forced out
+    ## AtBat          FALSE      FALSE
+    ## Hits           FALSE      FALSE
+    ## HmRun          FALSE      FALSE
+    ## Runs           FALSE      FALSE
+    ## RBI            FALSE      FALSE
+    ## Walks          FALSE      FALSE
+    ## Years          FALSE      FALSE
+    ## CAtBat         FALSE      FALSE
+    ## CHits          FALSE      FALSE
+    ## CHmRun         FALSE      FALSE
+    ## CRuns          FALSE      FALSE
+    ## CRBI           FALSE      FALSE
+    ## CWalks         FALSE      FALSE
+    ## LeagueN        FALSE      FALSE
+    ## DivisionW      FALSE      FALSE
+    ## PutOuts        FALSE      FALSE
+    ## Assists        FALSE      FALSE
+    ## Errors         FALSE      FALSE
+    ## NewLeagueN     FALSE      FALSE
+    ## 1 subsets of each size up to 8
+    ## Selection Algorithm: exhaustive
+    ##          AtBat Hits HmRun Runs RBI Walks Years CAtBat CHits CHmRun CRuns
+    ## 1  ( 1 ) " "   " "  " "   " "  " " " "   " "   " "    " "   " "    " "  
+    ## 2  ( 1 ) " "   "*"  " "   " "  " " " "   " "   " "    " "   " "    " "  
+    ## 3  ( 1 ) " "   "*"  " "   " "  " " " "   " "   " "    " "   " "    " "  
+    ## 4  ( 1 ) " "   "*"  " "   " "  " " " "   " "   " "    " "   " "    " "  
+    ## 5  ( 1 ) "*"   "*"  " "   " "  " " " "   " "   " "    " "   " "    " "  
+    ## 6  ( 1 ) "*"   "*"  " "   " "  " " "*"   " "   " "    " "   " "    " "  
+    ## 7  ( 1 ) " "   "*"  " "   " "  " " "*"   " "   "*"    "*"   "*"    " "  
+    ## 8  ( 1 ) "*"   "*"  " "   " "  " " "*"   " "   " "    " "   "*"    "*"  
+    ##          CRBI CWalks LeagueN DivisionW PutOuts Assists Errors NewLeagueN
+    ## 1  ( 1 ) "*"  " "    " "     " "       " "     " "     " "    " "       
+    ## 2  ( 1 ) "*"  " "    " "     " "       " "     " "     " "    " "       
+    ## 3  ( 1 ) "*"  " "    " "     " "       "*"     " "     " "    " "       
+    ## 4  ( 1 ) "*"  " "    " "     "*"       "*"     " "     " "    " "       
+    ## 5  ( 1 ) "*"  " "    " "     "*"       "*"     " "     " "    " "       
+    ## 6  ( 1 ) "*"  " "    " "     "*"       "*"     " "     " "    " "       
+    ## 7  ( 1 ) " "  " "    " "     "*"       "*"     " "     " "    " "       
+    ## 8  ( 1 ) " "  "*"    " "     "*"       "*"     " "     " "    " "
+
+While I can use the general lm() to create a GLM with 19 variables, only 19 because Salary is a response variable, it only returns 1 model. The *R*<sup>2</sup> should be the same as the regsubsets model with 19 variables. The advantage of using regsubsets with nvmax = 19 is that we get more models, each with a varying amount of variables. Below is the lm() of Hitters with Salary as the response variable.
+
+``` r
+test <- lm(Salary~., Hitters)
+summary(test)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = Salary ~ ., data = Hitters)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -907.62 -178.35  -31.11  139.09 1877.04 
+    ## 
+    ## Coefficients:
+    ##               Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)  163.10359   90.77854   1.797 0.073622 .  
+    ## AtBat         -1.97987    0.63398  -3.123 0.002008 ** 
+    ## Hits           7.50077    2.37753   3.155 0.001808 ** 
+    ## HmRun          4.33088    6.20145   0.698 0.485616    
+    ## Runs          -2.37621    2.98076  -0.797 0.426122    
+    ## RBI           -1.04496    2.60088  -0.402 0.688204    
+    ## Walks          6.23129    1.82850   3.408 0.000766 ***
+    ## Years         -3.48905   12.41219  -0.281 0.778874    
+    ## CAtBat        -0.17134    0.13524  -1.267 0.206380    
+    ## CHits          0.13399    0.67455   0.199 0.842713    
+    ## CHmRun        -0.17286    1.61724  -0.107 0.914967    
+    ## CRuns          1.45430    0.75046   1.938 0.053795 .  
+    ## CRBI           0.80771    0.69262   1.166 0.244691    
+    ## CWalks        -0.81157    0.32808  -2.474 0.014057 *  
+    ## LeagueN       62.59942   79.26140   0.790 0.430424    
+    ## DivisionW   -116.84925   40.36695  -2.895 0.004141 ** 
+    ## PutOuts        0.28189    0.07744   3.640 0.000333 ***
+    ## Assists        0.37107    0.22120   1.678 0.094723 .  
+    ## Errors        -3.36076    4.39163  -0.765 0.444857    
+    ## NewLeagueN   -24.76233   79.00263  -0.313 0.754218    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 315.6 on 243 degrees of freedom
+    ## Multiple R-squared:  0.5461, Adjusted R-squared:  0.5106 
+    ## F-statistic: 15.39 on 19 and 243 DF,  p-value: < 2.2e-16
+
+regsubsets() with nvmax=19.
+
+``` r
+regfit_full <- regsubsets(Salary~., Hitters, nvmax=19)
+```
+
+summary() returns all the GLM created. We are trying to find the best model. Notice that as we add variables *R*<sup>2</sup> increases.
+
+``` r
+regfit_summary <- summary(regfit_full)
+head(regfit_summary)
+```
+
+    ## $which
+    ##    (Intercept) AtBat  Hits HmRun  Runs   RBI Walks Years CAtBat CHits
+    ## 1         TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  FALSE FALSE
+    ## 2         TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  FALSE FALSE
+    ## 3         TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  FALSE FALSE
+    ## 4         TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  FALSE FALSE
+    ## 5         TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE  FALSE FALSE
+    ## 6         TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE  FALSE FALSE
+    ## 7         TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE   TRUE  TRUE
+    ## 8         TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE  FALSE FALSE
+    ## 9         TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE   TRUE FALSE
+    ## 10        TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE   TRUE FALSE
+    ## 11        TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE   TRUE FALSE
+    ## 12        TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE   TRUE FALSE
+    ## 13        TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE   TRUE FALSE
+    ## 14        TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE   TRUE FALSE
+    ## 15        TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE   TRUE  TRUE
+    ## 16        TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE   TRUE  TRUE
+    ## 17        TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE   TRUE  TRUE
+    ## 18        TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE   TRUE  TRUE
+    ## 19        TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE   TRUE  TRUE
+    ##    CHmRun CRuns  CRBI CWalks LeagueN DivisionW PutOuts Assists Errors
+    ## 1   FALSE FALSE  TRUE  FALSE   FALSE     FALSE   FALSE   FALSE  FALSE
+    ## 2   FALSE FALSE  TRUE  FALSE   FALSE     FALSE   FALSE   FALSE  FALSE
+    ## 3   FALSE FALSE  TRUE  FALSE   FALSE     FALSE    TRUE   FALSE  FALSE
+    ## 4   FALSE FALSE  TRUE  FALSE   FALSE      TRUE    TRUE   FALSE  FALSE
+    ## 5   FALSE FALSE  TRUE  FALSE   FALSE      TRUE    TRUE   FALSE  FALSE
+    ## 6   FALSE FALSE  TRUE  FALSE   FALSE      TRUE    TRUE   FALSE  FALSE
+    ## 7    TRUE FALSE FALSE  FALSE   FALSE      TRUE    TRUE   FALSE  FALSE
+    ## 8    TRUE  TRUE FALSE   TRUE   FALSE      TRUE    TRUE   FALSE  FALSE
+    ## 9   FALSE  TRUE  TRUE   TRUE   FALSE      TRUE    TRUE   FALSE  FALSE
+    ## 10  FALSE  TRUE  TRUE   TRUE   FALSE      TRUE    TRUE    TRUE  FALSE
+    ## 11  FALSE  TRUE  TRUE   TRUE    TRUE      TRUE    TRUE    TRUE  FALSE
+    ## 12  FALSE  TRUE  TRUE   TRUE    TRUE      TRUE    TRUE    TRUE  FALSE
+    ## 13  FALSE  TRUE  TRUE   TRUE    TRUE      TRUE    TRUE    TRUE   TRUE
+    ## 14  FALSE  TRUE  TRUE   TRUE    TRUE      TRUE    TRUE    TRUE   TRUE
+    ## 15  FALSE  TRUE  TRUE   TRUE    TRUE      TRUE    TRUE    TRUE   TRUE
+    ## 16  FALSE  TRUE  TRUE   TRUE    TRUE      TRUE    TRUE    TRUE   TRUE
+    ## 17  FALSE  TRUE  TRUE   TRUE    TRUE      TRUE    TRUE    TRUE   TRUE
+    ## 18  FALSE  TRUE  TRUE   TRUE    TRUE      TRUE    TRUE    TRUE   TRUE
+    ## 19   TRUE  TRUE  TRUE   TRUE    TRUE      TRUE    TRUE    TRUE   TRUE
+    ##    NewLeagueN
+    ## 1       FALSE
+    ## 2       FALSE
+    ## 3       FALSE
+    ## 4       FALSE
+    ## 5       FALSE
+    ## 6       FALSE
+    ## 7       FALSE
+    ## 8       FALSE
+    ## 9       FALSE
+    ## 10      FALSE
+    ## 11      FALSE
+    ## 12      FALSE
+    ## 13      FALSE
+    ## 14      FALSE
+    ## 15      FALSE
+    ## 16      FALSE
+    ## 17       TRUE
+    ## 18       TRUE
+    ## 19       TRUE
+    ## 
+    ## $rsq
+    ##  [1] 0.3214501 0.4252237 0.4514294 0.4754067 0.4908036 0.5087146 0.5141227
+    ##  [8] 0.5285569 0.5346124 0.5404950 0.5426153 0.5436302 0.5444570 0.5452164
+    ## [15] 0.5454692 0.5457656 0.5459518 0.5460945 0.5461159
+    ## 
+    ## $rss
+    ##  [1] 36179679 30646560 29249297 27970852 27149899 26194904 25906548
+    ##  [8] 25136930 24814051 24500402 24387345 24333232 24289148 24248660
+    ## [15] 24235177 24219377 24209447 24201837 24200700
+    ## 
+    ## $adjr2
+    ##  [1] 0.3188503 0.4208024 0.4450753 0.4672734 0.4808971 0.4972001 0.5007849
+    ##  [8] 0.5137083 0.5180572 0.5222606 0.5225706 0.5217245 0.5206736 0.5195431
+    ## [15] 0.5178661 0.5162219 0.5144464 0.5126097 0.5106270
+    ## 
+    ## $cp
+    ##  [1] 104.281319  50.723090  38.693127  27.856220  21.613011  14.023870
+    ##  [7]  13.128474   7.400719   6.158685   5.009317   5.874113   7.330766
+    ## [13]   8.888112  10.481576  12.346193  14.187546  16.087831  18.011425
+    ## [19]  20.000000
+    ## 
+    ## $bic
+    ##  [1]  -90.84637 -128.92622 -135.62693 -141.80892 -144.07143 -147.91690
+    ##  [7] -145.25594 -147.61525 -145.44316 -143.21651 -138.86077 -133.87283
+    ## [13] -128.77759 -123.64420 -118.21832 -112.81768 -107.35339 -101.86391
+    ## [19]  -96.30412
+
+``` r
+regfit_summary$rsq
+```
+
+    ##  [1] 0.3214501 0.4252237 0.4514294 0.4754067 0.4908036 0.5087146 0.5141227
+    ##  [8] 0.5285569 0.5346124 0.5404950 0.5426153 0.5436302 0.5444570 0.5452164
+    ## [15] 0.5454692 0.5457656 0.5459518 0.5460945 0.5461159
+
+Plots of the accuracy of our models. BIC and *C*<sub>*p*</sub> are model selection parameters that penalize the model. In both cases we want the smallest value.
+
+``` r
+par(mfrow=c(2,2))
+plot(regfit_summary$rss, xlab='# variables', ylab='RSS', type='l')
+plot(regfit_summary$adjr2, xlab='# variables', ylab='Adjusted RSq', type='l')
+points(11, regfit_summary$adjr2[11], col='red', cex=1.5, pch =20)
+
+
+plot(regfit_summary$cp, xlab='# variables', ylab='Cp', type='l')
+#which.min(regfit_summary$cp) #10
+points(10, regfit_summary$cp[10], col='red', cex=1.5, pch=20)
+
+plot(regfit_summary$bic, xlab='# variables', ylab='BIC', type='l')
+#which.min(regfit_summary$bic) #6
+points(6, regfit_summary$bic[6], col='red', cex=1.5, pch=20)
+```
+
+![](ch6_labs_files/figure-markdown_github/unnamed-chunk-8-1.png)
+
+Using regsubsets() built-in plot().
+
+``` r
+plot(regfit_full, scale='r2')
+```
+
+![](ch6_labs_files/figure-markdown_github/unnamed-chunk-9-1.png)
+
+``` r
+plot(regfit_full, scale='adjr2')
+```
+
+![](ch6_labs_files/figure-markdown_github/unnamed-chunk-9-2.png)
+
+``` r
+plot(regfit_full, scale='Cp')
+```
+
+![](ch6_labs_files/figure-markdown_github/unnamed-chunk-9-3.png)
+
+``` r
+plot(regfit_full, scale='bic')
+```
+
+![](ch6_labs_files/figure-markdown_github/unnamed-chunk-9-4.png)
+
+6.5.2
+-----
+
+Use regsubsets() to perform forward and backward stepwise selection using method='forward' or 'backward'. Forward stepwise selection
+
+``` r
+regfit_fwd <- regsubsets(Salary~., data=Hitters, nvmax=19, method='forward')
+summary(regfit_fwd)
+```
+
+    ## Subset selection object
+    ## Call: regsubsets.formula(Salary ~ ., data = Hitters, nvmax = 19, method = "forward")
+    ## 19 Variables  (and intercept)
+    ##            Forced in Forced out
+    ## AtBat          FALSE      FALSE
+    ## Hits           FALSE      FALSE
+    ## HmRun          FALSE      FALSE
+    ## Runs           FALSE      FALSE
+    ## RBI            FALSE      FALSE
+    ## Walks          FALSE      FALSE
+    ## Years          FALSE      FALSE
+    ## CAtBat         FALSE      FALSE
+    ## CHits          FALSE      FALSE
+    ## CHmRun         FALSE      FALSE
+    ## CRuns          FALSE      FALSE
+    ## CRBI           FALSE      FALSE
+    ## CWalks         FALSE      FALSE
+    ## LeagueN        FALSE      FALSE
+    ## DivisionW      FALSE      FALSE
+    ## PutOuts        FALSE      FALSE
+    ## Assists        FALSE      FALSE
+    ## Errors         FALSE      FALSE
+    ## NewLeagueN     FALSE      FALSE
+    ## 1 subsets of each size up to 19
+    ## Selection Algorithm: forward
+    ##           AtBat Hits HmRun Runs RBI Walks Years CAtBat CHits CHmRun CRuns
+    ## 1  ( 1 )  " "   " "  " "   " "  " " " "   " "   " "    " "   " "    " "  
+    ## 2  ( 1 )  " "   "*"  " "   " "  " " " "   " "   " "    " "   " "    " "  
+    ## 3  ( 1 )  " "   "*"  " "   " "  " " " "   " "   " "    " "   " "    " "  
+    ## 4  ( 1 )  " "   "*"  " "   " "  " " " "   " "   " "    " "   " "    " "  
+    ## 5  ( 1 )  "*"   "*"  " "   " "  " " " "   " "   " "    " "   " "    " "  
+    ## 6  ( 1 )  "*"   "*"  " "   " "  " " "*"   " "   " "    " "   " "    " "  
+    ## 7  ( 1 )  "*"   "*"  " "   " "  " " "*"   " "   " "    " "   " "    " "  
+    ## 8  ( 1 )  "*"   "*"  " "   " "  " " "*"   " "   " "    " "   " "    "*"  
+    ## 9  ( 1 )  "*"   "*"  " "   " "  " " "*"   " "   "*"    " "   " "    "*"  
+    ## 10  ( 1 ) "*"   "*"  " "   " "  " " "*"   " "   "*"    " "   " "    "*"  
+    ## 11  ( 1 ) "*"   "*"  " "   " "  " " "*"   " "   "*"    " "   " "    "*"  
+    ## 12  ( 1 ) "*"   "*"  " "   "*"  " " "*"   " "   "*"    " "   " "    "*"  
+    ## 13  ( 1 ) "*"   "*"  " "   "*"  " " "*"   " "   "*"    " "   " "    "*"  
+    ## 14  ( 1 ) "*"   "*"  "*"   "*"  " " "*"   " "   "*"    " "   " "    "*"  
+    ## 15  ( 1 ) "*"   "*"  "*"   "*"  " " "*"   " "   "*"    "*"   " "    "*"  
+    ## 16  ( 1 ) "*"   "*"  "*"   "*"  "*" "*"   " "   "*"    "*"   " "    "*"  
+    ## 17  ( 1 ) "*"   "*"  "*"   "*"  "*" "*"   " "   "*"    "*"   " "    "*"  
+    ## 18  ( 1 ) "*"   "*"  "*"   "*"  "*" "*"   "*"   "*"    "*"   " "    "*"  
+    ## 19  ( 1 ) "*"   "*"  "*"   "*"  "*" "*"   "*"   "*"    "*"   "*"    "*"  
+    ##           CRBI CWalks LeagueN DivisionW PutOuts Assists Errors NewLeagueN
+    ## 1  ( 1 )  "*"  " "    " "     " "       " "     " "     " "    " "       
+    ## 2  ( 1 )  "*"  " "    " "     " "       " "     " "     " "    " "       
+    ## 3  ( 1 )  "*"  " "    " "     " "       "*"     " "     " "    " "       
+    ## 4  ( 1 )  "*"  " "    " "     "*"       "*"     " "     " "    " "       
+    ## 5  ( 1 )  "*"  " "    " "     "*"       "*"     " "     " "    " "       
+    ## 6  ( 1 )  "*"  " "    " "     "*"       "*"     " "     " "    " "       
+    ## 7  ( 1 )  "*"  "*"    " "     "*"       "*"     " "     " "    " "       
+    ## 8  ( 1 )  "*"  "*"    " "     "*"       "*"     " "     " "    " "       
+    ## 9  ( 1 )  "*"  "*"    " "     "*"       "*"     " "     " "    " "       
+    ## 10  ( 1 ) "*"  "*"    " "     "*"       "*"     "*"     " "    " "       
+    ## 11  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     " "    " "       
+    ## 12  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     " "    " "       
+    ## 13  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    " "       
+    ## 14  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    " "       
+    ## 15  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    " "       
+    ## 16  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    " "       
+    ## 17  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    "*"       
+    ## 18  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    "*"       
+    ## 19  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    "*"
+
+Backward stepwise selection
+
+``` r
+regfit_bwd <- regsubsets(Salary~., data=Hitters, nvmax=19, method='backward')
+summary(regfit_bwd)
+```
+
+    ## Subset selection object
+    ## Call: regsubsets.formula(Salary ~ ., data = Hitters, nvmax = 19, method = "backward")
+    ## 19 Variables  (and intercept)
+    ##            Forced in Forced out
+    ## AtBat          FALSE      FALSE
+    ## Hits           FALSE      FALSE
+    ## HmRun          FALSE      FALSE
+    ## Runs           FALSE      FALSE
+    ## RBI            FALSE      FALSE
+    ## Walks          FALSE      FALSE
+    ## Years          FALSE      FALSE
+    ## CAtBat         FALSE      FALSE
+    ## CHits          FALSE      FALSE
+    ## CHmRun         FALSE      FALSE
+    ## CRuns          FALSE      FALSE
+    ## CRBI           FALSE      FALSE
+    ## CWalks         FALSE      FALSE
+    ## LeagueN        FALSE      FALSE
+    ## DivisionW      FALSE      FALSE
+    ## PutOuts        FALSE      FALSE
+    ## Assists        FALSE      FALSE
+    ## Errors         FALSE      FALSE
+    ## NewLeagueN     FALSE      FALSE
+    ## 1 subsets of each size up to 19
+    ## Selection Algorithm: backward
+    ##           AtBat Hits HmRun Runs RBI Walks Years CAtBat CHits CHmRun CRuns
+    ## 1  ( 1 )  " "   " "  " "   " "  " " " "   " "   " "    " "   " "    "*"  
+    ## 2  ( 1 )  " "   "*"  " "   " "  " " " "   " "   " "    " "   " "    "*"  
+    ## 3  ( 1 )  " "   "*"  " "   " "  " " " "   " "   " "    " "   " "    "*"  
+    ## 4  ( 1 )  "*"   "*"  " "   " "  " " " "   " "   " "    " "   " "    "*"  
+    ## 5  ( 1 )  "*"   "*"  " "   " "  " " "*"   " "   " "    " "   " "    "*"  
+    ## 6  ( 1 )  "*"   "*"  " "   " "  " " "*"   " "   " "    " "   " "    "*"  
+    ## 7  ( 1 )  "*"   "*"  " "   " "  " " "*"   " "   " "    " "   " "    "*"  
+    ## 8  ( 1 )  "*"   "*"  " "   " "  " " "*"   " "   " "    " "   " "    "*"  
+    ## 9  ( 1 )  "*"   "*"  " "   " "  " " "*"   " "   "*"    " "   " "    "*"  
+    ## 10  ( 1 ) "*"   "*"  " "   " "  " " "*"   " "   "*"    " "   " "    "*"  
+    ## 11  ( 1 ) "*"   "*"  " "   " "  " " "*"   " "   "*"    " "   " "    "*"  
+    ## 12  ( 1 ) "*"   "*"  " "   "*"  " " "*"   " "   "*"    " "   " "    "*"  
+    ## 13  ( 1 ) "*"   "*"  " "   "*"  " " "*"   " "   "*"    " "   " "    "*"  
+    ## 14  ( 1 ) "*"   "*"  "*"   "*"  " " "*"   " "   "*"    " "   " "    "*"  
+    ## 15  ( 1 ) "*"   "*"  "*"   "*"  " " "*"   " "   "*"    "*"   " "    "*"  
+    ## 16  ( 1 ) "*"   "*"  "*"   "*"  "*" "*"   " "   "*"    "*"   " "    "*"  
+    ## 17  ( 1 ) "*"   "*"  "*"   "*"  "*" "*"   " "   "*"    "*"   " "    "*"  
+    ## 18  ( 1 ) "*"   "*"  "*"   "*"  "*" "*"   "*"   "*"    "*"   " "    "*"  
+    ## 19  ( 1 ) "*"   "*"  "*"   "*"  "*" "*"   "*"   "*"    "*"   "*"    "*"  
+    ##           CRBI CWalks LeagueN DivisionW PutOuts Assists Errors NewLeagueN
+    ## 1  ( 1 )  " "  " "    " "     " "       " "     " "     " "    " "       
+    ## 2  ( 1 )  " "  " "    " "     " "       " "     " "     " "    " "       
+    ## 3  ( 1 )  " "  " "    " "     " "       "*"     " "     " "    " "       
+    ## 4  ( 1 )  " "  " "    " "     " "       "*"     " "     " "    " "       
+    ## 5  ( 1 )  " "  " "    " "     " "       "*"     " "     " "    " "       
+    ## 6  ( 1 )  " "  " "    " "     "*"       "*"     " "     " "    " "       
+    ## 7  ( 1 )  " "  "*"    " "     "*"       "*"     " "     " "    " "       
+    ## 8  ( 1 )  "*"  "*"    " "     "*"       "*"     " "     " "    " "       
+    ## 9  ( 1 )  "*"  "*"    " "     "*"       "*"     " "     " "    " "       
+    ## 10  ( 1 ) "*"  "*"    " "     "*"       "*"     "*"     " "    " "       
+    ## 11  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     " "    " "       
+    ## 12  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     " "    " "       
+    ## 13  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    " "       
+    ## 14  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    " "       
+    ## 15  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    " "       
+    ## 16  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    " "       
+    ## 17  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    "*"       
+    ## 18  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    "*"       
+    ## 19  ( 1 ) "*"  "*"    "*"     "*"       "*"     "*"     "*"    "*"
+
+Similar variable selection, however coef are different
+
+``` r
+coef(regfit_full, 7)
+```
+
+    ##  (Intercept)         Hits        Walks       CAtBat        CHits 
+    ##   79.4509472    1.2833513    3.2274264   -0.3752350    1.4957073 
+    ##       CHmRun    DivisionW      PutOuts 
+    ##    1.4420538 -129.9866432    0.2366813
+
+``` r
+coef(regfit_fwd, 7)
+```
+
+    ##  (Intercept)        AtBat         Hits        Walks         CRBI 
+    ##  109.7873062   -1.9588851    7.4498772    4.9131401    0.8537622 
+    ##       CWalks    DivisionW      PutOuts 
+    ##   -0.3053070 -127.1223928    0.2533404
+
+``` r
+coef(regfit_bwd, 7)
+```
+
+    ##  (Intercept)        AtBat         Hits        Walks        CRuns 
+    ##  105.6487488   -1.9762838    6.7574914    6.0558691    1.1293095 
+    ##       CWalks    DivisionW      PutOuts 
+    ##   -0.7163346 -116.1692169    0.3028847
+
+Lab 2: Ridge and Lasso Regression
+=================================
+
+6.6.1
+-----
+
+``` r
+library(glmnet)
 ```

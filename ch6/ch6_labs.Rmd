@@ -19,7 +19,7 @@ library(leaps)
 ```
 *Note: I'm going to try my best to use the tidyverse package for everything, just to get use to the environment.
 
-
+#Lab 1: Subset Selection Methods
 ##6.5.1
 Getting a sense of the data, Hitters
 ```{r}
@@ -40,7 +40,7 @@ dim(Hitters)
 A model with default nvmax, nvmax=8
 ```{r}
 regfit_norm <- regsubsets(Salary~., Hitters)
-summary(regfit_full)
+summary(regfit_norm)
 ```
 
 While I can use the general lm() to create a GLM with 19 variables, only 19 because Salary is a response variable, it only returns 1 model. The $R^2$ should be the same as the regsubsets model with 19 variables. The advantage of using regsubsets with nvmax = 19 is that we get more models, each with a varying amount of variables. Below is the lm() of Hitters with Salary as the response variable.
@@ -107,11 +107,11 @@ coef(regfit_fwd, 7)
 coef(regfit_bwd, 7)
 ```
 
-##6.5.3
-
-
-
-
+#Lab 2: Ridge and Lasso Regression
+##6.6.1
+```{r, warning=FALSE, message=FALSE}
+library(glmnet)
+```
 
 
 
