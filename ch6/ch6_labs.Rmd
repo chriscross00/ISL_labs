@@ -86,6 +86,64 @@ plot(regfit_full, scale='Cp')
 plot(regfit_full, scale='bic')
 ```
 
+##6.5.2
+Use regsubsets() to perform forward and backward stepwise selection using method='forward' or 'backward'.
+Forward stepwise selection
+```{r}
+regfit_fwd <- regsubsets(Salary~., data=Hitters, nvmax=19, method='forward')
+summary(regfit_fwd)
+```
+
+Backward stepwise selection
+```{r}
+regfit_bwd <- regsubsets(Salary~., data=Hitters, nvmax=19, method='backward')
+summary(regfit_bwd)
+```
+
+Similar variable selection, however coef are different
+```{r}
+coef(regfit_full, 7)
+coef(regfit_fwd, 7)
+coef(regfit_bwd, 7)
+```
+
+##6.5.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
