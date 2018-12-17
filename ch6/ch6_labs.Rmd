@@ -113,6 +113,10 @@ coef(regfit_bwd, 7)
 library(glmnet)
 ```
 
+```{r}
+grid <- 10^seq(10,-2, length =100)
+print(grid)
+```
 
 
 
