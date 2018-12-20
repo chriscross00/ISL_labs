@@ -24,28 +24,72 @@ head(Carseats)
 attach(Carseats)
 ```
 
-Create predictor High and add to Carseats.
+Create predictor High and add to Carseats. Needed to set the created predictor High to a factor, originally it was created as a chr
 ```{r}
-High <- ifelse(Sales<=8, 'No', 'Yes')
+High <- as.factor(ifelse(Sales<=8, 'No', 'Yes'))
 
-Carseats %>%
-    mutate(High) %>%
-    head
-
+Carseats_high <- Carseats %>%
+    mutate(High)
+head(Carseats_high)
 ```
 
 ```{r}
-carseats_tree = tree(High ~ . - Sales, data=Carseats)
+dim(Carseats_high)
+carseats_tree <- tree(High~.-Sales, Carseats_high)
 summary(carseats_tree)
 ```
 
+```{r}
+plot(carseats_tree)
+text(carseats_tree, cex=0.75, pretty=0)
+```
+
+
+
 
 ```{r}
-High20=ifelse(Sales <=8,"No","Yes ")
-Carseats20 =data.frame(Carseats ,High)
-tree.carseats =tree(High∼.-Sales , Carseats )
-summary(tree.carseats)
+set.seed(2)
+train <- sample(1:nrow(Carseats), 200)
+Carseats_test <- Carseats_high[-train,]
+dim(Carseats_test)
+High_test <- High[-train]
+
+carseats_tree <- tree(High~.-Sales, Carseats_high, subset=train)
+tree_pred <- predict(carseats_tree, Carseats_test, type='class')
+table(tree_pred, High_test)
+
+(87+59)/200 #Accuracy
 ```
+
+```{r}
+set.seed(3)
+cv_carseats <- cv.tree(carseats_tree, FUN=prune.misclass())
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
