@@ -1,0 +1,60 @@
+---
+title: "ch8_labs"
+author: "Christopher Chan"
+date: "December 19, 2018"
+output:
+    rmarkdown::github_document:
+        pandoc_arg: --webtex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(tree)
+library(ISLR)
+```
+
+##8.3.1
+Preview Carseats data.
+```{r}
+head(Carseats)
+attach(Carseats)
+```
+
+Create predictor High and add to Carseats.
+```{r}
+High <- ifelse(Sales<=8, 'No', 'Yes')
+
+Carseats %>%
+    mutate(High) %>%
+    head
+
+```
+
+```{r}
+carseats_tree = tree(High ~ . - Sales, data=Carseats)
+summary(carseats_tree)
+```
+
+
+```{r}
+High20=ifelse(Sales <=8,"No","Yes ")
+Carseats20 =data.frame(Carseats ,High)
+tree.carseats =tree(High∼.-Sales , Carseats )
+summary(tree.carseats)
+```
+
+
+
+
+
+
+
+
+
+
+
+
