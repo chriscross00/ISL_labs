@@ -63,16 +63,67 @@ table(tree_pred, High_test)
 
 ```{r}
 set.seed(3)
-cv_carseats <- cv.tree(carseats_tree, FUN=prune.misclass())
+cv_carseats <- cv.tree(carseats_tree, FUN=prune.misclass)
+names(cv_carseats)
+cv_carseats
 ```
 
+```{r}
+par(mfrow=c(1,2))
+plot(cv_carseats$size, cv_carseats$dev, type='b')
+plot(cv_carseats$k, cv_carseats$dev, type='b')
+```
 
+```{r}
+prune_carseats <- prune.misclass(carseats_tree, best = 9)
+plot(prune_carseats)
+text(prune_carseats, pretty=0)
+```
 
+```{r}
+prune_pred <- predict(prune_carseats, Carseats_test, type='class')
+table(prune_pred, High_test)
 
+(101+74)/200 #accuracy
+```
 
+##8.3.2
+```{r, message=FALSE}
+library(MASS)
+```
 
+```{r}
+set.seed(1)
 
+train <- sample(1:nrow(Boston), nrow(Boston)/2)
+tree_bos <- tree(medv~., Boston, subset=train)
+summary(tree_bos)
+```
 
+```{r}
+plot(tree_bos)
+text(tree_bos, pretty=0, cex=0.75)
+```
+
+```{r}
+cv_bos <- cv.tree(tree_bos)
+plot(cv_bos$size, cv_bos$dev, type='b')
+```
+
+```{r}
+prune_bos <- prune.tree(tree_bos, best=5)
+plot(prune_bos)
+text(prune_bos, pretty=0)
+```
+
+```{r}
+yhat <- predict(tree_bos, newdata=Boston[-train,])
+test_bos <- Boston[-train, 'medv'] 
+
+plot(yhat, test_bos)
+abline(0, 1)
+mean((yhat-test_bos)^2)
+```
 
 
 
