@@ -1,0 +1,84 @@
+---
+title: "ch6_lab2"
+author: "Christoper Chan"
+date: "December 22, 2018"
+output: 
+    rmarkdown::github_document:
+        pandoc_arg: --webtex
+    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(forecast)
+library(ISLR)
+library(leaps)
+library(glmnet)
+```
+#Lab 2: Ridge and Lasso Regression
+##6.6.1
+Creating a model.matrix of our Hitters data. Because rows with NA are dropped in the model.matrix function the y variable must also drop rows with NA.
+```{r}
+x <- model.matrix(Salary~., Hitters)[,-1]
+y <- Hitters$Salary %>%
+    na.omit()
+```
+
+Creating an array of length 100 equally spaced distances between 10^-2 and 10^10. This will be our $\lambda$ values that we'll use for the section. We then run ridge regression on our grid.
+```{r}
+grid <- 10^seq(10,-2, length=100)
+ridge_mod <- glmnet(x, y, alpha=0, lambda=grid)
+```
+
+This is messing around with different lambda values, showing that high $\lambda$ values yield low coef and low $\lambda$ values give high coef.
+```{r}
+ridge_mod$lambda[70]
+coef(ridge_mod)[,70]
+```
+
+Running our ridge regression model on a set $\lambda$, in this case 50.
+```{r}
+predict(ridge_mod, s=50, type='coefficients')[1:20,]
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

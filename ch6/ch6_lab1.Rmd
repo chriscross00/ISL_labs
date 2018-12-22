@@ -1,5 +1,5 @@
 ---
-title: "ch6_lab"
+title: "ch6_lab1"
 author: "Christopher Chan"
 date: "December 12, 2018"
 output:
@@ -107,22 +107,8 @@ coef(regfit_fwd, 7)
 coef(regfit_bwd, 7)
 ```
 
-#Lab 2: Ridge and Lasso Regression
-##6.6.1
-```{r, warning=FALSE, message=FALSE}
-library(glmnet)
+
 ```
-
-```{r}
-grid <- 10^seq(10,-2, length =100)
-print(grid)
-```
-
-
-
-
-
-
 
 
 
