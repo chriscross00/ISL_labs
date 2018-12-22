@@ -19,6 +19,7 @@ library(ISLR)
 library(leaps)
 library(glmnet)
 ```
+
 #Lab 2: Ridge and Lasso Regression
 ##6.6.1
 Creating a model.matrix of our Hitters data. Because rows with NA are dropped in the model.matrix function the y variable must also drop rows with NA.
@@ -61,11 +62,40 @@ ridge_pred <- predict(ridge_mod, s=4, newx=x[test,])
 mean((ridge_pred - y_test)^2)
 ```
 
+Testing if $\lambda = 0$ yields a better result than $\lambda = 4$, ie if ridge regression has any effect. 
+```{r}
+ridge_pred_null <- predict(ridge_mod, s=0, newx=x[test,])
+mean((ridge_pred_null - y_test)^2)
+
+lm(y~x, subset=train)
+predict(ridge_mod, s=0, type='coefficients')[1:20,]
+```
+Based on the MSE we see that with a $\lambda$ of 4 ridge regression yields a better lm than without ridge regression.
 
 
+```{r}
+set.seed(2)
 
+cv_out <- cv.glmnet(x[train,], y[train], alpha=0)
+plot(cv_out)
 
+best_lam <- cv_out$lambda.min
+best_lam
+```
 
+Running our model with the best $\lambda$ yields a slightly lower MSE than with the $\lambda$ above.
+```{r}
+ridge_pred <- predict(ridge_mod, s=best_lam, newx=x[test,])
+mean((ridge_pred-y_test)^2)
+```
+
+Running cross-validation and our best $\lamda$ to get the coef.
+```{r}
+out <- glmnet(x, y, alpha=0)
+predict(out, type='coefficients', s=best_lam)
+```
+
+##6.2.2 Lasso
 
 
 
