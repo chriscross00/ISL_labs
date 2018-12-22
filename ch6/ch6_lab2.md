@@ -187,3 +187,58 @@ predict(out, type='coefficients', s=best_lam)
 
 6.2.2 Lasso
 -----------
+
+``` r
+lasso_mod <- glmnet(x[train,], y[train], lambda=grid)
+plot(lasso_mod)
+```
+
+![](ch6_lab2_files/figure-markdown_github/unnamed-chunk-12-1.png)
+
+Calculating the MSE for the lasso model. The default of glmnet is alpha=1 == lasso, so the alpha term does not need to be explicitly included.
+
+``` r
+set.seed(1)
+
+cv_out_lasso <- cv.glmnet(x[train,], y[train])
+plot(cv_out_lasso)
+```
+
+![](ch6_lab2_files/figure-markdown_github/unnamed-chunk-13-1.png)
+
+``` r
+best_lam <- cv_out_lasso$lambda.min
+lasso_pred <- predict(lasso_mod, s=best_lam, newx=x[test,])
+mean((lasso_pred-y_test)^2)
+```
+
+    ## [1] 100743.4
+
+``` r
+out <- glmnet(x, y, lambda=grid)
+lasso_coef <- predict(out, type='coefficient', s=best_lam)
+lasso_coef
+```
+
+    ## 20 x 1 sparse Matrix of class "dgCMatrix"
+    ##                        1
+    ## (Intercept)   18.5394844
+    ## AtBat          .        
+    ## Hits           1.8735390
+    ## HmRun          .        
+    ## Runs           .        
+    ## RBI            .        
+    ## Walks          2.2178444
+    ## Years          .        
+    ## CAtBat         .        
+    ## CHits          .        
+    ## CHmRun         .        
+    ## CRuns          0.2071252
+    ## CRBI           0.4130132
+    ## CWalks         .        
+    ## LeagueN        3.2666677
+    ## DivisionW   -103.4845458
+    ## PutOuts        0.2204284
+    ## Assists        .        
+    ## Errors         .        
+    ## NewLeagueN     .

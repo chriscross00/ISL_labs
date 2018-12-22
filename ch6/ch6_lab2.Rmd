@@ -96,8 +96,28 @@ predict(out, type='coefficients', s=best_lam)
 ```
 
 ##6.2.2 Lasso
+```{r}
+lasso_mod <- glmnet(x[train,], y[train], lambda=grid)
+plot(lasso_mod)
+```
 
+Calculating the MSE for the lasso model. The default of glmnet is alpha=1 == lasso, so the alpha term does not need to be explicitly included.
+```{r}
+set.seed(1)
 
+cv_out_lasso <- cv.glmnet(x[train,], y[train])
+plot(cv_out_lasso)
+
+best_lam <- cv_out_lasso$lambda.min
+lasso_pred <- predict(lasso_mod, s=best_lam, newx=x[test,])
+mean((lasso_pred-y_test)^2)
+``` 
+
+```{r}
+out <- glmnet(x, y, lambda=grid)
+lasso_coef <- predict(out, type='coefficient', s=best_lam)
+lasso_coef
+```
 
 
 
