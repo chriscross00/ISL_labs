@@ -67,3 +67,23 @@ predict(ridge_mod, s=50, type='coefficients')[1:20,]
     ##  6.244860e-01  2.214985e-01  2.186914e-01 -1.500245e-01  4.592589e+01 
     ##     DivisionW       PutOuts       Assists        Errors    NewLeagueN 
     ## -1.182011e+02  2.502322e-01  1.215665e-01 -3.278600e+00 -9.496680e+00
+
+Validating our data via cross validation.
+
+``` r
+set.seed(1)
+
+train <- sample(1:nrow(x), nrow(x)/2)
+test <- (-train)
+y_test <- y[test]
+```
+
+Running cross validation and calculating the MSE
+
+``` r
+ridge_mod <- glmnet(x[train,], y[train], alpha=0, lambda=grid, thresh=1e-12)
+ridge_pred <- predict(ridge_mod, s=4, newx=x[test,])
+mean((ridge_pred - y_test)^2)
+```
+
+    ## [1] 101036.8

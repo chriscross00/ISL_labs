@@ -45,7 +45,21 @@ Running our ridge regression model on a set $\lambda$, in this case 50.
 predict(ridge_mod, s=50, type='coefficients')[1:20,]
 ```
 
+Validating our data via cross validation.
+```{r}
+set.seed(1)
 
+train <- sample(1:nrow(x), nrow(x)/2)
+test <- (-train)
+y_test <- y[test]
+```
+
+Running cross validation and calculating the MSE
+```{r}
+ridge_mod <- glmnet(x[train,], y[train], alpha=0, lambda=grid, thresh=1e-12)
+ridge_pred <- predict(ridge_mod, s=4, newx=x[test,])
+mean((ridge_pred - y_test)^2)
+```
 
 
 
