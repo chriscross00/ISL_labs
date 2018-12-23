@@ -101,3 +101,45 @@ summary(pcr_fit)
 
 6.7.2
 -----
+
+``` r
+set.seed(1)
+
+pls_fit = plsr(Salary~., data=Hitters, subset=train, scale=T, validation='CV')
+summary(pls_fit)
+```
+
+    ## Data:    X dimension: 108 19 
+    ##  Y dimension: 108 1
+    ## Fit method: kernelpls
+    ## Number of components considered: 19
+    ## 
+    ## VALIDATION: RMSEP
+    ## Cross-validated using 10 random segments.
+    ##        (Intercept)  1 comps  2 comps  3 comps  4 comps  5 comps  6 comps
+    ## CV           445.9    285.8    289.4    285.2    292.7    300.0    309.9
+    ## adjCV        445.9    285.5    287.8    284.1    291.1    297.8    306.7
+    ##        7 comps  8 comps  9 comps  10 comps  11 comps  12 comps  13 comps
+    ## CV       311.2    312.9    314.7     312.8     309.3     313.1     313.1
+    ## adjCV    307.7    309.2    311.1     309.2     306.0     309.2     309.4
+    ##        14 comps  15 comps  16 comps  17 comps  18 comps  19 comps
+    ## CV        314.1     311.8     309.2     307.3     308.9     309.0
+    ## adjCV     310.3     308.2     305.8     304.0     305.5     305.5
+    ## 
+    ## TRAINING: % variance explained
+    ##         1 comps  2 comps  3 comps  4 comps  5 comps  6 comps  7 comps
+    ## X         43.32    51.09    62.45    74.64    78.72    80.70    84.43
+    ## Salary    60.75    65.28    65.99    66.31    66.75    67.17    67.40
+    ##         8 comps  9 comps  10 comps  11 comps  12 comps  13 comps  14 comps
+    ## X         88.77    94.11     95.26     97.06     97.57     98.21     98.66
+    ## Salary    67.71    67.86     68.03     68.22     68.70     68.80     68.93
+    ##         15 comps  16 comps  17 comps  18 comps  19 comps
+    ## X          99.30     99.55     99.65     99.99    100.00
+    ## Salary     68.99     69.07     69.11     69.11     69.17
+
+``` r
+pls_pred = predict(pls_fit, x[test,], ncomp=2)
+mean((pls_pred-y_test)^2)
+```
+
+    ## [1] 153256.1

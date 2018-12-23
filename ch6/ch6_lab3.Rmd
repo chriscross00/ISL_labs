@@ -61,9 +61,16 @@ summary(pcr_fit)
 
 ##6.7.2
 ```{r}
+set.seed(1)
 
+pls_fit = plsr(Salary~., data=Hitters, subset=train, scale=T, validation='CV')
+summary(pls_fit)
 ```
 
+```{r}
+pls_pred = predict(pls_fit, x[test,], ncomp=2)
+mean((pls_pred-y_test)^2)
+```
 
 
 
