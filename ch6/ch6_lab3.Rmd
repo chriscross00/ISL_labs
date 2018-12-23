@@ -1,0 +1,76 @@
+---
+title: "ch6_lab3"
+author: "Christoper Chan"
+date: "December 22, 2018"
+output: 
+    rmarkdown::github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ISLR)
+library(leaps)
+library(pls)
+```
+
+Creating a PCR model based on the Hitters data with salary as the response variable. Cross validation, of 10-fold, is also conducted.
+```{r}
+set.seed(2)
+
+pcr_fit <- pcr(Salary~., data=Hitters, scale=T, validation='CV')
+summary(pcr_fit)
+```
+
+```{r}
+validationplot(pcr_fit, val.type='MSEP')
+```
+
+Recreating the x, y, training and testing datasubsets
+```{r}
+x <- model.matrix(Salary~., Hitters)[,-1]
+y <- Hitters$Salary %>%
+    na.omit()
+
+train <- sample(1:nrow(x), nrow(x)/2)
+test <- (-train)
+y_test <- y[test]
+```
+
+Running PCR with our training subset and graphing results.
+```{r}
+set.seed(1)
+pcr_fit <- pcr(Salary~., data=Hitters, subset=train, scale=T, validation='CV')
+
+validationplot(pcr_fit, val.type='MSEP')
+```
+
+Based on the MSEP graph the MSE is lowest when the number of components is 7.
+```{r}
+pcr_pred <- predict(pcr_fit, x[test,], ncomp=7)
+mean((pcr_pred - y_test)^2)
+```
+
+```{r}
+pcr_fit <- pcr(y~x, scale=T, ncomp=7)
+summary(pcr_fit)
+```
+
+##6.7.2
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
