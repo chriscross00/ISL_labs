@@ -1,0 +1,20 @@
+---
+title: "ch6_exercises"
+author: "Christopher Chan"
+date: "December 23, 2018"
+output: 
+    rmarkdown::github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(glmnet)
+```
+
+#Conceptual
+##1
+(a)
