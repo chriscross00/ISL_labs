@@ -27,5 +27,5 @@ library(glmnet)
     v. False
     
 ### 2
-
+(a) 
     
