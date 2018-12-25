@@ -15,6 +15,17 @@ library(tidyverse)
 library(glmnet)
 ```
 
-#Conceptual
-##1
-(a)
+##Conceptual
+### 1
+(a) Best subset should have the lowest RSS because it compares all possible models, while stepwise regression only compares paraments based on the past parameters.
+(b) It depends, but most likely best subset should have the lowest RSS.
+(c)
+    i. True
+    ii. True
+    iii. False
+    iv. False
+    v. False
+    
+### 2
+
+    
