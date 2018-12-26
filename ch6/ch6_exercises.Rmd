@@ -27,5 +27,16 @@ library(glmnet)
     v. False
     
 ### 2
-(a) 
-    
+(a) iii. Lasso greatly decreases variance at the cost of increased biases when compared to LSR.  
+(b) iii. Same as lasso
+(c) ii. Answer
+
+### 3
+(a) iv. Increasing s from 0 will cause $\beta$ to increase from 0 to their least squares estimate value.
+(b) ii. While lasso provides a decreased variance, it increases bias. once $\beta$ reaches their LR values they overfit the test data.
+(c) iii. Variance increases you include more data into the model.
+(d) iv. Lasso insures that LR estimate values are reached.
+(e) v. By definition irreducible error is model independent.
+
+
+
