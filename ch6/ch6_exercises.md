@@ -27,7 +27,7 @@ Conceptual
 
 2.  1.  Same as lasso
 
-3.  1.  
+3.  1.  Answer
 
 ### 3
 
@@ -40,3 +40,5 @@ Conceptual
 4.  1.  Lasso insures that LR estimate values are reached.
 
 5.  1.  By definition irreducible error is model independent.
+
+### 4

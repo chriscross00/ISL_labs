@@ -39,4 +39,4 @@ library(glmnet)
 (e) v. By definition irreducible error is model independent.
 
 
-
+###4 
