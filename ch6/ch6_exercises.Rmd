@@ -13,10 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(glmnet)
+library(leaps)
 ```
 
 ##Conceptual
-### 1
+###1
 (a) Best subset should have the lowest RSS because it compares all possible models, while stepwise regression only compares paraments based on the past parameters.
 (b) It depends, but most likely best subset should have the lowest RSS.
 (c)
@@ -26,17 +27,86 @@ library(glmnet)
     iv. False
     v. False
     
-### 2
+###2
 (a) iii. Lasso greatly decreases variance at the cost of increased biases when compared to LSR.  
 (b) iii. Same as lasso
 (c) ii. Answer
 
-### 3
+###3
 (a) iv. Increasing s from 0 will cause $\beta$ to increase from 0 to their least squares estimate value.
 (b) ii. While lasso provides a decreased variance, it increases bias. once $\beta$ reaches their LR values they overfit the test data.
 (c) iii. Variance increases you include more data into the model.
 (d) iv. Lasso insures that LR estimate values are reached.
 (e) v. By definition irreducible error is model independent.
 
-
 ###4 
+(a) iii. Increasing $\theta$ will increase the RSS because when $\theta = 0$ the $\beta$ coefficients are at their OSL estimated values, so increasing $\theta$ will decrease the $\beta$ coefficients, increasing the RSS.
+(b) ii. With $\theta = 0$ $\beta$ coefficients are at their OSL estimated values, meaning they are overfitted to the training data. They have a bias towards the training data, so the test RSS will be high. As $\theta$ increases the bias decreases, so test RSS decreases. However, as some $\beta$ reach zero the model becomes too simple and test RSS increases.
+(c) iv. High variance at $\theta = 0$ and decreases as parameters are removed.
+(d) iii. Very low bias at $\theta = 0$ and as $\beta$s are removed the model fits the training data less, so bias increases.
+(e) v. By definition irreducible error is model independent.
+
+##Applied
+###8
+(a) 
+```{r}
+set.seed(1)
+
+x <- rnorm(100)
+noise <- rnorm(100)
+```
+
+(b)
+```{r}
+b_0 <- 17
+b_1 <- 2
+b_2 <- 0.5
+b_3 <- 3
+
+y = b_0 + b_1*x + b_2*x^2 + b_3*x^3 + noise
+```
+
+(c)
+```{r}
+df <- tibble(x, y)
+
+poly_x <- regsubsets(y~poly(x, 10, raw = T), df)
+summary_poly_x <- summary(poly_x)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
