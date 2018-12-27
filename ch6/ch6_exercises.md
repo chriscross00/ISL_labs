@@ -72,9 +72,9 @@ noise <- rnorm(100)
 
 ``` r
 b_0 <- 17
-b_1 <- 2
-b_2 <- 0.5
-b_3 <- 3
+b_1 <- 3
+b_2 <- -0.5
+b_3 <- -3
 
 y = b_0 + b_1*x + b_2*x^2 + b_3*x^3 + noise
 ```
@@ -84,6 +84,45 @@ y = b_0 + b_1*x + b_2*x^2 + b_3*x^3 + noise
 ``` r
 df <- tibble(x, y)
 
-poly_x <- regsubsets(y~poly(x, 10, raw = T), df)
+poly_x <- regsubsets(y~poly(x, 10, raw = T), data=df, nvmax=10)
 summary_poly_x <- summary(poly_x)
 ```
+
+``` r
+which.min(summary_poly_x$cp)
+```
+
+    ## [1] 4
+
+``` r
+which.min(summary_poly_x$bic)
+```
+
+    ## [1] 3
+
+``` r
+which.min(summary_poly_x$adjr2)
+```
+
+    ## [1] 1
+
+``` r
+coef(poly_x, id = 3)
+```
+
+    ##           (Intercept) poly(x, 10, raw = T)1 poly(x, 10, raw = T)2 
+    ##             17.061507              2.975280             -0.623791 
+    ## poly(x, 10, raw = T)3 
+    ##             -2.982361
+
+``` r
+par(mfrow=c(2,2))
+plot(summary_poly_x$rss, xlab='# variables', ylab='RSS', type='l')
+plot(summary_poly_x$adjr2, xlab='# variables', ylab='Adjusted RSq', type='l')
+plot(summary_poly_x$cp, xlab='# variables', ylab='Cp', type='l')
+plot(summary_poly_x$bic, xlab='# variables', ylab='bic', type='l')
+```
+
+![](ch6_exercises_files/figure-markdown_github/unnamed-chunk-5-1.png)
+
+1.
