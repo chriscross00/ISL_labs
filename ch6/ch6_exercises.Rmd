@@ -74,6 +74,7 @@ poly_x <- regsubsets(y~poly(x, 10, raw = T), data=df, nvmax=10)
 summary_poly_x <- summary(poly_x)
 ```
 
+Best subset - optimal polynomial is 4
 ```{r}
 which.min(summary_poly_x$cp)
 which.min(summary_poly_x$bic)
@@ -89,12 +90,84 @@ plot(summary_poly_x$bic, xlab='# variables', ylab='bic', type='l')
 ```
 
 (d)
+Forward - optimal polynomial is 5
+```{r}
+poly_fwd <- regsubsets(y~poly(x, 10, raw=T), df, nvmax=10, method='forward')
+summary_poly_fwd <- summary(poly_fwd)
+
+which.min(summary_poly_fwd$cp)
+which.min(summary_poly_fwd$bic)
+which.min(summary_poly_fwd$adjr2)
+```
+
+Backward - optimal polynomial is 3
+```{r}
+poly_bwd <- regsubsets(y~poly(x, 10, raw=T), df, nvmax=10, method='backward')
+summary_poly_bwd <- summary(poly_bwd)
+
+which.min(summary_poly_bwd$cp)
+which.min(summary_poly_bwd$bic)
+which.min(summary_poly_bwd$adjr2)
 
 
+par(mfrow=c(2,2))
+plot(summary_poly_bwd$rss, xlab='# variables', ylab='RSS', type='l')
+plot(summary_poly_bwd$adjr2, xlab='# variables', ylab='Adjusted RSq', type='l')
+plot(summary_poly_bwd$cp, xlab='# variables', ylab='Cp', type='l')
+plot(summary_poly_bwd$bic, xlab='# variables', ylab='bic', type='l')
+
+```
+
+Best subset and backward stepwise regression are quite close while foward stepwise regression  is a little farther away.
+
+(e)
+```{r}
+model_mat <- model.matrix(y~poly(x, 10, raw=T), df)[,-1]
+
+lasso <- cv.glmnet(model_mat, y)
 
 
+plot(lasso)
+best_lmd <- lasso$lambda.min
+best_lmd
+```
 
+```{r}
+out <- glmnet(model_mat, y)
+predict(out, type='coefficients', s=best_lmd)
+```
 
+The lasso model predicts that $X^9$ preforms the best, far better than the other models.
+
+(f)
+Generate the new response variable.
+```{r}
+b_7 = 7
+
+y = b_0 + b_7*(x^7) + noise
+```
+
+Best subset regression. Again it chooses something between 3 and 4, so i'll pick 4.
+```{r}
+best_sub <- regsubsets(y~poly(x, 10, raw=T), df, nvmax=10)
+
+s_best_sub <- summary(best_sub)
+which.min(s_best_sub$cp)
+which.min(s_best_sub$bic)
+which.min(s_best_sub$adjr2)
+
+coef(best_sub, id=4)
+```
+
+Lasso only returns 1 significant model; $X^7$. All other models have been reduced to 0. 
+```{r}
+lasso7 <- cv.glmnet(model_mat, y)
+best_lmd <- lasso7$lambda.min
+best_lmd
+
+out <- glmnet(model_mat, y)
+predict(out, type='coefficients', s=best_lmd)
+```
 
 
 
