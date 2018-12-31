@@ -7,6 +7,9 @@ December 23, 2018
 library(tidyverse)
 library(glmnet)
 library(leaps)
+library(MASS)
+library(pls)
+library(ISLR)
 ```
 
 Conceptual
@@ -294,3 +297,95 @@ predict(out, type='coefficients', s=best_lmd)
     ## poly(x, 10, raw = T)8   .       
     ## poly(x, 10, raw = T)9   .       
     ## poly(x, 10, raw = T)10  .
+
+### 9
+
+1.  
+
+``` r
+set.seed(5)
+
+train <- sample(1:nrow(College), nrow(College)/2)
+test <- (-train)
+
+c_train <- College[train,]
+c_test <- College[test,]
+```
+
+1.  
+
+``` r
+c_lm <- lm(Apps~., c_train)
+
+summary(c_lm)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = Apps ~ ., data = c_train)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -4059.0  -321.1   -52.1   202.1  4520.2 
+    ## 
+    ## Coefficients:
+    ##               Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept) -516.46890  427.30465  -1.209 0.227563    
+    ## PrivateYes  -489.20696  146.04941  -3.350 0.000893 ***
+    ## Accept         1.51065    0.05627  26.846  < 2e-16 ***
+    ## Enroll        -0.91505    0.21303  -4.295 2.23e-05 ***
+    ## Top10perc     18.56038    5.98821   3.099 0.002087 ** 
+    ## Top25perc      1.71216    4.53255   0.378 0.705834    
+    ## F.Undergrad    0.07678    0.03402   2.257 0.024621 *  
+    ## P.Undergrad    0.08408    0.02993   2.810 0.005223 ** 
+    ## Outstate      -0.06182    0.02065  -2.994 0.002941 ** 
+    ## Room.Board     0.14898    0.05273   2.825 0.004978 ** 
+    ## Books          0.07260    0.24940   0.291 0.771143    
+    ## Personal      -0.04735    0.06964  -0.680 0.497036    
+    ## PhD           -5.90643    4.81851  -1.226 0.221061    
+    ## Terminal      -1.51049    5.05802  -0.299 0.765388    
+    ## S.F.Ratio     10.64647   13.05184   0.816 0.415193    
+    ## perc.alumni   -1.38931    4.12292  -0.337 0.736330    
+    ## Expend         0.06249    0.01428   4.375 1.58e-05 ***
+    ## Grad.Rate      5.61176    3.07949   1.822 0.069216 .  
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 757.2 on 370 degrees of freedom
+    ## Multiple R-squared:  0.951,  Adjusted R-squared:  0.9487 
+    ## F-statistic: 422.2 on 17 and 370 DF,  p-value: < 2.2e-16
+
+RSS
+
+``` r
+lm_pred <- predict(c_lm, c_test)
+
+mean((c_test[, 'Apps'] - lm_pred)^2)
+```
+
+    ## [1] 1835615
+
+1.  Creating model.matrix for training and testing data. This makes it so that we can work with the datasets.
+
+``` r
+train_mat <- model.matrix(Apps~., c_train)
+test_mat <- model.matrix(Apps~., c_test)
+grid <- 10^seq(10,-2, length=100)
+
+c_rr <- cv.glmnet(train_mat, c_train[,'Apps'], alpha = 0, lambda=grid, thresh=1e-12)
+best_lambda <- c_rr$lambda.min
+best_lambda
+```
+
+    ## [1] 24.77076
+
+Ridge regression has a slightly higher RSS than OSL.
+
+``` r
+pred <- predict(c_rr, newx=test_mat, s=best_lambda)
+mean((pred - c_test[,'Apps'])^2)
+```
+
+    ## [1] 1870782
+
+1.

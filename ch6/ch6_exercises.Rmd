@@ -197,11 +197,25 @@ lm_pred <- predict(c_lm, c_test)
 mean((c_test[, 'Apps'] - lm_pred)^2)
 ```
 
+(c)
+Creating model.matrix for training and testing data. This makes it so that we can work with the datasets.
+```{r}
+train_mat <- model.matrix(Apps~., c_train)
+test_mat <- model.matrix(Apps~., c_test)
+grid <- 10^seq(10,-2, length=100)
 
+c_rr <- cv.glmnet(train_mat, c_train[,'Apps'], alpha = 0, lambda=grid, thresh=1e-12)
+best_lambda <- c_rr$lambda.min
+best_lambda
+```
 
+Ridge regression has a slightly higher RSS than OSL.
+```{r}
+pred <- predict(c_rr, newx=test_mat, s=best_lambda)
+mean((pred - c_test[,'Apps'])^2)
+```
 
-
-
+(d)
 
 
 
