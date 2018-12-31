@@ -202,9 +202,9 @@ Creating model.matrix for training and testing data. This makes it so that we ca
 ```{r}
 train_mat <- model.matrix(Apps~., c_train)
 test_mat <- model.matrix(Apps~., c_test)
-grid <- 10^seq(10,-2, length=100)
+grid <- 10^seq(4,-2, length=100)
 
-c_rr <- cv.glmnet(train_mat, c_train[,'Apps'], alpha = 0, lambda=grid, thresh=1e-12)
+c_rr <- cv.glmnet(train_mat, c_train[, 'Apps'], alpha=0, lambda=grid, thresh=1e-12)
 best_lambda <- c_rr$lambda.min
 best_lambda
 ```
@@ -216,7 +216,18 @@ mean((pred - c_test[,'Apps'])^2)
 ```
 
 (d)
+```{r}
+c_lasso <- cv.glmnet(train_mat, c_train[, 'Apps'], lambda=grid, thresh=1e-12)
+plot(c_lasso)
+lasso_lam <- c_lasso$lambda.min
+lasso_lam
+```
 
+We have a much higher RSS than OLS.
+```{r}
+pred_lasso <- predict(c_lasso, newx=test_mat, s=lasso_lam)
+mean((pred_lasso - c_test[, 'Apps'])^2)
+```
 
 
 
