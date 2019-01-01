@@ -5,7 +5,6 @@ date: "December 22, 2018"
 output: 
     rmarkdown::github_document:
         pandoc_arg: --webtex
-    
 ---
 
 ```{r setup, include=FALSE}

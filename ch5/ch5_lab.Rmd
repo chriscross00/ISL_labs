@@ -3,20 +3,57 @@ title: 'ch5_lab'
 author: 'Christopher Chan'
 date: 'December 31, 2018'
 output: rmarkdown::github_document
-    
-    
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
-
-```{r}
-plot(cars)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+```{r, warning=FALSE, message=FALSE}
+library(ISLR)
+library(tidyverse)
+```
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+##5.3.1
+Setting up the training set. 392 is just a random number that ISL came up with and we are only taking half of it.
+```{r}
+set.seed(1)
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+train <- sample(392, 196)
+test <- (-train)
+```
+
+```{r}
+lm_fit <- lm(mpg~horsepower, Auto, subset=train)
+
+summary(lm_fit)
+```
+
+```{r}
+pred <- predict(lm_fit, newx=test)
+
+mean((test[,'mpg'] - pred)^2)
+```
+
+
+
+```{r}
+mpg <- Auto[test]
+mpg
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
