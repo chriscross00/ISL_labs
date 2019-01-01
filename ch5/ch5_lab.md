@@ -3,18 +3,100 @@ ch5\_lab
 Christopher Chan
 December 31, 2018
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code.
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
-
 ``` r
-plot(cars)
+library(ISLR)
+library(tidyverse)
+library(boot)
 ```
 
-![](ch5_lab_files/figure-markdown_github/unnamed-chunk-1-1.png)
+5.3.1
+-----
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+Setting up the training set. 392 is just a random number that ISL came up with and we are only taking half of it.
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+``` r
+set.seed(1)
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+train <- sample(392, 196)
+test <- slice(Auto, -train)
+```
+
+``` r
+lm_fit <- lm(mpg~horsepower, Auto, subset=train)
+
+summary(lm_fit)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = mpg ~ horsepower, data = Auto, subset = train)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -13.698  -3.085  -0.216   2.680  16.770 
+    ## 
+    ## Coefficients:
+    ##              Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept) 40.340377   1.002269   40.25   <2e-16 ***
+    ## horsepower  -0.161701   0.008809  -18.36   <2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 4.692 on 194 degrees of freedom
+    ## Multiple R-squared:  0.6346, Adjusted R-squared:  0.6327 
+    ## F-statistic: 336.9 on 1 and 194 DF,  p-value: < 2.2e-16
+
+``` r
+pred <- predict(lm_fit, test)
+
+mean((test[,'mpg'] - pred)^2)
+```
+
+    ## [1] 26.14142
+
+Polynomial fit with quadratic and cubic functions. Both fit quite a bit better, with cubic having the lowest RSS.
+
+``` r
+lm_fit_quad <- lm(mpg~poly(horsepower, 2), data=Auto, subset=train)
+pred_quad <- predict(lm_fit_quad, test) 
+
+mean((test[,'mpg'] - pred_quad)^2)
+```
+
+    ## [1] 19.82259
+
+``` r
+lm_fit_cubic <- lm(mpg~poly(horsepower, 3), data=Auto, subset=train)
+pred_cubic <- predict(lm_fit_cubic, test)
+
+mean((test[,'mpg'] - pred_cubic)^2)
+```
+
+    ## [1] 19.78252
+
+5.3.2
+-----
+
+``` r
+glm_fit <- glm(mpg~horsepower, data=Auto)
+
+cv_err <- cv.glm(Auto, glm_fit)
+cv_err$delta
+```
+
+    ## [1] 24.23151 24.23114
+
+LOOCV for polynomial lm.
+
+``` r
+cv_error <- rep(0,5) #initializes the cv_error vector
+
+for (i in 1:5){
+    glm_fit <- glm(mpg~poly(horsepower, i), data=Auto)
+    cv_error[i] <- cv.glm(Auto, glm_fit)$delta[1]
+}
+
+cv_error
+```
+
+    ## [1] 24.23151 19.24821 19.33498 19.42443 19.03321

@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, warning=FALSE, message=FALSE}
 library(ISLR)
 library(tidyverse)
+library(boot)
 ```
 
 ##5.3.1
@@ -20,7 +21,7 @@ Setting up the training set. 392 is just a random number that ISL came up with a
 set.seed(1)
 
 train <- sample(392, 196)
-test <- (-train)
+test <- slice(Auto, -train)
 ```
 
 ```{r}
@@ -30,19 +31,45 @@ summary(lm_fit)
 ```
 
 ```{r}
-pred <- predict(lm_fit, newx=test)
+pred <- predict(lm_fit, test)
 
 mean((test[,'mpg'] - pred)^2)
 ```
 
-
-
+Polynomial fit with quadratic and cubic functions. Both fit quite a bit better, with cubic having the lowest RSS. 
 ```{r}
-mpg <- Auto[test]
-mpg
+lm_fit_quad <- lm(mpg~poly(horsepower, 2), data=Auto, subset=train)
+pred_quad <- predict(lm_fit_quad, test) 
+
+mean((test[,'mpg'] - pred_quad)^2)
+```
+```{r}
+lm_fit_cubic <- lm(mpg~poly(horsepower, 3), data=Auto, subset=train)
+pred_cubic <- predict(lm_fit_cubic, test)
+
+mean((test[,'mpg'] - pred_cubic)^2)
 ```
 
 
+##5.3.2
+```{r}
+glm_fit <- glm(mpg~horsepower, data=Auto)
+
+cv_err <- cv.glm(Auto, glm_fit)
+cv_err$delta
+```
+
+LOOCV for polynomial lm.
+```{r}
+cv_error <- rep(0,5) #initializes the cv_error vector
+
+for (i in 1:5){
+    glm_fit <- glm(mpg~poly(horsepower, i), data=Auto)
+    cv_error[i] <- cv.glm(Auto, glm_fit)$delta[1]
+}
+
+cv_error
+```
 
 
 
