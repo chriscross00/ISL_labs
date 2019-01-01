@@ -100,3 +100,23 @@ cv_error
 ```
 
     ## [1] 24.23151 19.24821 19.33498 19.42443 19.03321
+
+5.3.3
+-----
+
+k-fold cv with *k* = 10
+
+``` r
+set.seed(5)
+
+cv_error_10 <- rep(0,10)
+for (i in 1:10){
+    glm_fit <- glm(mpg~poly(horsepower, i), data=Auto)
+    cv_error_10[i] <- cv.glm(Auto, glm_fit, K=10)$delta[1]
+}
+
+cv_error_10
+```
+
+    ##  [1] 24.14736 19.38899 19.26022 19.57029 19.10580 18.66693 18.57784
+    ##  [8] 18.70916 19.26092 19.64803
