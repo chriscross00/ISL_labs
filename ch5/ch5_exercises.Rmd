@@ -2,7 +2,9 @@
 title: "ch5_exercises"
 author: "Christoper Chan"
 date: "January 1, 2019"
-output: rmarkdown::github_document
+output: 
+    rmarkdown::github_document:
+        pandoc_arg: --webtex
 ---
 
 ```{r setup, include=FALSE}
@@ -20,9 +22,32 @@ library(boot)
 ###2
 (a) $(n-j)/n$ That is the probability of not $j$ is the total probability minus the probability of $j$.
 (b) $(n-j)/n$ The probabilty is the same as the 1st bootstrap observation. 
-(c) Bootstraping observations are independent, so the outcome of each observation does not affect the outcome of the $n$th observation.
-(d) `r 1-1/5`
-(e) `r 1-1/100`
-(f) `r 1-1/10000`
+(c) Bootstraping observations are independent, so the outcome of each observation does not affect the outcome of the $n$th observation. Using the product rule we simply raise the probability of $j$ not appearing to the $n$th bootstraping observation
+(d) $Pr(in) = 1 - Pr(out) = 1 - (1-1/n)^n =$ `r 1-(1-1/5)^5`
+(e) `r 1-(1-1/100)^100`
+(f) `r 1-(1-1/10000)^10000`
+(g) The probabilty drops off quite fast as the number of observations increase. Most are barely above zero.
+```{r}
+pr <- function(n){
+    return (1 - (1-1/n)^n)
+}
+x <- 1:1e5
 
+pr_x <- tibble(x, pr(x))
 
+ggplot(pr_x, aes(x, pr(x))) +
+    geom_point()
+```
+
+(h)
+```{r}
+store <- rep(NA, 1000)
+for (i in 1:1000){
+    store[i] <- sum(sample(1:100, rep=T)==4) > 0
+}
+
+mean(store)
+```
+
+###3
+(a)
