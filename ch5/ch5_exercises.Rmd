@@ -1,0 +1,28 @@
+---
+title: "ch5_exercises"
+author: "Christoper Chan"
+date: "January 1, 2019"
+output: rmarkdown::github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(ISLR)
+library(boot)
+```
+
+##Conceptual
+###1
+###2
+(a) $(n-j)/n$ That is the probability of not $j$ is the total probability minus the probability of $j$.
+(b) $(n-j)/n$ The probabilty is the same as the 1st bootstrap observation. 
+(c) Bootstraping observations are independent, so the outcome of each observation does not affect the outcome of the $n$th observation.
+(d) `r 1-1/5`
+(e) `r 1-1/100`
+(f) `r 1-1/10000`
+
+
