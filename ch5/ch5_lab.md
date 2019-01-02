@@ -120,3 +120,79 @@ cv_error_10
 
     ##  [1] 24.14736 19.38899 19.26022 19.57029 19.10580 18.66693 18.57784
     ##  [8] 18.70916 19.26092 19.64803
+
+5.3.4
+-----
+
+Creating function on how we invest the money.
+
+``` r
+alpha_fn <- function(data, index){
+    x <- data[,1][index]
+    y <- data[,2][index]
+    
+    return ((var(y) - cov(x,y))/(var(x) + var(y) - 2*cov(x,y)))
+}
+```
+
+``` r
+alpha_fn(Portfolio, 1:100)
+```
+
+    ## [1] 0.5758321
+
+Running a weird bootstrap with the sample().
+
+``` r
+set.seed(1)
+
+alpha_fn(Portfolio, sample(100, 100, replace=T))
+```
+
+    ## [1] 0.5963833
+
+Bootstraping using the built in boot(). Much more intuitive.
+
+``` r
+boot(Portfolio, alpha_fn, R=1000)
+```
+
+    ## 
+    ## ORDINARY NONPARAMETRIC BOOTSTRAP
+    ## 
+    ## 
+    ## Call:
+    ## boot(data = Portfolio, statistic = alpha_fn, R = 1000)
+    ## 
+    ## 
+    ## Bootstrap Statistics :
+    ##      original        bias    std. error
+    ## t1* 0.5758321 -7.315422e-05  0.08861826
+
+``` r
+boot_fn <- function(data, index){
+    return (coef(lm(mpg~horsepower, data, subset=index)))
+}
+
+boot_fn(Auto, 1:392)
+```
+
+    ## (Intercept)  horsepower 
+    ##  39.9358610  -0.1578447
+
+``` r
+boot(Auto, boot_fn, 1000)
+```
+
+    ## 
+    ## ORDINARY NONPARAMETRIC BOOTSTRAP
+    ## 
+    ## 
+    ## Call:
+    ## boot(data = Auto, statistic = boot_fn, R = 1000)
+    ## 
+    ## 
+    ## Bootstrap Statistics :
+    ##       original        bias    std. error
+    ## t1* 39.9358610  0.0126152644 0.871267432
+    ## t2* -0.1578447 -0.0002691801 0.007540188
