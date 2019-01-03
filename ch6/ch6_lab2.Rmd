@@ -106,6 +106,7 @@ set.seed(1)
 
 cv_out_lasso <- cv.glmnet(x[train,], y[train])
 plot(cv_out_lasso)
+    
 
 best_lam <- cv_out_lasso$lambda.min
 lasso_pred <- predict(lasso_mod, s=best_lam, newx=x[test,])

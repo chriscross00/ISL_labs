@@ -51,8 +51,6 @@ mean(store)
 ```
 
 ###3
-<<<<<<< HEAD
-=======
 (a) Divides the dataset into $k$ blocks and validates the data on the $k$th block for that iteration. The blocks rotate until all $k$ blocks have been used as the validation block. The test error is averaged over all iterations.
 (b)
     + More groups give a better representation of the true test error because of the larger sample size. It also has a lower variance. It will also have lower bias as it tends not to overfit to the training data.
@@ -137,20 +135,3 @@ medv_err
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> 5db712e22f59581d7e0ff208dab49188badb75d6

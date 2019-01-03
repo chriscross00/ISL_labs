@@ -370,9 +370,9 @@ mean((c_test[, 'Apps'] - lm_pred)^2)
 ``` r
 train_mat <- model.matrix(Apps~., c_train)
 test_mat <- model.matrix(Apps~., c_test)
-grid <- 10^seq(10,-2, length=100)
+grid <- 10^seq(4,-2, length=100)
 
-c_rr <- cv.glmnet(train_mat, c_train[,'Apps'], alpha = 0, lambda=grid, thresh=1e-12)
+c_rr <- cv.glmnet(train_mat, c_train[, 'Apps'], alpha=0, lambda=grid, thresh=1e-12)
 best_lambda <- c_rr$lambda.min
 best_lambda
 ```
@@ -386,6 +386,204 @@ pred <- predict(c_rr, newx=test_mat, s=best_lambda)
 mean((pred - c_test[,'Apps'])^2)
 ```
 
-    ## [1] 1870782
+    ## [1] 1870783
 
-1.
+1.  
+
+``` r
+c_lasso <- cv.glmnet(train_mat, c_train[, 'Apps'], lambda=grid, thresh=1e-12)
+plot(c_lasso)
+```
+
+![](ch6_exercises_files/figure-markdown_github/unnamed-chunk-18-1.png)
+
+``` r
+lasso_lam <- c_lasso$lambda.min
+lasso_lam
+```
+
+    ## [1] 12.32847
+
+We have a much higher RSS than OLS.
+
+``` r
+pred_lasso <- predict(c_lasso, newx=test_mat, s=lasso_lam)
+mean((pred_lasso - c_test[, 'Apps'])^2)
+```
+
+    ## [1] 1874525
+
+1.  Based on the MSEP plot the lowest MSEP occurs at 17 predictors. But really, the gain is minimal so I think we can safely use 4 predictors.
+
+``` r
+pcr_fit <- pcr(Apps~., data=c_train, scale=T, validation='CV')
+
+validationplot(pcr_fit, val.type = 'MSEP')
+```
+
+![](ch6_exercises_files/figure-markdown_github/unnamed-chunk-20-1.png)
+
+With the number of components at 4 we get a RSS of 3660863. The RSS is relatively steady until running predict with ncomp=16 where the RSS drops to roughly half.
+
+``` r
+pcr_pred <- predict(pcr_fit, c_test, ncomp=4)
+mean((pcr_pred - c_test[,'Apps'])^2)
+```
+
+    ## [1] 3660863
+
+1.  
+
+``` r
+pls_fit <- plsr(Apps~., data=c_train, scale=T, validation='CV')
+summary(pls_fit)
+```
+
+    ## Data:    X dimension: 388 17 
+    ##  Y dimension: 388 1
+    ## Fit method: kernelpls
+    ## Number of components considered: 17
+    ## 
+    ## VALIDATION: RMSEP
+    ## Cross-validated using 10 random segments.
+    ##        (Intercept)  1 comps  2 comps  3 comps  4 comps  5 comps  6 comps
+    ## CV            3348     1444     1059     1040     1017    932.5    864.8
+    ## adjCV         3348     1439     1049     1043     1014    924.1    858.4
+    ##        7 comps  8 comps  9 comps  10 comps  11 comps  12 comps  13 comps
+    ## CV       854.0    849.5    849.6     846.2     849.4     844.2     841.5
+    ## adjCV    848.3    843.9    843.6     840.3     842.6     838.1     835.7
+    ##        14 comps  15 comps  16 comps  17 comps
+    ## CV        840.8     840.7     840.9     840.9
+    ## adjCV     835.1     835.0     835.1     835.2
+    ## 
+    ## TRAINING: % variance explained
+    ##       1 comps  2 comps  3 comps  4 comps  5 comps  6 comps  7 comps
+    ## X       24.48    31.85    62.50    66.71    69.79    73.37    76.82
+    ## Apps    82.87    90.86    91.25    92.46    94.04    94.80    94.90
+    ##       8 comps  9 comps  10 comps  11 comps  12 comps  13 comps  14 comps
+    ## X       80.01    82.60     84.78     86.06     89.22     93.08     94.69
+    ## Apps    94.96    95.02     95.06     95.09     95.10     95.10     95.10
+    ##       15 comps  16 comps  17 comps
+    ## X        97.05     99.03     100.0
+    ## Apps     95.10     95.10      95.1
+
+``` r
+validationplot(pls_fit)
+```
+
+![](ch6_exercises_files/figure-markdown_github/unnamed-chunk-22-1.png)
+
+The RSS for the PLS is 1856693.
+
+``` r
+pls_predict <- predict(pls_fit, c_test, ncomp=6)
+mean((pls_predict - c_test[,'Apps'])^2)
+```
+
+    ## [1] 1856693
+
+1.  PCR has by far the worst test error.
+
+### 10
+
+### 11
+
+1.  Getting a sense of the data.
+
+``` r
+head(Boston)
+```
+
+    ##      crim zn indus chas   nox    rm  age    dis rad tax ptratio  black
+    ## 1 0.00632 18  2.31    0 0.538 6.575 65.2 4.0900   1 296    15.3 396.90
+    ## 2 0.02731  0  7.07    0 0.469 6.421 78.9 4.9671   2 242    17.8 396.90
+    ## 3 0.02729  0  7.07    0 0.469 7.185 61.1 4.9671   2 242    17.8 392.83
+    ## 4 0.03237  0  2.18    0 0.458 6.998 45.8 6.0622   3 222    18.7 394.63
+    ## 5 0.06905  0  2.18    0 0.458 7.147 54.2 6.0622   3 222    18.7 396.90
+    ## 6 0.02985  0  2.18    0 0.458 6.430 58.7 6.0622   3 222    18.7 394.12
+    ##   lstat medv
+    ## 1  4.98 24.0
+    ## 2  9.14 21.6
+    ## 3  4.03 34.7
+    ## 4  2.94 33.4
+    ## 5  5.33 36.2
+    ## 6  5.21 28.7
+
+``` r
+summary(Boston)
+```
+
+    ##       crim                zn             indus            chas        
+    ##  Min.   : 0.00632   Min.   :  0.00   Min.   : 0.46   Min.   :0.00000  
+    ##  1st Qu.: 0.08204   1st Qu.:  0.00   1st Qu.: 5.19   1st Qu.:0.00000  
+    ##  Median : 0.25651   Median :  0.00   Median : 9.69   Median :0.00000  
+    ##  Mean   : 3.61352   Mean   : 11.36   Mean   :11.14   Mean   :0.06917  
+    ##  3rd Qu.: 3.67708   3rd Qu.: 12.50   3rd Qu.:18.10   3rd Qu.:0.00000  
+    ##  Max.   :88.97620   Max.   :100.00   Max.   :27.74   Max.   :1.00000  
+    ##       nox               rm             age              dis        
+    ##  Min.   :0.3850   Min.   :3.561   Min.   :  2.90   Min.   : 1.130  
+    ##  1st Qu.:0.4490   1st Qu.:5.886   1st Qu.: 45.02   1st Qu.: 2.100  
+    ##  Median :0.5380   Median :6.208   Median : 77.50   Median : 3.207  
+    ##  Mean   :0.5547   Mean   :6.285   Mean   : 68.57   Mean   : 3.795  
+    ##  3rd Qu.:0.6240   3rd Qu.:6.623   3rd Qu.: 94.08   3rd Qu.: 5.188  
+    ##  Max.   :0.8710   Max.   :8.780   Max.   :100.00   Max.   :12.127  
+    ##       rad              tax           ptratio          black       
+    ##  Min.   : 1.000   Min.   :187.0   Min.   :12.60   Min.   :  0.32  
+    ##  1st Qu.: 4.000   1st Qu.:279.0   1st Qu.:17.40   1st Qu.:375.38  
+    ##  Median : 5.000   Median :330.0   Median :19.05   Median :391.44  
+    ##  Mean   : 9.549   Mean   :408.2   Mean   :18.46   Mean   :356.67  
+    ##  3rd Qu.:24.000   3rd Qu.:666.0   3rd Qu.:20.20   3rd Qu.:396.23  
+    ##  Max.   :24.000   Max.   :711.0   Max.   :22.00   Max.   :396.90  
+    ##      lstat            medv      
+    ##  Min.   : 1.73   Min.   : 5.00  
+    ##  1st Qu.: 6.95   1st Qu.:17.02  
+    ##  Median :11.36   Median :21.20  
+    ##  Mean   :12.65   Mean   :22.53  
+    ##  3rd Qu.:16.95   3rd Qu.:25.00  
+    ##  Max.   :37.97   Max.   :50.00
+
+#### Lasso
+
+Prepping the data
+
+``` r
+x <- model.matrix(crim~., Boston)
+y <- Boston$crim
+```
+
+Setting up the lambdas which we will use.
+
+``` r
+grid <- 10^seq(10, -3, length=200)
+```
+
+``` r
+set.seed(1)
+
+lasso <- cv.glmnet(x, y, type.measure='mse')
+plot(lasso)
+```
+
+![](ch6_exercises_files/figure-markdown_github/unnamed-chunk-27-1.png)
+
+``` r
+coef(lasso)
+```
+
+    ## 15 x 1 sparse Matrix of class "dgCMatrix"
+    ##                     1
+    ## (Intercept) 1.0894283
+    ## (Intercept) .        
+    ## zn          .        
+    ## indus       .        
+    ## chas        .        
+    ## nox         .        
+    ## rm          .        
+    ## age         .        
+    ## dis         .        
+    ## rad         0.2643196
+    ## tax         .        
+    ## ptratio     .        
+    ## black       .        
+    ## lstat       .        
+    ## medv        .

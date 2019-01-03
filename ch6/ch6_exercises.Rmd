@@ -229,6 +229,94 @@ pred_lasso <- predict(c_lasso, newx=test_mat, s=lasso_lam)
 mean((pred_lasso - c_test[, 'Apps'])^2)
 ```
 
+(e) Based on the MSEP plot the lowest MSEP occurs at 17 predictors. But really, the gain is minimal so I think we can safely use 4 predictors. 
+```{r}
+pcr_fit <- pcr(Apps~., data=c_train, scale=T, validation='CV')
+
+validationplot(pcr_fit, val.type = 'MSEP')
+```
+
+With the number of components at 4 we get a RSS of 3660863. The RSS is relatively steady until running predict with ncomp=16 where the RSS drops to roughly half. 
+```{r}
+pcr_pred <- predict(pcr_fit, c_test, ncomp=4)
+mean((pcr_pred - c_test[,'Apps'])^2)
+```
+
+(f)
+```{r}
+pls_fit <- plsr(Apps~., data=c_train, scale=T, validation='CV')
+summary(pls_fit)
+validationplot(pls_fit)
+```
+
+The RSS for the PLS is 1856693.
+```{r}
+pls_predict <- predict(pls_fit, c_test, ncomp=6)
+mean((pls_predict - c_test[,'Apps'])^2)
+```
+
+(g) PCR has by far the worst test error.
+
+###10
+###11
+(a) Getting a sense of the data.
+```{r}
+head(Boston)
+summary(Boston)
+```
+
+####Lasso
+Prepping the data
+```{r}
+x <- model.matrix(crim~., Boston)
+y <- Boston$crim
+```
+
+Setting up the lambdas which we will use.
+```{r}
+grid <- 10^seq(10, -3, length=200)
+```
+
+```{r}
+set.seed(1)
+
+lasso <- cv.glmnet(x, y, type.measure='mse')
+plot(lasso)
+coef(lasso)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
