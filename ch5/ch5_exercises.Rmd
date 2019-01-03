@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(ISLR)
 library(boot)
+library(MASS)
 ```
 
 ##Conceptual
@@ -96,9 +97,24 @@ map(seq_len(3), ~val())
 
 (d)
 
+###9
+(a)
+```{r, message=FALSE}
+attach(Boston)
+summary(Boston)
 
+medv_mn <- mean(medv)
+```
 
+(b)
+```{r}
+medv_err <- sd(medv)/sqrt(length(medv))
+medv_err
+```
 
+```{r}
+
+```
 
 
 
