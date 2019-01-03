@@ -50,4 +50,88 @@ mean(store)
 ```
 
 ###3
+(a) Divides the dataset into $k$ blocks and validates the data on the $k$th block for that iteration. The blocks rotate until all $k$ blocks have been used as the validation block. The test error is averaged over all iterations.
+(b)
+    + More groups give a better representation of the true test error because of the larger sample size. It also has a lower variance. It will also have lower bias as it tends not to overfit to the training data.
+    + Computationally it is more efficient as it does not have to iterate $n$ times. Also $k$-fold cv will have a lower bias.
+
+###4
+
+##Applied
+###5
 (a)
+```{r}
+set.seed(1)
+
+
+summary(Default)
+
+lg <- glm(default~balance + income, Default, family='binomial')
+summary(lg)
+```
+
+(b)
+```{r, message=FALSE}
+val <- function() {
+    train <- sample(1:nrow(Default), nrow(Default)/2)
+    test <- slice(Default, -train)
+
+    glm_fit <- glm(default~balance + income, Default, family='binomial', subset=train)
+
+    t <- predict(glm_fit, test, type='response')
+    glm_pred <- rep('No', nrow(test))
+    glm_pred[t >0.5] = 'Yes'
+
+    return (mean(glm_pred != test$default))
+}
+
+
+val()
+```
+
+(c) They all have low errors that are relatively similar.
+```{r}
+map(seq_len(3), ~val())
+```
+
+(d)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
