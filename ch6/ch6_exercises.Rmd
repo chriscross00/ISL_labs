@@ -268,13 +268,8 @@ summary(Boston)
 ####Lasso
 Prepping the data
 ```{r}
-x <- model.matrix(crim~., Boston)
+x <- model.matrix(crim~., Boston)[,-1]
 y <- Boston$crim
-```
-
-Setting up the lambdas which we will use.
-```{r}
-grid <- 10^seq(10, -3, length=200)
 ```
 
 ```{r}
@@ -282,7 +277,15 @@ set.seed(1)
 
 lasso <- cv.glmnet(x, y, type.measure='mse')
 plot(lasso)
-coef(lasso)
+
+best_lmd <- lasso$lambda.min
+coef(lasso, best_lmd)
+
+
+#finding MSE
+i <- which(lasso$lambda == lasso$lambda.min)
+mse_min <- lasso$cvm[i]
+cat('MSE at min lambda: ', mse_min)
 ```
 
 

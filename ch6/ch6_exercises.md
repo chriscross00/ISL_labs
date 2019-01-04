@@ -547,14 +547,8 @@ summary(Boston)
 Prepping the data
 
 ``` r
-x <- model.matrix(crim~., Boston)
+x <- model.matrix(crim~., Boston)[,-1]
 y <- Boston$crim
-```
-
-Setting up the lambdas which we will use.
-
-``` r
-grid <- 10^seq(10, -3, length=200)
 ```
 
 ``` r
@@ -564,26 +558,35 @@ lasso <- cv.glmnet(x, y, type.measure='mse')
 plot(lasso)
 ```
 
-![](ch6_exercises_files/figure-markdown_github/unnamed-chunk-27-1.png)
+![](ch6_exercises_files/figure-markdown_github/unnamed-chunk-26-1.png)
 
 ``` r
-coef(lasso)
+best_lmd <- lasso$lambda.min
+coef(lasso, best_lmd)
 ```
 
-    ## 15 x 1 sparse Matrix of class "dgCMatrix"
-    ##                     1
-    ## (Intercept) 1.0894283
-    ## (Intercept) .        
-    ## zn          .        
-    ## indus       .        
-    ## chas        .        
-    ## nox         .        
-    ## rm          .        
-    ## age         .        
-    ## dis         .        
-    ## rad         0.2643196
-    ## tax         .        
-    ## ptratio     .        
-    ## black       .        
-    ## lstat       .        
-    ## medv        .
+    ## 14 x 1 sparse Matrix of class "dgCMatrix"
+    ##                        1
+    ## (Intercept) 14.428038920
+    ## zn           0.039364727
+    ## indus       -0.071259165
+    ## chas        -0.641610611
+    ## nox         -8.404034502
+    ## rm           0.321491734
+    ## age          .          
+    ## dis         -0.875434880
+    ## rad          0.538512550
+    ## tax         -0.001104582
+    ## ptratio     -0.223867380
+    ## black       -0.007540242
+    ## lstat        0.127002383
+    ## medv        -0.174760563
+
+``` r
+#finding MSE
+i <- which(lasso$lambda == lasso$lambda.min)
+mse_min <- lasso$cvm[i]
+cat('MSE at min lambda: ', mse_min)
+```
+
+    ## MSE at min lambda:  43.57399
