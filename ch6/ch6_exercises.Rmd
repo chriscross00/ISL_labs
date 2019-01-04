@@ -288,6 +288,20 @@ mse_min <- lasso$cvm[i]
 cat('MSE at min lambda: ', mse_min)
 ```
 
+###Ridge
+I believe I can do a very similar thing as I did for lasso.
+```{r}
+ridge <- cv.glmnet(x, y, type.measure='mse', alpha=0)
+plot(ridge)
+
+ridge_lmd <- ridge$lambda.min
+coef(ridge, ridge_lmd)
+
+#Find MSE
+i <- which(ridge$lambda == ridge$lambda.min)
+mse_min <- ridge$cvm[i]
+cat('MSE at min lambda: ', mse_min)
+```
 
 
 

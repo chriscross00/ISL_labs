@@ -590,3 +590,45 @@ cat('MSE at min lambda: ', mse_min)
 ```
 
     ## MSE at min lambda:  43.57399
+
+### Ridge
+
+I believe I can do a very similar thing as I did for lasso.
+
+``` r
+ridge <- cv.glmnet(x, y, type.measure='mse', alpha=0)
+plot(ridge)
+```
+
+![](ch6_exercises_files/figure-markdown_github/unnamed-chunk-27-1.png)
+
+``` r
+ridge_lmd <- ridge$lambda.min
+coef(ridge, ridge_lmd)
+```
+
+    ## 14 x 1 sparse Matrix of class "dgCMatrix"
+    ##                        1
+    ## (Intercept)  8.617905238
+    ## zn           0.032352168
+    ## indus       -0.081183885
+    ## chas        -0.739986141
+    ## nox         -5.095661077
+    ## rm           0.328170831
+    ## age          0.002074971
+    ## dis         -0.683786236
+    ## rad          0.414237410
+    ## tax          0.003695600
+    ## ptratio     -0.127614746
+    ## black       -0.008532788
+    ## lstat        0.142710654
+    ## medv        -0.136308133
+
+``` r
+#Find MSE
+i <- which(ridge$lambda == ridge$lambda.min)
+mse_min <- ridge$cvm[i]
+cat('MSE at min lambda: ', mse_min)
+```
+
+    ## MSE at min lambda:  42.42184
