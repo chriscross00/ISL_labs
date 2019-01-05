@@ -291,6 +291,8 @@ cat('MSE at min lambda: ', mse_min)
 ###Ridge
 I believe I can do a very similar thing as I did for lasso.
 ```{r}
+set.seed(1)
+
 ridge <- cv.glmnet(x, y, type.measure='mse', alpha=0)
 plot(ridge)
 
@@ -303,6 +305,25 @@ mse_min <- ridge$cvm[i]
 cat('MSE at min lambda: ', mse_min)
 ```
 
+###Subset
+So i'm having trouble selecting the which model to choose, $RSS$, $\overline{R}^2$, $C_p$, $BIC$ all choose different models. I'll have to figure out how to code up a AUC or ROC function to select the best. Alternatively I can just run all the models and choose the one with the lowest MSE. I think either way i'll have to do the latter, but with running the suggested models I can run just a subset so it'll be less computationally expensive.
+
+```{r}
+regfit_full <- regsubsets(crim~., Boston, nvmax=13)
+
+regfit_full_sum <- summary(regfit_full)
+
+par(mfrow=c(2,2))
+plot(regfit_full_sum$rss, xlab='# of variables', ylab='RSS', type='l')
+plot(regfit_full_sum$adjr2, xlab='# of variables', ylab='adjr2', type='l')
+plot(regfit_full_sum$cp, xlab='# of variables', ylab='Cp', type='l')
+plot(regfit_full_sum$bic, xlab='# of variables', ylab='BIC', type='l')
+
+which.min(regfit_full_sum$rss)
+which.max(regfit_full_sum$adjr2)
+which.min(regfit_full_sum$cp)
+which.min(regfit_full_sum$bic)
+```
 
 
 
