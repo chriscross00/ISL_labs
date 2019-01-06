@@ -10,6 +10,14 @@ library(ISLR)
 library(randomForest)
 ```
 
+MSE function
+
+``` r
+MSE <- function(x,y){
+    mean((x - y)^2)
+}
+```
+
 8.3.1
 -----
 
@@ -89,7 +97,7 @@ plot(carseats_tree)
 text(carseats_tree, cex=0.75, pretty=0)
 ```
 
-![](ch8_labs_files/figure-markdown_github/unnamed-chunk-5-1.png)
+![](ch8_labs_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
 ``` r
 set.seed(2)
@@ -153,7 +161,7 @@ plot(cv_carseats$size, cv_carseats$dev, type='b')
 plot(cv_carseats$k, cv_carseats$dev, type='b')
 ```
 
-![](ch8_labs_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](ch8_labs_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
 ``` r
 prune_carseats <- prune.misclass(carseats_tree, best = 9)
@@ -161,7 +169,7 @@ plot(prune_carseats)
 text(prune_carseats, pretty=0)
 ```
 
-![](ch8_labs_files/figure-markdown_github/unnamed-chunk-9-1.png)
+![](ch8_labs_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
 ``` r
 prune_pred <- predict(prune_carseats, Carseats_test, type='class')
@@ -212,14 +220,14 @@ plot(tree_bos)
 text(tree_bos, pretty=0, cex=0.75)
 ```
 
-![](ch8_labs_files/figure-markdown_github/unnamed-chunk-13-1.png)
+![](ch8_labs_files/figure-markdown_github/unnamed-chunk-14-1.png)
 
 ``` r
 cv_bos <- cv.tree(tree_bos)
 plot(cv_bos$size, cv_bos$dev, type='b')
 ```
 
-![](ch8_labs_files/figure-markdown_github/unnamed-chunk-14-1.png)
+![](ch8_labs_files/figure-markdown_github/unnamed-chunk-15-1.png)
 
 ``` r
 prune_bos <- prune.tree(tree_bos, best=5)
@@ -227,7 +235,7 @@ plot(prune_bos)
 text(prune_bos, pretty=0)
 ```
 
-![](ch8_labs_files/figure-markdown_github/unnamed-chunk-15-1.png)
+![](ch8_labs_files/figure-markdown_github/unnamed-chunk-16-1.png)
 
 ``` r
 yhat <- predict(tree_bos, newdata=Boston[-train,])
@@ -237,7 +245,7 @@ plot(yhat, test_bos)
 abline(0, 1)
 ```
 
-![](ch8_labs_files/figure-markdown_github/unnamed-chunk-16-1.png)
+![](ch8_labs_files/figure-markdown_github/unnamed-chunk-17-1.png)
 
 ``` r
 mean((yhat-test_bos)^2)
@@ -253,8 +261,8 @@ The randomForest() can perform both bagging and random forest. By setting ![m=p]
 ``` r
 set.seed(1)
 
-bag_boston <- randomForest(medv~., Boston, subset=train, mtry=13, importance=T)
-bag_boston
+bag_bos <- randomForest(medv~., Boston, subset=train, mtry=13, importance=T)
+bag_bos
 ```
 
     ## 
@@ -267,19 +275,74 @@ bag_boston
     ##           Mean of squared residuals: 11.15723
     ##                     % Var explained: 86.49
 
+As a side note, ntree sets the number of trees to be used in the model. By default it is set to 500.
+
 Accuracy of bagging model.
 
 ``` r
-yhat_bag <- predict(bag_boston, newdata=Boston[-train,])
+yhat_bag <- predict(bag_bos, newdata=Boston[-train,])
 
 plot(yhat_bag, test_bos)
 abline(0,1)
 ```
 
-![](ch8_labs_files/figure-markdown_github/unnamed-chunk-18-1.png)
+![](ch8_labs_files/figure-markdown_github/unnamed-chunk-19-1.png)
 
 ``` r
 mean((yhat_bag - test_bos)^2)
 ```
 
     ## [1] 13.50808
+
+This model will use random forest and bagging. We set mtry=6, so roughly half the predictor variables are considered.
+
+``` r
+set.seed(1)
+
+rf_bos <- randomForest(medv~., Boston, subset=train, mtry=6, importance=T)
+rf_bos
+```
+
+    ## 
+    ## Call:
+    ##  randomForest(formula = medv ~ ., data = Boston, mtry = 6, importance = T,      subset = train) 
+    ##                Type of random forest: regression
+    ##                      Number of trees: 500
+    ## No. of variables tried at each split: 6
+    ## 
+    ##           Mean of squared residuals: 11.8888
+    ##                     % Var explained: 85.6
+
+``` r
+yhat_rf <- predict(rf_bos, newdata=Boston[-train,])
+MSE(yhat_rf, test_bos)
+```
+
+    ## [1] 11.66454
+
+We get a training MSE of 11.89, slightly higher than the bagging training MSE of 11.16. But the real test will be in the test MSE. And indeed, the test MSE of the random forest + bagging is lower, at 11.66.
+
+``` r
+importance(rf_bos)
+```
+
+    ##           %IncMSE IncNodePurity
+    ## crim    12.132320     986.50338
+    ## zn       1.955579      57.96945
+    ## indus    9.069302     882.78261
+    ## chas     2.210835      45.22941
+    ## nox     11.104823    1044.33776
+    ## rm      31.784033    6359.31971
+    ## age     10.962684     516.82969
+    ## dis     15.015236    1224.11605
+    ## rad      4.118011      95.94586
+    ## tax      8.587932     502.96719
+    ## ptratio 12.503896     830.77523
+    ## black    6.702609     341.30361
+    ## lstat   30.695224    7505.73936
+
+``` r
+varImpPlot(rf_bos)
+```
+
+![](ch8_labs_files/figure-markdown_github/unnamed-chunk-21-1.png)

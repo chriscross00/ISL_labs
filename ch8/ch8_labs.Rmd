@@ -18,6 +18,14 @@ library(ISLR)
 library(randomForest)
 ```
 
+MSE function
+```{r}
+MSE <- function(x,y){
+    mean((x - y)^2)
+}
+```
+
+
 ##8.3.1
 Preview Carseats data.
 ```{r}
@@ -132,19 +140,46 @@ The randomForest() can perform both bagging and random forest. By setting $m=p$ 
 ```{r}
 set.seed(1)
 
-bag_boston <- randomForest(medv~., Boston, subset=train, mtry=13, importance=T)
-bag_boston
+bag_bos <- randomForest(medv~., Boston, subset=train, mtry=13, importance=T)
+bag_bos
 ```
+As a side note, ntree sets the number of trees to be used in the model. By default it is set to 500.
 
 Accuracy of bagging model.
 ```{r}
-yhat_bag <- predict(bag_boston, newdata=Boston[-train,])
+yhat_bag <- predict(bag_bos, newdata=Boston[-train,])
 
 plot(yhat_bag, test_bos)
 abline(0,1)
 
 mean((yhat_bag - test_bos)^2)
 ```
+
+This model will use random forest and bagging. We set mtry=6, so roughly half the predictor variables are considered.
+```{r}
+set.seed(1)
+
+rf_bos <- randomForest(medv~., Boston, subset=train, mtry=6, importance=T)
+rf_bos
+
+yhat_rf <- predict(rf_bos, newdata=Boston[-train,])
+MSE(yhat_rf, test_bos)
+```
+We get a training MSE of 11.89, slightly higher than the bagging training MSE of 11.16. But the real test will be in the test MSE. And indeed, the test MSE of the random forest + bagging is lower, at 11.66.
+
+```{r}
+importance(rf_bos)
+
+varImpPlot(rf_bos)
+```
+
+
+
+
+
+
+
+
 
 
 
