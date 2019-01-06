@@ -248,6 +248,8 @@ mean((yhat-test_bos)^2)
 8.3.3
 -----
 
+The randomForest() can perform both bagging and random forest. By setting ![m=p](https://latex.codecogs.com/png.latex?m%3Dp "m=p") we prevent the random forest from occuring, instead only bagging occurs. This is what happens in the following code, mtry=13, so all the predictor variables are considered for each node.
+
 ``` r
 set.seed(1)
 
@@ -265,7 +267,7 @@ bag_boston
     ##           Mean of squared residuals: 11.15723
     ##                     % Var explained: 86.49
 
-Accuracy of model
+Accuracy of bagging model.
 
 ``` r
 yhat_bag <- predict(bag_boston, newdata=Boston[-train,])
