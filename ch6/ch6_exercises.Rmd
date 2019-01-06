@@ -325,6 +325,11 @@ which.min(regfit_full_sum$cp)
 which.min(regfit_full_sum$bic)
 ```
 
+```{r}
+plot(regfit_full, scale='adjr2')
+
+coef(regfit_full, 10)
+```
 
 
 

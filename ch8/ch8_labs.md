@@ -7,6 +7,7 @@ December 19, 2018
 library(tidyverse)
 library(tree)
 library(ISLR)
+library(randomForest)
 ```
 
 8.3.1
@@ -185,6 +186,8 @@ table(prune_pred, High_test)
 library(MASS)
 ```
 
+    ## Warning: package 'MASS' was built under R version 3.4.4
+
 ``` r
 set.seed(1)
 
@@ -241,3 +244,40 @@ mean((yhat-test_bos)^2)
 ```
 
     ## [1] 25.04559
+
+8.3.3
+-----
+
+``` r
+set.seed(1)
+
+bag_boston <- randomForest(medv~., Boston, subset=train, mtry=13, importance=T)
+bag_boston
+```
+
+    ## 
+    ## Call:
+    ##  randomForest(formula = medv ~ ., data = Boston, mtry = 13, importance = T,      subset = train) 
+    ##                Type of random forest: regression
+    ##                      Number of trees: 500
+    ## No. of variables tried at each split: 13
+    ## 
+    ##           Mean of squared residuals: 11.15723
+    ##                     % Var explained: 86.49
+
+Accuracy of model
+
+``` r
+yhat_bag <- predict(bag_boston, newdata=Boston[-train,])
+
+plot(yhat_bag, test_bos)
+abline(0,1)
+```
+
+![](ch8_labs_files/figure-markdown_github/unnamed-chunk-18-1.png)
+
+``` r
+mean((yhat_bag - test_bos)^2)
+```
+
+    ## [1] 13.50808
