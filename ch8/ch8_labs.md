@@ -8,6 +8,7 @@ library(tidyverse)
 library(tree)
 library(ISLR)
 library(randomForest)
+library(gbm)
 ```
 
 MSE function
@@ -194,8 +195,6 @@ table(prune_pred, High_test)
 library(MASS)
 ```
 
-    ## Warning: package 'MASS' was built under R version 3.4.4
-
 ``` r
 set.seed(1)
 
@@ -346,3 +345,51 @@ varImpPlot(rf_bos)
 ```
 
 ![](ch8_labs_files/figure-markdown_github/unnamed-chunk-21-1.png)
+
+8.3.4 Boosting
+--------------
+
+``` r
+set.seed(1)
+
+boost_bos <- gbm(medv~., Boston[train,], distribution='gaussian', n.trees=5000, interaction.depth=4)
+summary(boost_bos)
+```
+
+![](ch8_labs_files/figure-markdown_github/unnamed-chunk-22-1.png)
+
+    ##             var    rel.inf
+    ## lstat     lstat 37.0661275
+    ## rm           rm 25.3533123
+    ## dis         dis 11.7903016
+    ## crim       crim  8.0388750
+    ## black     black  4.2531659
+    ## nox         nox  3.5058570
+    ## age         age  3.4868724
+    ## ptratio ptratio  2.2500385
+    ## indus     indus  1.7725070
+    ## tax         tax  1.1836592
+    ## chas       chas  0.7441319
+    ## rad         rad  0.4274311
+    ## zn           zn  0.1277206
+
+``` r
+par(mfrow=c(1,2))
+plot(boost_bos, i='rm')
+```
+
+![](ch8_labs_files/figure-markdown_github/unnamed-chunk-22-2.png)
+
+``` r
+plot(boost_bos, i='lstat')
+```
+
+![](ch8_labs_files/figure-markdown_github/unnamed-chunk-22-3.png)
+
+``` r
+yhat_boost <- predict(boost_bos, newdata=Boston[-train,], n.trees=5000)
+
+MSE(test_bos, yhat_boost)
+```
+
+    ## [1] 10.81479

@@ -16,6 +16,7 @@ library(tidyverse)
 library(tree)
 library(ISLR)
 library(randomForest)
+library(gbm)
 ```
 
 MSE function
@@ -28,7 +29,7 @@ MSE <- function(x,y){
 
 ##8.3.1
 Preview Carseats data.
-```{r}
+```{r, message=FALSE}
 head(Carseats)
 attach(Carseats)
 ```
@@ -173,7 +174,23 @@ importance(rf_bos)
 varImpPlot(rf_bos)
 ```
 
+##8.3.4 Boosting
+```{r}
+set.seed(1)
 
+boost_bos <- gbm(medv~., Boston[train,], distribution='gaussian', n.trees=5000, interaction.depth=4)
+summary(boost_bos)
+
+par(mfrow=c(1,2))
+plot(boost_bos, i='rm')
+plot(boost_bos, i='lstat')
+```
+
+```{r}
+yhat_boost <- predict(boost_bos, newdata=Boston[-train,], n.trees=5000)
+
+MSE(test_bos, yhat_boost)
+```
 
 
 
