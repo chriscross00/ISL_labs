@@ -1,0 +1,23 @@
+---
+title: "ch8_exercises"
+author: "Christoper Chan"
+date: "January 6, 2019"
+output: rmarkdown::github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(gbm)
+library(randomForest)
+```
+
+##Applied
+###7
+```{r}
+
+```
+
