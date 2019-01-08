@@ -30,14 +30,42 @@ TO DO:
 Create training and test dataset.
 Create different mtry, m=p, m=p/2, m=sqrt(p)
 
+
+
+FINALLY! I did it with a for loop. My mistake before was i was putting the mse df in the for loop so the df was being reset each time.
 ```{r}
+tries <- 500
 
+mse <- data.frame(matrix(NA, nrow=tries, ncol=13))
+for (i in 1:13){
+    a <- randomForest(medv~., Boston, ntree=tries, mtry=i, importance=T)
+    mse[i] <- a$mse
+}
 
-
+mse$ntree <- 1:tries
+head(mse)
 ```
 
+```{r}
+long <- gather(mse, mtry, value, -ntree)
+
+head(long)
 
 
+ggplot(long, aes(ntree, value, color=mtry)) +
+    geom_line()
+```
+
+df conversion done with the reshape2 package.
+```{r}
+library(reshape2)
+df <- melt(mse, id.vars='ntree', variable.names='mtry')
+
+View(df)
+
+ggplot(df, aes(ntree, value)) +
+    geom_line(aes(color=variable))
+```
 
 
 
