@@ -46,18 +46,19 @@ mse$ntree <- 1:tries
 head(mse)
 ```
 
+Creates a graph of MSE for each mtry. 
 ```{r}
 long <- gather(mse, mtry, value, -ntree)
-
 head(long)
 
 
 ggplot(long, aes(ntree, value, color=mtry)) +
-    geom_line()
+    geom_line() +
+    ylab('MSE')
 ```
 
 df conversion done with the reshape2 package.
-```{r}
+```{r, results='hide'}
 library(reshape2)
 df <- melt(mse, id.vars='ntree', variable.names='mtry')
 
