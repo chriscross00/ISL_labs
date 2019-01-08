@@ -1,0 +1,89 @@
+---
+title: "ch4_labs"
+author: "Christopher Chan"
+date: "January 8, 2019"
+output: rmarkdown::github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ISLR)
+```
+
+##4.6.1
+```{r}
+dim(Smarket)
+head(Smarket)
+summary(Smarket)
+```
+
+```{r}
+cor(Smarket[, -9])
+```
+
+```{r, message=FALSE}
+attach(Smarket)
+plot(Volume)
+```
+
+##4.6.2
+```{r}
+glm_fits <- glm(Direction~.-Year-Today, Smarket, family=binomial)
+summary(glm_fits)
+coef(glm_fits)
+```
+
+Creating the prediction for based on the glm we created. We create a vector that is length $n$ of "Down". If the prob is greater than 0.5 we set the corresponding glm_pred[i] to "Up"
+```{r}
+glm_probs <- predict(glm_fits, type='response')
+glm_probs[1:10]
+
+glm_pred <- rep('Down', 1250)
+glm_pred[glm_probs>0.5] = 'Up'
+```
+
+```{r}
+table(glm_pred, Direction)
+
+#These yield the same value.
+(145+507)/1250
+mean(Direction == glm_pred)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
