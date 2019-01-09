@@ -138,12 +138,42 @@ set.seed(1)
 
 bag_car <- randomForest(Sales~., train, mtry=10, importance=TRUE)
 bag_car
+importance(bag_car)
 ```
 
+We get a test MSE of 1.93. Which is lower than the training MSE of 2.65. Price, ShelveLoc & CompPrice are the most importance variables.
+```{r}
+pred_bag <- predict(bag_car, test)
 
+MSE(pred_bag, test$Sales)
+```
 
+(e)
+```{r}
+set.seed(2)
 
+rf_car2 <- randomForest(Sales~., train, mtry=5, importance=T)
+rf_car2
+importance(rf_car2)
+```
 
+```{r}
+pred_rf2 <- predict(rf_car2, test)
+MSE(pred_rf2, test$Sales)
+```
+
+```{r}
+rf_carsqrt <- randomForest(Sales~., train, mtry=sqrt(10), importance=T)
+
+rf_carsqrt
+importance(rf_carsqrt)
+```
+
+Random forest was run twice, once with mtry=$p/2$ and again with mtry=$\sqrt{p}$. The MSE of $p/2$ is 2.05 and the MSE of $\sqrt{p}$ is 2.46. Both are a increase in MSE over bagging. Both rf show very similar importance, with Price and Shelveloc being the most importance predictors for both, but then $p/2$ chooses CompPrice as the third most important predictor while $sqrt{p}$ chooses Age.  
+```{r}
+pred_rfsqrt <- predict(rf_carsqrt, test)
+MSE(pred_rfsqrt, test$Sales)
+```
 
 
 
