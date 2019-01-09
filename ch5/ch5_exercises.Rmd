@@ -112,11 +112,6 @@ medv_err <- sd(medv)/sqrt(length(medv))
 medv_err
 ```
 
-```{r}
-
-```
-
-
 
 
 

@@ -12,9 +12,17 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(gbm)
+library(tree)
 library(randomForest)
 library(ISLR)
 library(MASS)
+```
+
+MSE function
+```{r}
+MSE <- function(x,y){
+    mean((x - y)^2)
+}
 ```
 
 ##Applied
@@ -56,6 +64,7 @@ ggplot(long, aes(ntree, value, color=mtry)) +
     geom_line() +
     ylab('MSE')
 ```
+MSE seems lo level off after 150 trees. X1 has the highest MSE of the mtry while X9 has the lowest minimum MSE.
 
 df conversion done with the reshape2 package.
 ```{r, results='hide'}
@@ -67,6 +76,78 @@ View(df)
 ggplot(df, aes(ntree, value)) +
     geom_line(aes(color=variable))
 ```
+
+
+###8
+(a) Training data is 3/4 of the Carseats data.
+```{r}
+set.seed(5)
+
+train <- sample(1:nrow(Carseats), (3/4)*nrow(Carseats))
+test <- slice(Carseats, -train)
+train <- Carseats[train,]
+```
+
+(b)
+```{r}
+reg_tree <- tree(Sales~., train)
+summary(reg_tree)
+```
+
+Plot of tree
+```{r}
+plot(reg_tree)
+text(reg_tree, cex=0.8, pretty=0)
+```
+
+MSE is around 4.57.
+```{r}
+pred_carseats <- predict(reg_tree, test)
+MSE(pred_carseats, test$Sales)
+```
+
+(c) Looks like the best tree size is 9.
+```{r}
+set.seed(10)
+
+cv_tree <- cv.tree(reg_tree, FUN=prune.tree)
+cv_tree
+
+par(mfrow=c(1,2))
+plot(cv_tree$size, cv_tree$dev, type='b')
+plot(cv_tree$k, cv_tree$dev, type='b')
+```
+
+Running prune.tree with best=9
+```{r}
+pruned <- prune.tree(reg_tree, best=9)
+
+plot(pruned)
+text(pruned, pretty=0)
+```
+
+Calculating MSE of pruned tree. We get a MSE of 3.74, which is roughly 0.8 lower than a reg tree. Pruning the tree does decrease the MSE.
+```{r}
+pred_pruned <- predict(pruned, test)
+MSE(pred_pruned, test$Sales)
+```
+
+(d) So I just need to remeber that I need to use the randomForest() where mtry = $p$ in order to only do bagging.
+```{r}
+set.seed(1)
+
+bag_car <- randomForest(Sales~., train, mtry=10, importance=TRUE)
+bag_car
+```
+
+
+
+
+
+
+
+
+
 
 
 
