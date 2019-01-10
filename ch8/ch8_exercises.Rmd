@@ -176,6 +176,81 @@ MSE(pred_rfsqrt, test$Sales)
 ```
 
 
+###9
+(a) Training dataset of 800 observations
+```{r, message=FALSE}
+set.seed(20)
+
+train <- sample(nrow(OJ), 800)
+test <- slice(OJ, -train)
+train <- OJ[train,]
+```
+
+(b) We get 9 terminal nodes. The tree is built from only 4 varibles: LoyalCH, PriceDiff, DiscMM, Store7. The training error rate is 0.1588.
+```{r}
+oj_tree <- tree(Purchase~., train)
+summary(oj_tree)
+```
+
+```{r}
+plot(oj_tree)
+text(oj_tree, pretty=0)
+```
+
+(c) Node 10, which is a terminal node, classifies a MM. If the price difference is less than $0.17 than customer will pick MM over CH. In this case, 56 customers are in this terminal node with a deviance of 58.19. 21.43% of Purchase have CH as the value while remaining 78.57% of Purchase have the value MM.
+```{r}
+oj_tree
+```
+
+(d) See (a)
+(e) The test error is `{r}(132+85)/(132+27+26+85)`
+```{r}
+oj_tpred <- predict(oj_tree, test, type='class')
+
+table(oj_tpred, test$Purchase)
+```
+
+
+(f)
+```{r}
+oj_cv_tree <- cv.tree(oj_tree, FUN=prune.tree)
+oj_cv_tree
+```
+
+(g) Tree with size 6 has the lowest deviation
+```{r, message=FALSE}
+attach(oj_cv_tree)
+
+plot(size, dev, type='b')
+```
+
+(h) See (g)
+(i)
+```{r}
+oj_prune <- prune.tree(oj_tree, best=6)
+
+summary(oj_prune)
+
+plot(oj_prune)
+text(oj_prune, pretty=0)
+```
+
+(j) The training error for the unpruned tree is: 0.1588. The training error for the pruned tree is: 0.1737. Based on the training error the unpruned tree preforms better.
+
+(k) The test error for unpruned is: 0.197, while the test error for pruned tree is 0.222. The pruned tree has a higher test error.
+```{r}
+oj_ppred <- predict(oj_prune, test, type='class')
+
+table(oj_ppred, test$Purchase)
+```
+
+
+
+
+
+
+
+
 
 
 

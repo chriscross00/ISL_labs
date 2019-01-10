@@ -52,19 +52,19 @@ head(mse)
 ```
 
     ##         X1       X2       X3       X4       X5       X6       X7       X8
-    ## 1 31.80872 52.42473 18.28603 24.63975 34.02078 20.82501 20.17224 18.95064
-    ## 2 34.04987 34.21041 25.00775 27.40268 28.23370 16.13734 23.61439 25.68817
-    ## 3 29.75503 30.18289 25.98576 22.67575 26.81627 15.80643 23.87533 24.22175
-    ## 4 27.75409 26.00290 23.14605 20.54429 26.63956 18.48176 24.00164 19.34626
-    ## 5 24.88952 24.34133 21.63823 18.32254 22.09555 17.41297 24.85599 17.26936
-    ## 6 24.20768 24.24671 21.86109 15.38011 25.61217 17.75042 21.37371 16.42574
+    ## 1 36.08010 22.21716 32.24358 26.76058 20.36838 28.41071 29.67609 44.06631
+    ## 2 40.55937 23.68551 30.32068 26.24358 19.84917 30.33815 29.78690 35.05987
+    ## 3 36.66617 25.94510 24.83410 24.61647 18.71518 25.52050 25.90266 24.83916
+    ## 4 32.51219 21.91799 21.40587 24.26592 18.23135 20.78432 23.50674 21.77882
+    ## 5 31.42277 21.42133 19.23304 20.73733 17.89434 19.33004 19.55081 20.13699
+    ## 6 30.83123 21.72616 17.96058 22.81023 14.77458 19.33904 17.79737 19.13584
     ##         X9      X10      X11      X12      X13 ntree
-    ## 1 21.27642 28.41122 20.69694 27.62397 23.07290     1
-    ## 2 19.46439 29.64176 18.47396 20.20069 23.29881     2
-    ## 3 19.63887 23.15113 24.18391 22.26955 23.33454     3
-    ## 4 17.95513 23.11587 19.66064 18.61263 21.92456     4
-    ## 5 15.27002 21.50509 19.29295 18.50928 18.82777     5
-    ## 6 14.47486 18.76671 18.32341 17.65219 18.09505     6
+    ## 1 18.00021 24.94677 17.69110 15.39390 31.13507     1
+    ## 2 17.69751 25.07534 14.95798 19.29329 26.55970     2
+    ## 3 17.92674 21.50085 20.99566 18.84270 26.70107     3
+    ## 4 17.42712 18.95408 19.41554 20.18056 23.43456     4
+    ## 5 18.36787 16.29642 19.98666 18.77554 19.98855     5
+    ## 6 16.34018 15.85007 21.56573 18.45032 19.62783     6
 
 Creates a graph of MSE for each mtry.
 
@@ -74,12 +74,12 @@ head(long)
 ```
 
     ##   ntree mtry    value
-    ## 1     1   X1 31.80872
-    ## 2     2   X1 34.04987
-    ## 3     3   X1 29.75503
-    ## 4     4   X1 27.75409
-    ## 5     5   X1 24.88952
-    ## 6     6   X1 24.20768
+    ## 1     1   X1 36.08010
+    ## 2     2   X1 40.55937
+    ## 3     3   X1 36.66617
+    ## 4     4   X1 32.51219
+    ## 5     5   X1 31.42277
+    ## 6     6   X1 30.83123
 
 ``` r
 ggplot(long, aes(ntree, value, color=mtry)) +
@@ -94,6 +94,8 @@ df conversion done with the reshape2 package.
 ``` r
 library(reshape2)
 ```
+
+    ## Warning: package 'reshape2' was built under R version 3.4.4
 
     ## 
     ## Attaching package: 'reshape2'
@@ -122,6 +124,11 @@ set.seed(5)
 
 train <- sample(1:nrow(Carseats), (3/4)*nrow(Carseats))
 test <- slice(Carseats, -train)
+```
+
+    ## Warning: package 'bindrcpp' was built under R version 3.4.4
+
+``` r
 train <- Carseats[train,]
 ```
 
@@ -345,3 +352,153 @@ MSE(pred_rfsqrt, test$Sales)
 ```
 
     ## [1] 2.455962
+
+### 9
+
+1.  Training dataset of 800 observations
+
+``` r
+set.seed(20)
+
+train <- sample(nrow(OJ), 800)
+test <- slice(OJ, -train)
+train <- OJ[train,]
+```
+
+1.  We get 9 terminal nodes. The tree is built from only 4 varibles: LoyalCH, PriceDiff, DiscMM, Store7. The training error rate is 0.1588.
+
+``` r
+oj_tree <- tree(Purchase~., train)
+summary(oj_tree)
+```
+
+    ## 
+    ## Classification tree:
+    ## tree(formula = Purchase ~ ., data = train)
+    ## Variables actually used in tree construction:
+    ## [1] "LoyalCH"   "PriceDiff" "DiscMM"    "Store7"   
+    ## Number of terminal nodes:  9 
+    ## Residual mean deviance:  0.7368 = 582.8 / 791 
+    ## Misclassification error rate: 0.1588 = 127 / 800
+
+``` r
+plot(oj_tree)
+text(oj_tree, pretty=0)
+```
+
+![](ch8_exercises_files/figure-markdown_github/unnamed-chunk-22-1.png)
+
+1.  Node 10, which is a terminal node, classifies a MM. If the price difference is less than $0.17 than customer will pick MM over CH. In this case, 56 customers are in this terminal node with a deviance of 58.19. 21.43% of Purchase have CH as the value while remaining 78.57% of Purchase have the value MM.
+
+``` r
+oj_tree
+```
+
+    ## node), split, n, deviance, yval, (yprob)
+    ##       * denotes terminal node
+    ## 
+    ##  1) root 800 1063.00 CH ( 0.61875 0.38125 )  
+    ##    2) LoyalCH < 0.5036 338  401.50 MM ( 0.28107 0.71893 )  
+    ##      4) LoyalCH < 0.32192 190  158.90 MM ( 0.14737 0.85263 )  
+    ##        8) LoyalCH < 0.051325 61   10.21 MM ( 0.01639 0.98361 ) *
+    ##        9) LoyalCH > 0.051325 129  132.40 MM ( 0.20930 0.79070 ) *
+    ##      5) LoyalCH > 0.32192 148  203.80 MM ( 0.45270 0.54730 )  
+    ##       10) PriceDiff < 0.17 56   58.19 MM ( 0.21429 0.78571 ) *
+    ##       11) PriceDiff > 0.17 92  124.00 CH ( 0.59783 0.40217 ) *
+    ##    3) LoyalCH > 0.5036 462  364.30 CH ( 0.86580 0.13420 )  
+    ##      6) LoyalCH < 0.764572 197  227.40 CH ( 0.73604 0.26396 )  
+    ##       12) PriceDiff < 0.05 72   99.81 MM ( 0.50000 0.50000 )  
+    ##         24) DiscMM < 0.47 54   72.17 CH ( 0.61111 0.38889 ) *
+    ##         25) DiscMM > 0.47 18   16.22 MM ( 0.16667 0.83333 ) *
+    ##       13) PriceDiff > 0.05 125   95.64 CH ( 0.87200 0.12800 ) *
+    ##      7) LoyalCH > 0.764572 265   85.16 CH ( 0.96226 0.03774 )  
+    ##       14) Store7: No 154   74.02 CH ( 0.93506 0.06494 ) *
+    ##       15) Store7: Yes 111    0.00 CH ( 1.00000 0.00000 ) *
+
+1.  See (a)
+2.  The test error is `{r}(132+85)/(132+27+26+85)`
+
+``` r
+oj_tpred <- predict(oj_tree, test, type='class')
+
+table(oj_tpred, test$Purchase)
+```
+
+    ##         
+    ## oj_tpred  CH  MM
+    ##       CH 132  27
+    ##       MM  26  85
+
+1.  
+
+``` r
+oj_cv_tree <- cv.tree(oj_tree, FUN=prune.tree)
+oj_cv_tree
+```
+
+    ## $size
+    ## [1] 9 8 7 6 5 4 3 2 1
+    ## 
+    ## $dev
+    ## [1]  688.7810  688.8420  688.8420  678.4876  699.9952  737.1975  741.3148
+    ## [8]  771.7294 1063.7042
+    ## 
+    ## $k
+    ## [1]      -Inf  11.13723  11.42215  16.31726  21.65779  31.94519  38.78481
+    ## [8]  51.76482 297.63618
+    ## 
+    ## $method
+    ## [1] "deviance"
+    ## 
+    ## attr(,"class")
+    ## [1] "prune"         "tree.sequence"
+
+1.  Tree with size 6 has the lowest deviation
+
+``` r
+attach(oj_cv_tree)
+
+plot(size, dev, type='b')
+```
+
+![](ch8_exercises_files/figure-markdown_github/unnamed-chunk-26-1.png)
+
+1.  See (g)
+2.  
+
+``` r
+oj_prune <- prune.tree(oj_tree, best=6)
+
+summary(oj_prune)
+```
+
+    ## 
+    ## Classification tree:
+    ## snip.tree(tree = oj_tree, nodes = c(7L, 12L, 4L))
+    ## Variables actually used in tree construction:
+    ## [1] "LoyalCH"   "PriceDiff"
+    ## Number of terminal nodes:  6 
+    ## Residual mean deviance:  0.783 = 621.7 / 794 
+    ## Misclassification error rate: 0.1737 = 139 / 800
+
+``` r
+plot(oj_prune)
+text(oj_prune, pretty=0)
+```
+
+![](ch8_exercises_files/figure-markdown_github/unnamed-chunk-27-1.png)
+
+1.  The training error for the unpruned tree is: 0.1588. The training error for the pruned tree is: 0.1737. Based on the training error the unpruned tree preforms better.
+
+2.  The test error for unpruned is: 0.197, while the test error for pruned tree is 0.222. The pruned tree has a higher test error.
+
+``` r
+oj_ppred <- predict(oj_prune, test, type='class')
+
+table(oj_ppred, test$Purchase)
+```
+
+    ##         
+    ## oj_ppred  CH  MM
+    ##       CH 126  28
+    ##       MM  32  84
