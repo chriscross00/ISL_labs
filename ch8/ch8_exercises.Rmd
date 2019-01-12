@@ -244,7 +244,40 @@ oj_ppred <- predict(oj_prune, test, type='class')
 table(oj_ppred, test$Purchase)
 ```
 
+###10
+(a)
+```{r}
+df <- na.omit(Hitters)
 
+df <- df %>% mutate(log_sal = log(Salary))
+head(df)
+```
+
+(b)
+```{r}
+train <- df[1:200,]
+test <- df[201:nrow(df),]
+```
+
+(c)
+```{r}
+hit_boost <- gbm(log_sal~., train, distribution='gaussian', n.tree=1000)
+summary(hit_bos)
+```
+
+```{r}
+set.seed(5)
+
+power <- seq(-10, -0.2, 0.1)
+lambda <- 10^power
+
+train_error <- rep(NA, length(lambda))
+test_error <- rep(NA, length(lambda))
+
+for (i in lambda){
+    gbm(long~., train, distribution='gaussian', n.tree=1000, shrinkage=i)
+} 
+```
 
 
 
