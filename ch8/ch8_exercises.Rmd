@@ -261,8 +261,10 @@ test <- df[201:nrow(df),]
 
 (c)
 ```{r}
-hit_boost <- gbm(log_sal~., train, distribution='gaussian', n.tree=1000)
-summary(hit_bos)
+hit_boost <- gbm(log_sal~., train, distribution='gaussian', n.trees=1000)
+summary(hit_boost)
+
+hit_boost
 ```
 
 ```{r}
@@ -274,10 +276,36 @@ lambda <- 10^power
 train_error <- rep(NA, length(lambda))
 test_error <- rep(NA, length(lambda))
 
-for (i in lambda){
-    gbm(long~., train, distribution='gaussian', n.tree=1000, shrinkage=i)
+for (i in 1:length(lambda)){
+    model <- gbm(log_sal~., train, distribution='gaussian', n.trees=1000, shrinkage=lambda[i])
+    
+    train_pred <- predict(model, train, n.trees=1000)
+    test_pred <- predict(model, test, n.trees=1000)
+    train_error[i] <- MSE(train$log_sal, train_pred)
+    test_error[i] <- MSE(test$log_sal, test_pred)
 } 
 ```
+
+```{r}
+plot_data <- tibble(lambda, train_error)
+
+ggplot(plot_data, aes(lambda, train_error)) +
+    geom_point() +
+    geom_line() +
+    xlab('Shrinkage') +
+    ylab('Train MSE')
+```
+
+```{r}
+tibble(lambda, test_error) %>%
+    ggplot(aes(lambda, test_error)) +
+    geom_point() +
+    geom_line() +
+    xlab('Shrinkage') +
+    ylab('Test MSE')
+```
+
+
 
 
 

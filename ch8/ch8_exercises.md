@@ -52,19 +52,19 @@ head(mse)
 ```
 
     ##         X1       X2       X3       X4       X5       X6       X7       X8
-    ## 1 36.08010 22.21716 32.24358 26.76058 20.36838 28.41071 29.67609 44.06631
-    ## 2 40.55937 23.68551 30.32068 26.24358 19.84917 30.33815 29.78690 35.05987
-    ## 3 36.66617 25.94510 24.83410 24.61647 18.71518 25.52050 25.90266 24.83916
-    ## 4 32.51219 21.91799 21.40587 24.26592 18.23135 20.78432 23.50674 21.77882
-    ## 5 31.42277 21.42133 19.23304 20.73733 17.89434 19.33004 19.55081 20.13699
-    ## 6 30.83123 21.72616 17.96058 22.81023 14.77458 19.33904 17.79737 19.13584
+    ## 1 40.25659 37.53364 31.34677 19.04895 18.92248 29.06987 27.09567 25.31862
+    ## 2 42.91880 32.01584 27.91756 23.06041 15.10780 18.32848 26.20818 16.66498
+    ## 3 40.22094 31.75520 24.45328 21.28010 17.49281 19.13680 22.50150 14.42005
+    ## 4 35.82456 28.07986 22.76588 24.54485 16.50395 18.27380 20.23924 16.78379
+    ## 5 30.65077 25.00437 19.64147 21.36417 14.72028 15.78223 17.53195 14.00004
+    ## 6 27.84786 23.07398 19.93624 21.37960 13.06178 15.75764 16.64126 14.32521
     ##         X9      X10      X11      X12      X13 ntree
-    ## 1 18.00021 24.94677 17.69110 15.39390 31.13507     1
-    ## 2 17.69751 25.07534 14.95798 19.29329 26.55970     2
-    ## 3 17.92674 21.50085 20.99566 18.84270 26.70107     3
-    ## 4 17.42712 18.95408 19.41554 20.18056 23.43456     4
-    ## 5 18.36787 16.29642 19.98666 18.77554 19.98855     5
-    ## 6 16.34018 15.85007 21.56573 18.45032 19.62783     6
+    ## 1 23.99808 33.74869 16.87151 12.78223 16.55269     1
+    ## 2 23.20995 20.55119 17.12689 16.57276 15.30443     2
+    ## 3 23.11085 17.11369 21.30122 17.07469 16.48651     3
+    ## 4 20.01313 14.35064 19.83679 15.31666 15.78064     4
+    ## 5 19.06888 14.25736 19.53127 21.32152 14.03301     5
+    ## 6 18.38785 13.88151 18.73056 20.65127 12.54583     6
 
 Creates a graph of MSE for each mtry.
 
@@ -74,12 +74,12 @@ head(long)
 ```
 
     ##   ntree mtry    value
-    ## 1     1   X1 36.08010
-    ## 2     2   X1 40.55937
-    ## 3     3   X1 36.66617
-    ## 4     4   X1 32.51219
-    ## 5     5   X1 31.42277
-    ## 6     6   X1 30.83123
+    ## 1     1   X1 40.25659
+    ## 2     2   X1 42.91880
+    ## 3     3   X1 40.22094
+    ## 4     4   X1 35.82456
+    ## 5     5   X1 30.65077
+    ## 6     6   X1 27.84786
 
 ``` r
 ggplot(long, aes(ntree, value, color=mtry)) +
@@ -94,8 +94,6 @@ df conversion done with the reshape2 package.
 ``` r
 library(reshape2)
 ```
-
-    ## Warning: package 'reshape2' was built under R version 3.4.4
 
     ## 
     ## Attaching package: 'reshape2'
@@ -124,11 +122,6 @@ set.seed(5)
 
 train <- sample(1:nrow(Carseats), (3/4)*nrow(Carseats))
 test <- slice(Carseats, -train)
-```
-
-    ## Warning: package 'bindrcpp' was built under R version 3.4.4
-
-``` r
 train <- Carseats[train,]
 ```
 
@@ -502,3 +495,119 @@ table(oj_ppred, test$Purchase)
     ## oj_ppred  CH  MM
     ##       CH 126  28
     ##       MM  32  84
+
+### 10
+
+1.  
+
+``` r
+df <- na.omit(Hitters)
+
+df <- df %>% mutate(log_sal = log(Salary))
+head(df)
+```
+
+    ##   AtBat Hits HmRun Runs RBI Walks Years CAtBat CHits CHmRun CRuns CRBI
+    ## 1   315   81     7   24  38    39    14   3449   835     69   321  414
+    ## 2   479  130    18   66  72    76     3   1624   457     63   224  266
+    ## 3   496  141    20   65  78    37    11   5628  1575    225   828  838
+    ## 4   321   87    10   39  42    30     2    396   101     12    48   46
+    ## 5   594  169     4   74  51    35    11   4408  1133     19   501  336
+    ## 6   185   37     1   23   8    21     2    214    42      1    30    9
+    ##   CWalks League Division PutOuts Assists Errors Salary NewLeague  log_sal
+    ## 1    375      N        W     632      43     10  475.0         N 6.163315
+    ## 2    263      A        W     880      82     14  480.0         A 6.173786
+    ## 3    354      N        E     200      11      3  500.0         N 6.214608
+    ## 4     33      N        E     805      40      4   91.5         N 4.516339
+    ## 5    194      A        W     282     421     25  750.0         A 6.620073
+    ## 6     24      N        E      76     127      7   70.0         A 4.248495
+
+1.  
+
+``` r
+train <- df[1:200,]
+test <- df[201:nrow(df),]
+```
+
+1.  
+
+``` r
+hit_boost <- gbm(log_sal~., train, distribution='gaussian', n.trees=1000)
+summary(hit_boost)
+```
+
+![](ch8_exercises_files/figure-markdown_github/unnamed-chunk-31-1.png)
+
+    ##                 var      rel.inf
+    ## Salary       Salary 98.162714006
+    ## CHmRun       CHmRun  0.277687828
+    ## PutOuts     PutOuts  0.163366333
+    ## Hits           Hits  0.154205075
+    ## Walks         Walks  0.131597939
+    ## CRBI           CRBI  0.128191207
+    ## CAtBat       CAtBat  0.123647623
+    ## HmRun         HmRun  0.116277999
+    ## AtBat         AtBat  0.108738733
+    ## Assists     Assists  0.108287604
+    ## RBI             RBI  0.098060058
+    ## CWalks       CWalks  0.095521669
+    ## CHits         CHits  0.085281420
+    ## Runs           Runs  0.075344791
+    ## CRuns         CRuns  0.068250774
+    ## Errors       Errors  0.041464443
+    ## Years         Years  0.028888789
+    ## NewLeague NewLeague  0.018243887
+    ## League       League  0.013080265
+    ## Division   Division  0.001149557
+
+``` r
+hit_boost
+```
+
+    ## gbm(formula = log_sal ~ ., distribution = "gaussian", data = train, 
+    ##     n.trees = 1000)
+    ## A gradient boosted model with gaussian loss function.
+    ## 1000 iterations were performed.
+    ## There were 20 predictors of which 20 had non-zero influence.
+
+``` r
+set.seed(5)
+
+power <- seq(-10, -0.2, 0.1)
+lambda <- 10^power
+
+train_error <- rep(NA, length(lambda))
+test_error <- rep(NA, length(lambda))
+
+for (i in 1:length(lambda)){
+    model <- gbm(log_sal~., train, distribution='gaussian', n.trees=1000, shrinkage=lambda[i])
+    
+    train_pred <- predict(model, train, n.trees=1000)
+    test_pred <- predict(model, test, n.trees=1000)
+    train_error[i] <- MSE(train$log_sal, train_pred)
+    test_error[i] <- MSE(test$log_sal, test_pred)
+} 
+```
+
+``` r
+plot_data <- tibble(lambda, train_error)
+
+ggplot(plot_data, aes(lambda, train_error)) +
+    geom_point() +
+    geom_line() +
+    xlab('Shrinkage') +
+    ylab('Train MSE')
+```
+
+![](ch8_exercises_files/figure-markdown_github/unnamed-chunk-33-1.png)
+
+``` r
+tibble(lambda, test_error) %>%
+    ggplot(aes(lambda, test_error)) +
+    geom_point() +
+    geom_line() +
+    xlab('Shrinkage') +
+    ylab('Test MSE')
+```
+
+![](ch8_exercises_files/figure-markdown_github/unnamed-chunk-34-1.png)
