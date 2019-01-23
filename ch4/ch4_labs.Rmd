@@ -85,6 +85,15 @@ mean(glm_pred2005 != test[,9])
 
 ```{r}
 glm_fits2 <- glm(Direction~Lag1+Lag2, train, family=binomial)
+
+glm_probs2 <- predict(glm_fits2, test, type='response')
+
+glm_pred2 <- rep('Down', 252)
+glm_pred2[glm_probs2 < 0.5] = 'Up'
+
+table(glm_pred2, test[,9])
+
+mean(glm_pred2 == test[,9])
 ```
 
 
