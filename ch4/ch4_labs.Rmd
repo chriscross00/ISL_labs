@@ -54,23 +54,38 @@ table(glm_pred, Direction)
 mean(Direction == glm_pred)
 ```
 
+Creating the training dataset. We are only using the observations that occur in year 2005.
 ```{r}
+train <- Smarket %>%
+    filter(Year < 2005)
+test <- Smarket %>%
+    filter(Year == 2005)
 
+dim(test)
 ```
 
 
 ```{r}
-glm_fits2 <- glm(Direction~Lag1+Lag2, Smarket, family=binomial, subset=train)
+glm_fits2005 <- glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume, data=train, family=binomial)
+
+glm_probs2005 <- predict(glm_fits2005, test, type='response')
+
+length(glm_probs2005)
 ```
 
+```{r}
+glm_pred2005 <- rep("Down", 252)
+glm_pred2005[glm_probs2005 > 0.5] = 'Up'
 
+table(glm_pred2005, test[,9])
 
+mean(glm_pred2005 == test[,9])
+mean(glm_pred2005 != test[,9])
+```
 
-
-
-
-
-
+```{r}
+glm_fits2 <- glm(Direction~Lag1+Lag2, train, family=binomial)
+```
 
 
 
