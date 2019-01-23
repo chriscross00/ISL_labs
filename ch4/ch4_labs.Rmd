@@ -54,6 +54,14 @@ table(glm_pred, Direction)
 mean(Direction == glm_pred)
 ```
 
+```{r}
+
+```
+
+
+```{r}
+glm_fits2 <- glm(Direction~Lag1+Lag2, Smarket, family=binomial, subset=train)
+```
 
 
 
