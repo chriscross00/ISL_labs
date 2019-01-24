@@ -15,19 +15,18 @@ knitr::opts_chunk$set(echo = TRUE)
 ### Logistic Regresion
 
 In general modelling:
+$$p(X) = p(Y=y|X)$$
 
-$p(X) = p(Y=y|X)$
 
 
-$log\frac{p(X)}{1-p(x)} = \beta_0 + \beta_1X_1 + ... + \beta_pX_p$
+$$log\frac{p(X)}{1-p(x)} = \beta_0 + \beta_1X_1 + ... + \beta_pX_p$$
 
-$p(X) = \frac{e^{\beta_0 + \beta_1X_1 + ... + \beta_pX_p}}{1 + e^{\beta_0 + \beta_1X_1 + ... + \beta_pX_p}}$
+$$p(X) = \frac{e^{\beta_0 + \beta_1X_1 + ... + \beta_pX_p}}{1 + e^{\beta_0 + \beta_1X_1 + ... + \beta_pX_p}}$$
 
-Estimating regression coefficients
-
-$\ell(\beta_0, \beta_1 ... \beta_p) = \prod_{i:y_i=1}p(x_i) \prod_{i^{'}:y_i^{'}=0} (1-p(x_{i^{'}}))$
+Estimating regression coefficients:
+$$\ell(\beta_0, \beta_1 ... \beta_p) = \prod_{i:y_i=1}p(x_i) \prod_{i^{'}:y_i^{'}=0} (1-p(x_{i^{'}}))$$
 
 
 
 ### Notes
-$x$ parameterized by $\theta$: $x;\theta$
+$x$ parameterized by $\theta$: $$x;\theta$$
