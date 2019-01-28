@@ -1,0 +1,48 @@
+---
+title: "naive_bayes"
+author: "Christoper Chan"
+date: "January 27, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(e1071)
+library(caret)
+```
+
+```{r}
+df <- as.tibble(Titanic)
+```
+
+```{r}
+rep_seq <- rep.int(seq_len(nrow(df)), df$n)
+
+df <- df[rep_seq,]
+df <- lapply(df[,1:4], factor)
+df <- as.tibble(df)
+dim(df)
+```
+
+```{r}
+nb_model <- naiveBayes(Survived ~., df)
+
+nb_model
+```
+
+```{r}
+nb_model_pred <- predict(nb_model, df)
+
+c_matrix <- table(nb_model_pred, df$Survived)
+confusionMatrix(c_matrix)
+```
+
+
+
+
+
+
