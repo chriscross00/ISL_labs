@@ -1,0 +1,19 @@
+---
+title: "ch4_exercises"
+author: "Christopher Chan"
+date: "January 23, 2019"
+output: rmakrdown::github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=False, message=False}
+library(tidyverse)
+```
+
+## Conceptual
+###1
+###2
+
