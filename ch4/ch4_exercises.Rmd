@@ -9,7 +9,7 @@ output: rmakrdown::github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, warning=False, message=False}
+```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 ```
 
@@ -17,3 +17,61 @@ library(tidyverse)
 ###1
 ###2
 
+Statquest log regression
+```{r}
+data <- read_csv("http://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data", col_names=F)
+
+colnames(data) <- c('age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal', 'hd')
+head(data)
+str(data)
+```
+
+Cleaning the data. Most of the columns got read in as dbl when they should be factors. We are also setting some of the 0/1 to the respective values. Finally we are dropping the NA values, since there are only 6 out of 303 columns with NA.
+```{r}
+data[data$sex == 0,]$sex <- 'F'
+data[data$sex == 1,]$sex <- 'M'
+
+data$ca <- as.integer(data$ca)
+data$thal <- as.integer(data$thal)
+data$hd <- ifelse(data$hd == 0, 'Healthy', 'Unhealthy')
+
+cols <- c('sex', 'cp', 'fbs', 'restecg', 'exang', 'slope', 'ca', 'thal', 'hd')
+data[cols] <- lapply(data[cols], factor)
+
+
+str(data)
+summary(data)
+
+data <- drop_na(data)
+```
+
+Creating a cross tabluation for each factor. This makes sure that all levels are relevant in the for the response variable.
+```{r}
+xtabs(~hd + sex, data)
+
+lapply(data[cols], function(x) xtabs(~hd + x, data))
+```
+
+Logistic regression based on sex
+```{r}
+log_sex <- glm(hd~sex, data, family='binomial')
+
+summary(log_sex)
+```
+
+Logisitic regression based on all the predictors.
+```{r}
+log_all <- glm(hd~., data, family='binomial')
+
+summary(log_all)
+```
+
+```{r}
+pred <- tibble(prob = log_all$fitted.values,
+               hd = data$hd)
+pred <- pred[order(pred$prob, decreasing=F),]
+pred$rank <- 1:nrow(pred)
+
+ggplot(pred, aes(rank, prob, color=hd)) +
+    geom_point()
+```
