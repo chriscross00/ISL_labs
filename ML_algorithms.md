@@ -3,6 +3,40 @@ ML Algorithms
 Christopher Chan
 January 23, 2019
 
+### Linear Regression
+
+Assumptions:
+
+1.  Observations ![y\_i](https://latex.codecogs.com/png.latex?y_i "y_i") are uncorrelated
+2.  Observations ![y\_i](https://latex.codecogs.com/png.latex?y_i "y_i") have constant variance
+3.  ![x\_i](https://latex.codecogs.com/png.latex?x_i "x_i") are fixed
+
+![f(X) = \\beta\_0 + \\sum^p\_{j=1}X\_j\\beta\_j + \\varepsilon](https://latex.codecogs.com/png.latex?f%28X%29%20%3D%20%5Cbeta_0%20%2B%20%5Csum%5Ep_%7Bj%3D1%7DX_j%5Cbeta_j%20%2B%20%5Cvarepsilon "f(X) = \beta_0 + \sum^p_{j=1}X_j\beta_j + \varepsilon")
+
+Cost function
+
+![RSS(\\beta) = \\sum^N\_{i=1}(y\_i-\\beta\_0-\\sum^p\_{j=1}x\_{ij}\\beta\_j)^2](https://latex.codecogs.com/png.latex?RSS%28%5Cbeta%29%20%3D%20%5Csum%5EN_%7Bi%3D1%7D%28y_i-%5Cbeta_0-%5Csum%5Ep_%7Bj%3D1%7Dx_%7Bij%7D%5Cbeta_j%29%5E2 "RSS(\beta) = \sum^N_{i=1}(y_i-\beta_0-\sum^p_{j=1}x_{ij}\beta_j)^2")
+
+ Cost function matrix formula
+
+![\\hat{\\beta} = (X^TX)^{-1}X^Ty](https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D%20%3D%20%28X%5ETX%29%5E%7B-1%7DX%5ETy "\hat{\beta} = (X^TX)^{-1}X^Ty")
+
+Hat (Matrix) - predicts y
+
+![H = X(X^TX)^{-1}X^T](https://latex.codecogs.com/png.latex?H%20%3D%20X%28X%5ETX%29%5E%7B-1%7DX%5ET "H = X(X^TX)^{-1}X^T")
+
+Variance - unbiased
+
+![\\hat{\\sigma} = \\frac{1}{N-p-1}\\sum^N\_{i=1}(y\_i-\\hat{y\_i})^2](https://latex.codecogs.com/png.latex?%5Chat%7B%5Csigma%7D%20%3D%20%5Cfrac%7B1%7D%7BN-p-1%7D%5Csum%5EN_%7Bi%3D1%7D%28y_i-%5Chat%7By_i%7D%29%5E2 "\hat{\sigma} = \frac{1}{N-p-1}\sum^N_{i=1}(y_i-\hat{y_i})^2")
+
+#### Ridge Regression
+
+![\\hat{\\beta}^{ridge} = argmin\_\\beta \[\\sum\_{i=1}^N(y\_i - \\beta\_0 -\\sum^p\_{j=1}x\_{ij}\\beta\_j)^2 + \\lambda\\sum^p\_{j=1}\\beta^2\_j\]](https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D%5E%7Bridge%7D%20%3D%20argmin_%5Cbeta%20%5B%5Csum_%7Bi%3D1%7D%5EN%28y_i%20-%20%5Cbeta_0%20-%5Csum%5Ep_%7Bj%3D1%7Dx_%7Bij%7D%5Cbeta_j%29%5E2%20%2B%20%5Clambda%5Csum%5Ep_%7Bj%3D1%7D%5Cbeta%5E2_j%5D "\hat{\beta}^{ridge} = argmin_\beta [\sum_{i=1}^N(y_i - \beta_0 -\sum^p_{j=1}x_{ij}\beta_j)^2 + \lambda\sum^p_{j=1}\beta^2_j]")
+
+#### Lasso Regression
+
+![\\hat{\\beta}^{lasso} = argmin\_\\beta \[\\frac{1}{2}\\sum\_{i=1}^N(y\_i - \\beta\_0 -\\sum^p\_{j=1}x\_{ij}\\beta\_j)^2 + \\lambda\\sum^p\_{j=1}\\mid{\\beta\_j}\]](https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D%5E%7Blasso%7D%20%3D%20argmin_%5Cbeta%20%5B%5Cfrac%7B1%7D%7B2%7D%5Csum_%7Bi%3D1%7D%5EN%28y_i%20-%20%5Cbeta_0%20-%5Csum%5Ep_%7Bj%3D1%7Dx_%7Bij%7D%5Cbeta_j%29%5E2%20%2B%20%5Clambda%5Csum%5Ep_%7Bj%3D1%7D%5Cmid%7B%5Cbeta_j%7D%5D "\hat{\beta}^{lasso} = argmin_\beta [\frac{1}{2}\sum_{i=1}^N(y_i - \beta_0 -\sum^p_{j=1}x_{ij}\beta_j)^2 + \lambda\sum^p_{j=1}\mid{\beta_j}]")
+
 ### Logistic Regresion
 
 In general modeling:
@@ -16,6 +50,10 @@ In general modeling:
 Estimating regression coefficients:
 
 ![\\ell(\\beta\_0, \\beta\_1 ... \\beta\_p) = \\prod\_{i:y\_i=1}p(x\_i) \\prod\_{i^{'}:y\_i^{'}=0} (1-p(x\_{i^{'}}))](https://latex.codecogs.com/png.latex?%5Cell%28%5Cbeta_0%2C%20%5Cbeta_1%20...%20%5Cbeta_p%29%20%3D%20%5Cprod_%7Bi%3Ay_i%3D1%7Dp%28x_i%29%20%5Cprod_%7Bi%5E%7B%27%7D%3Ay_i%5E%7B%27%7D%3D0%7D%20%281-p%28x_%7Bi%5E%7B%27%7D%7D%29%29 "\ell(\beta_0, \beta_1 ... \beta_p) = \prod_{i:y_i=1}p(x_i) \prod_{i^{'}:y_i^{'}=0} (1-p(x_{i^{'}}))")
+
+Cost function:
+
+![J(\\theta) = -\\frac{1}{m}\\sum\_{i=1}^m\[y^{(i)}log(h\_{\\theta}(x^{(i)})) + (11-y^{(i)})log(1-h\_{\\theta}(x^{(i)}))\]](https://latex.codecogs.com/png.latex?J%28%5Ctheta%29%20%3D%20-%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5Em%5By%5E%7B%28i%29%7Dlog%28h_%7B%5Ctheta%7D%28x%5E%7B%28i%29%7D%29%29%20%2B%20%2811-y%5E%7B%28i%29%7D%29log%281-h_%7B%5Ctheta%7D%28x%5E%7B%28i%29%7D%29%29%5D "J(\theta) = -\frac{1}{m}\sum_{i=1}^m[y^{(i)}log(h_{\theta}(x^{(i)})) + (11-y^{(i)})log(1-h_{\theta}(x^{(i)}))]")
 
 ### Naive Bayes
 

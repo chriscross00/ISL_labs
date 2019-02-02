@@ -12,10 +12,33 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ### Linear Regression
+Assumptions:
+
+1. Observations $y_i$ are uncorrelated
+2. Observations $y_i$ have constant variance
+3. $x_i$ are fixed
+
+$$f(X) = \beta_0 + \sum^p_{j=1}X_j\beta_j + \varepsilon$$
+
+Cost function
+$$RSS(\beta) = \sum^N_{i=1}(y_i-\beta_0-\sum^p_{j=1}x_{ij}\beta_j)^2$$
+Cost function matrix formula
+$$\hat{\beta} = (X^TX)^{-1}X^Ty$$
+
+Hat (Matrix) - predicts y
+$$H = X(X^TX)^{-1}X^T$$
+
+Variance - unbiased 
+$$\hat{\sigma} = \frac{1}{N-p-1}\sum^N_{i=1}(y_i-\hat{y_i})^2$$
 
 #### Ridge Regression
 
 $$\hat{\beta}^{ridge} = argmin_\beta [\sum_{i=1}^N(y_i - \beta_0 -\sum^p_{j=1}x_{ij}\beta_j)^2 + \lambda\sum^p_{j=1}\beta^2_j]$$
+
+#### Lasso Regression
+
+$$\hat{\beta}^{lasso} = argmin_\beta [\frac{1}{2}\sum_{i=1}^N(y_i - \beta_0 -\sum^p_{j=1}x_{ij}\beta_j)^2 + \lambda\sum^p_{j=1}\mid{\beta_j}]$$
+
 
 ### Logistic Regresion
 
