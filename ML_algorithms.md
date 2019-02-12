@@ -94,6 +94,10 @@ Entropy
 
 ![D = -\\sum^{K}\_{k=1}\\hat{p}\_{mk}log\\hat{p}\_{mk}](https://latex.codecogs.com/png.latex?D%20%3D%20-%5Csum%5E%7BK%7D_%7Bk%3D1%7D%5Chat%7Bp%7D_%7Bmk%7Dlog%5Chat%7Bp%7D_%7Bmk%7D "D = -\sum^{K}_{k=1}\hat{p}_{mk}log\hat{p}_{mk}")
 
+Information gain
+
+![IG(T,a) = H(T) - H(T|a) = -\\sum^{K}\_{k=1}\\hat{p}\_{mk}log\\hat{p}\_{mk} - \\sum\_{a}p(a)\\sum^J\_{i=1}-Pr(i|a)log\_2Pr(i|a)](https://latex.codecogs.com/png.latex?IG%28T%2Ca%29%20%3D%20H%28T%29%20-%20H%28T%7Ca%29%20%3D%20-%5Csum%5E%7BK%7D_%7Bk%3D1%7D%5Chat%7Bp%7D_%7Bmk%7Dlog%5Chat%7Bp%7D_%7Bmk%7D%20-%20%5Csum_%7Ba%7Dp%28a%29%5Csum%5EJ_%7Bi%3D1%7D-Pr%28i%7Ca%29log_2Pr%28i%7Ca%29 "IG(T,a) = H(T) - H(T|a) = -\sum^{K}_{k=1}\hat{p}_{mk}log\hat{p}_{mk} - \sum_{a}p(a)\sum^J_{i=1}-Pr(i|a)log_2Pr(i|a)")
+
 ### Bagging
 
 ![\\hat{f}\_{bag}(x) = \\frac{1}{B}\\sum^{B}\_{b=1}\\hat{f}^{\*b}(x)](https://latex.codecogs.com/png.latex?%5Chat%7Bf%7D_%7Bbag%7D%28x%29%20%3D%20%5Cfrac%7B1%7D%7BB%7D%5Csum%5E%7BB%7D_%7Bb%3D1%7D%5Chat%7Bf%7D%5E%7B%2Ab%7D%28x%29 "\hat{f}_{bag}(x) = \frac{1}{B}\sum^{B}_{b=1}\hat{f}^{*b}(x)")

@@ -86,6 +86,10 @@ $$G = \sum^{K}_{k=1}\hat{p}_{mk}(1 - \hat{p}_{mk})$$
 Entropy
 $$D = -\sum^{K}_{k=1}\hat{p}_{mk}log\hat{p}_{mk}$$
 
+Information gain
+$$IG(T,a) = H(T) - H(T|a) = -\sum^{K}_{k=1}\hat{p}_{mk}log\hat{p}_{mk} - \sum_{a}p(a)\sum^J_{i=1}-Pr(i|a)log_2Pr(i|a)$$
+
+
 ### Bagging
 $$\hat{f}_{bag}(x) = \frac{1}{B}\sum^{B}_{b=1}\hat{f}^{*b}(x)$$
 
