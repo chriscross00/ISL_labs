@@ -62,6 +62,31 @@ $$J(\theta) = -\frac{1}{m}\sum_{i=1}^m[y^{(i)}log(h_{\theta}(x^{(i)})) + (11-y^{
 $$p(y|x_1, ..., x_n)\propto p(y)\prod_{i}^{n}P(x_i|y)$$
 $$y = argmax_yP(y)\prod_{i}^{n}P(x_i|y)$$
 
+## Tree
+
+### Regression
+General cost function
+$$\sum^{J}_{j=1}\sum_{i\in{R_j}}(y_i-\hat{y}_{R_j})^2$$
+
+Cost function at each split
+$$\sum_{i: x_i\in{R_1}(j,s)}(y_i-\hat{y}_{R_1})^2 + \sum_{i: x_i\in{R_2}(j,s)}(y_i-\hat{y}_{R_2})^2$$
+### Classification
+Gini index
+$$G = \sum^{K}_{k=1}\hat{p}_{mk}(1 - \hat{p}_{mk})$$
+
+Entropy
+$$D = -\sum^{K}_{k=1}\hat{p}_{mk}log\hat{p}_{mk}$$
+
+### Bagging
+$$\hat{f}_{bag}(x) = \frac{1}{B}\sum^{B}_{b=1}\hat{f}^{*b}(x)$$
 
 ### Notes
+$J$ = Divides
+$s$ = cutoff point
+Divide $X_1, X_2, ... X_p$ into $J$ distinct non-overlapping regions, $R_1, R_2, ..., R_J$
+
+
+
+
+## Notes
 $x$ parameterized by $\theta$: $$x;\theta$$

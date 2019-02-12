@@ -61,7 +61,37 @@ Cost function:
 
 ![y = argmax\_yP(y)\\prod\_{i}^{n}P(x\_i|y)](https://latex.codecogs.com/png.latex?y%20%3D%20argmax_yP%28y%29%5Cprod_%7Bi%7D%5E%7Bn%7DP%28x_i%7Cy%29 "y = argmax_yP(y)\prod_{i}^{n}P(x_i|y)")
 
+Tree
+----
+
+### Regression
+
+General cost function
+
+![\\sum^{J}\_{j=1}\\sum\_{i\\in{R\_j}}(y\_i-\\hat{y}\_{R\_j})^2](https://latex.codecogs.com/png.latex?%5Csum%5E%7BJ%7D_%7Bj%3D1%7D%5Csum_%7Bi%5Cin%7BR_j%7D%7D%28y_i-%5Chat%7By%7D_%7BR_j%7D%29%5E2 "\sum^{J}_{j=1}\sum_{i\in{R_j}}(y_i-\hat{y}_{R_j})^2")
+
+Cost function at each split
+
+![\\sum\_{i: x\_i\\in{R\_1}(j,s)}(y\_i-\\hat{y}\_{R\_1})^2 + \\sum\_{i: x\_i\\in{R\_2}(j,s)}(y\_i-\\hat{y}\_{R\_2})^2](https://latex.codecogs.com/png.latex?%5Csum_%7Bi%3A%20x_i%5Cin%7BR_1%7D%28j%2Cs%29%7D%28y_i-%5Chat%7By%7D_%7BR_1%7D%29%5E2%20%2B%20%5Csum_%7Bi%3A%20x_i%5Cin%7BR_2%7D%28j%2Cs%29%7D%28y_i-%5Chat%7By%7D_%7BR_2%7D%29%5E2 "\sum_{i: x_i\in{R_1}(j,s)}(y_i-\hat{y}_{R_1})^2 + \sum_{i: x_i\in{R_2}(j,s)}(y_i-\hat{y}_{R_2})^2")
+
+ \#\#\# Classification Gini index
+
+![G = \\sum^{K}\_{k=1}\\hat{p}\_{mk}(1 - \\hat{p}\_{mk})](https://latex.codecogs.com/png.latex?G%20%3D%20%5Csum%5E%7BK%7D_%7Bk%3D1%7D%5Chat%7Bp%7D_%7Bmk%7D%281%20-%20%5Chat%7Bp%7D_%7Bmk%7D%29 "G = \sum^{K}_{k=1}\hat{p}_{mk}(1 - \hat{p}_{mk})")
+
+Entropy
+
+![D = -\\sum^{K}\_{k=1}\\hat{p}\_{mk}log\\hat{p}\_{mk}](https://latex.codecogs.com/png.latex?D%20%3D%20-%5Csum%5E%7BK%7D_%7Bk%3D1%7D%5Chat%7Bp%7D_%7Bmk%7Dlog%5Chat%7Bp%7D_%7Bmk%7D "D = -\sum^{K}_{k=1}\hat{p}_{mk}log\hat{p}_{mk}")
+
+### Bagging
+
+![\\hat{f}\_{bag}(x) = \\frac{1}{B}\\sum^{B}\_{b=1}\\hat{f}^{\*b}(x)](https://latex.codecogs.com/png.latex?%5Chat%7Bf%7D_%7Bbag%7D%28x%29%20%3D%20%5Cfrac%7B1%7D%7BB%7D%5Csum%5E%7BB%7D_%7Bb%3D1%7D%5Chat%7Bf%7D%5E%7B%2Ab%7D%28x%29 "\hat{f}_{bag}(x) = \frac{1}{B}\sum^{B}_{b=1}\hat{f}^{*b}(x)")
+
 ### Notes
+
+![J](https://latex.codecogs.com/png.latex?J "J") = Divides ![s](https://latex.codecogs.com/png.latex?s "s") = cutoff point Divide ![X\_1, X\_2, ... X\_p](https://latex.codecogs.com/png.latex?X_1%2C%20X_2%2C%20...%20X_p "X_1, X_2, ... X_p") into ![J](https://latex.codecogs.com/png.latex?J "J") distinct non-overlapping regions, ![R\_1, R\_2, ..., R\_J](https://latex.codecogs.com/png.latex?R_1%2C%20R_2%2C%20...%2C%20R_J "R_1, R_2, ..., R_J")
+
+Notes
+-----
 
 ![x](https://latex.codecogs.com/png.latex?x "x") parameterized by ![\\theta](https://latex.codecogs.com/png.latex?%5Ctheta "\theta"):
 

@@ -15,7 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(MASS)
 library(ISLR)
 library(ggplot2)
-print('done')
 ```
 
 Load in dataframe and begin to understand the variables

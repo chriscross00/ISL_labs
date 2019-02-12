@@ -1,4 +1,4 @@
-ch3
+ch3\_lab
 ================
 Christoper Chan
 November 20, 2018
@@ -7,10 +7,7 @@ November 20, 2018
 library(MASS)
 library(ISLR)
 library(ggplot2)
-print('done')
 ```
-
-    ## [1] "done"
 
 Load in dataframe and begin to understand the variables
 
