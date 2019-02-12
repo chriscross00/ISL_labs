@@ -37,7 +37,7 @@ $$\hat{\beta}^{ridge} = argmin_\beta [\sum_{i=1}^N(y_i - \beta_0 -\sum^p_{j=1}x_
 
 #### Lasso Regression
 
-$$\hat{\beta}^{lasso} = argmin_\beta [\frac{1}{2}\sum_{i=1}^N(y_i - \beta_0 -\sum^p_{j=1}x_{ij}\beta_j)^2 + \lambda\sum^p_{j=1}\mid{\beta_j}]$$
+$$\hat{\beta}^{lasso} = argmin_\beta [\frac{1}{2}\sum_{i=1}^N(y_i - \beta_0 -\sum^p_{j=1}x_{ij}\beta_j)^2 + \lambda\sum^p_{j=1}|\beta_j|]$$
 
 
 ### Logistic Regresion
@@ -55,7 +55,7 @@ Estimating regression coefficients:
 $$\ell(\beta_0, \beta_1 ... \beta_p) = \prod_{i:y_i=1}p(x_i) \prod_{i^{'}:y_i^{'}=0} (1-p(x_{i^{'}}))$$
 
 Cost function:
-$$J(\theta) = -\frac{1}{m}\sum_{i=1}^m[y^{(i)}log(h_{\theta}(x^{(i)})) + (11-y^{(i)})log(1-h_{\theta}(x^{(i)}))]$$
+$$J(\theta) = -\frac{1}{m}\sum_{i=1}^m[y^{(i)}log(h_{\theta}(x^{(i)})) + (1-y^{(i)})log(1-h_{\theta}(x^{(i)}))]$$
 
 ### Naive Bayes
 
@@ -70,6 +70,15 @@ $$\sum^{J}_{j=1}\sum_{i\in{R_j}}(y_i-\hat{y}_{R_j})^2$$
 
 Cost function at each split
 $$\sum_{i: x_i\in{R_1}(j,s)}(y_i-\hat{y}_{R_1})^2 + \sum_{i: x_i\in{R_2}(j,s)}(y_i-\hat{y}_{R_2})^2$$
+
+Pruned tree with $\alpha$ cost function
+$$N_m = \#{x_i\in{R_m}}$$
+$$\hat{c}_m = \frac{1}{N_m}\sum_{x_i\in{R_m}}y_i$$
+
+$$Q_m(T) = \frac{1}{N_m}\sum_{x_i\in{R_m}}(y_i - \hat{c}_m)^2$$
+
+$$\mathcal{C}_{\alpha}(T) = \sum^{|T|}_{m=1}N_{m}Q_{m}(T) + \alpha\left|T\right|$$
+
 ### Classification
 Gini index
 $$G = \sum^{K}_{k=1}\hat{p}_{mk}(1 - \hat{p}_{mk})$$

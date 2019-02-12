@@ -35,7 +35,7 @@ Variance - unbiased
 
 #### Lasso Regression
 
-![\\hat{\\beta}^{lasso} = argmin\_\\beta \[\\frac{1}{2}\\sum\_{i=1}^N(y\_i - \\beta\_0 -\\sum^p\_{j=1}x\_{ij}\\beta\_j)^2 + \\lambda\\sum^p\_{j=1}\\mid{\\beta\_j}\]](https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D%5E%7Blasso%7D%20%3D%20argmin_%5Cbeta%20%5B%5Cfrac%7B1%7D%7B2%7D%5Csum_%7Bi%3D1%7D%5EN%28y_i%20-%20%5Cbeta_0%20-%5Csum%5Ep_%7Bj%3D1%7Dx_%7Bij%7D%5Cbeta_j%29%5E2%20%2B%20%5Clambda%5Csum%5Ep_%7Bj%3D1%7D%5Cmid%7B%5Cbeta_j%7D%5D "\hat{\beta}^{lasso} = argmin_\beta [\frac{1}{2}\sum_{i=1}^N(y_i - \beta_0 -\sum^p_{j=1}x_{ij}\beta_j)^2 + \lambda\sum^p_{j=1}\mid{\beta_j}]")
+![\\hat{\\beta}^{lasso} = argmin\_\\beta \[\\frac{1}{2}\\sum\_{i=1}^N(y\_i - \\beta\_0 -\\sum^p\_{j=1}x\_{ij}\\beta\_j)^2 + \\lambda\\sum^p\_{j=1}|\\beta\_j|\]](https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D%5E%7Blasso%7D%20%3D%20argmin_%5Cbeta%20%5B%5Cfrac%7B1%7D%7B2%7D%5Csum_%7Bi%3D1%7D%5EN%28y_i%20-%20%5Cbeta_0%20-%5Csum%5Ep_%7Bj%3D1%7Dx_%7Bij%7D%5Cbeta_j%29%5E2%20%2B%20%5Clambda%5Csum%5Ep_%7Bj%3D1%7D%7C%5Cbeta_j%7C%5D "\hat{\beta}^{lasso} = argmin_\beta [\frac{1}{2}\sum_{i=1}^N(y_i - \beta_0 -\sum^p_{j=1}x_{ij}\beta_j)^2 + \lambda\sum^p_{j=1}|\beta_j|]")
 
 ### Logistic Regresion
 
@@ -53,7 +53,7 @@ Estimating regression coefficients:
 
 Cost function:
 
-![J(\\theta) = -\\frac{1}{m}\\sum\_{i=1}^m\[y^{(i)}log(h\_{\\theta}(x^{(i)})) + (11-y^{(i)})log(1-h\_{\\theta}(x^{(i)}))\]](https://latex.codecogs.com/png.latex?J%28%5Ctheta%29%20%3D%20-%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5Em%5By%5E%7B%28i%29%7Dlog%28h_%7B%5Ctheta%7D%28x%5E%7B%28i%29%7D%29%29%20%2B%20%2811-y%5E%7B%28i%29%7D%29log%281-h_%7B%5Ctheta%7D%28x%5E%7B%28i%29%7D%29%29%5D "J(\theta) = -\frac{1}{m}\sum_{i=1}^m[y^{(i)}log(h_{\theta}(x^{(i)})) + (11-y^{(i)})log(1-h_{\theta}(x^{(i)}))]")
+![J(\\theta) = -\\frac{1}{m}\\sum\_{i=1}^m\[y^{(i)}log(h\_{\\theta}(x^{(i)})) + (1-y^{(i)})log(1-h\_{\\theta}(x^{(i)}))\]](https://latex.codecogs.com/png.latex?J%28%5Ctheta%29%20%3D%20-%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5Em%5By%5E%7B%28i%29%7Dlog%28h_%7B%5Ctheta%7D%28x%5E%7B%28i%29%7D%29%29%20%2B%20%281-y%5E%7B%28i%29%7D%29log%281-h_%7B%5Ctheta%7D%28x%5E%7B%28i%29%7D%29%29%5D "J(\theta) = -\frac{1}{m}\sum_{i=1}^m[y^{(i)}log(h_{\theta}(x^{(i)})) + (1-y^{(i)})log(1-h_{\theta}(x^{(i)}))]")
 
 ### Naive Bayes
 
@@ -74,7 +74,19 @@ Cost function at each split
 
 ![\\sum\_{i: x\_i\\in{R\_1}(j,s)}(y\_i-\\hat{y}\_{R\_1})^2 + \\sum\_{i: x\_i\\in{R\_2}(j,s)}(y\_i-\\hat{y}\_{R\_2})^2](https://latex.codecogs.com/png.latex?%5Csum_%7Bi%3A%20x_i%5Cin%7BR_1%7D%28j%2Cs%29%7D%28y_i-%5Chat%7By%7D_%7BR_1%7D%29%5E2%20%2B%20%5Csum_%7Bi%3A%20x_i%5Cin%7BR_2%7D%28j%2Cs%29%7D%28y_i-%5Chat%7By%7D_%7BR_2%7D%29%5E2 "\sum_{i: x_i\in{R_1}(j,s)}(y_i-\hat{y}_{R_1})^2 + \sum_{i: x_i\in{R_2}(j,s)}(y_i-\hat{y}_{R_2})^2")
 
- \#\#\# Classification Gini index
+Pruned tree with ![\\alpha](https://latex.codecogs.com/png.latex?%5Calpha "\alpha") cost function
+
+![N\_m = \\\#{x\_i\\in{R\_m}}](https://latex.codecogs.com/png.latex?N_m%20%3D%20%5C%23%7Bx_i%5Cin%7BR_m%7D%7D "N_m = \#{x_i\in{R_m}}")
+
+![\\hat{c}\_m = \\frac{1}{N\_m}\\sum\_{x\_i\\in{R\_m}}y\_i](https://latex.codecogs.com/png.latex?%5Chat%7Bc%7D_m%20%3D%20%5Cfrac%7B1%7D%7BN_m%7D%5Csum_%7Bx_i%5Cin%7BR_m%7D%7Dy_i "\hat{c}_m = \frac{1}{N_m}\sum_{x_i\in{R_m}}y_i")
+
+![Q\_m(T) = \\frac{1}{N\_m}\\sum\_{x\_i\\in{R\_m}}(y\_i - \\hat{c}\_m)^2](https://latex.codecogs.com/png.latex?Q_m%28T%29%20%3D%20%5Cfrac%7B1%7D%7BN_m%7D%5Csum_%7Bx_i%5Cin%7BR_m%7D%7D%28y_i%20-%20%5Chat%7Bc%7D_m%29%5E2 "Q_m(T) = \frac{1}{N_m}\sum_{x_i\in{R_m}}(y_i - \hat{c}_m)^2")
+
+![\\mathcal{C}\_{\\alpha}(T) = \\sum^{|T|}\_{m=1}N\_{m}Q\_{m}(T) + \\alpha\\left|T\\right|](https://latex.codecogs.com/png.latex?%5Cmathcal%7BC%7D_%7B%5Calpha%7D%28T%29%20%3D%20%5Csum%5E%7B%7CT%7C%7D_%7Bm%3D1%7DN_%7Bm%7DQ_%7Bm%7D%28T%29%20%2B%20%5Calpha%5Cleft%7CT%5Cright%7C "\mathcal{C}_{\alpha}(T) = \sum^{|T|}_{m=1}N_{m}Q_{m}(T) + \alpha\left|T\right|")
+
+### Classification
+
+Gini index
 
 ![G = \\sum^{K}\_{k=1}\\hat{p}\_{mk}(1 - \\hat{p}\_{mk})](https://latex.codecogs.com/png.latex?G%20%3D%20%5Csum%5E%7BK%7D_%7Bk%3D1%7D%5Chat%7Bp%7D_%7Bmk%7D%281%20-%20%5Chat%7Bp%7D_%7Bmk%7D%29 "G = \sum^{K}_{k=1}\hat{p}_{mk}(1 - \hat{p}_{mk})")
 
