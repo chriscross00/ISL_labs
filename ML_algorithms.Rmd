@@ -99,6 +99,11 @@ $s$ = cutoff point
 Divide $X_1, X_2, ... X_p$ into $J$ distinct non-overlapping regions, $R_1, R_2, ..., R_J$
 
 
+# Support Vector Machines
+
+Maximal Marigin classifier
+$$\max_{\beta_{0}, \beta_{1},...,\beta_{p},M}M$$
+subject to $\sum^{p}_{j=1}\beta^{2}_{j}=1$, $y_{i}(\beta_{0} + \beta_{1}x_{i1} + ... + \beta_{p}x_{ip} \geq M \forall i = 1, ..., n$
 
 
 ## Notes

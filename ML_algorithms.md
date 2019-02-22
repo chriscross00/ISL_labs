@@ -106,6 +106,17 @@ Information gain
 
 ![J](https://latex.codecogs.com/png.latex?J "J") = Divides ![s](https://latex.codecogs.com/png.latex?s "s") = cutoff point Divide ![X\_1, X\_2, ... X\_p](https://latex.codecogs.com/png.latex?X_1%2C%20X_2%2C%20...%20X_p "X_1, X_2, ... X_p") into ![J](https://latex.codecogs.com/png.latex?J "J") distinct non-overlapping regions, ![R\_1, R\_2, ..., R\_J](https://latex.codecogs.com/png.latex?R_1%2C%20R_2%2C%20...%2C%20R_J "R_1, R_2, ..., R_J")
 
+Support Vector Machines
+=======================
+
+Maximal Marigin classifier
+
+![\\max\_{\\beta\_{0}, \\beta\_{1},...,\\beta\_{p},M}M](https://latex.codecogs.com/png.latex?%5Cmax_%7B%5Cbeta_%7B0%7D%2C%20%5Cbeta_%7B1%7D%2C...%2C%5Cbeta_%7Bp%7D%2CM%7DM "\max_{\beta_{0}, \beta_{1},...,\beta_{p},M}M")
+
+ subject to ![\\sum^{p}\_{j=1}\\beta^{2}\_{j}=1](https://latex.codecogs.com/png.latex?%5Csum%5E%7Bp%7D_%7Bj%3D1%7D%5Cbeta%5E%7B2%7D_%7Bj%7D%3D1 "\sum^{p}_{j=1}\beta^{2}_{j}=1"),
+
+![y\_{i}(\\beta\_{0} + \\beta\_{1}x\_{i1} + ... + \\beta\_{p}x\_{ip} \\geq M \\forall i = 1, ..., n](https://latex.codecogs.com/png.latex?y_%7Bi%7D%28%5Cbeta_%7B0%7D%20%2B%20%5Cbeta_%7B1%7Dx_%7Bi1%7D%20%2B%20...%20%2B%20%5Cbeta_%7Bp%7Dx_%7Bip%7D%20%5Cgeq%20M%20%5Cforall%20i%20%3D%201%2C%20...%2C%20n "y_{i}(\beta_{0} + \beta_{1}x_{i1} + ... + \beta_{p}x_{ip} \geq M \forall i = 1, ..., n")
+
 Notes
 -----
 
