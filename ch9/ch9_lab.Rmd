@@ -1,0 +1,67 @@
+---
+title: "ch9_lab"
+author: "Christoper Chan"
+date: "March 1, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(e1071)
+```
+
+Setting up our randomly generated data.
+```{r}
+set.seed(1)
+
+x <- matrix(rnorm(20*2), ncol=2)
+y <- c(rep(-1, 10), rep(1, 10))
+
+x[y==1,] <- x[y==1,] + 1
+plot(x, col=(3-y))
+```
+
+```{r}
+df <- data.frame(x=x, y=as.factor(y))
+
+svm_fit
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
