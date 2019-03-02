@@ -25,16 +25,42 @@ x[y==1,] <- x[y==1,] + 1
 plot(x, col=(3-y))
 ```
 
+Creating a dataframe from our data and running a SVM on it.
 ```{r}
 df <- data.frame(x=x, y=as.factor(y))
 
-svm_fit
-
+svm_fit <- svm(y~., df, kernel='linear', cost=10, scale=FALSE)
+summary(svm_fit)
+plot(svm_fit, df)
 ```
 
+Observations in the margins.
+```{r}
+svm_fit$index
+```
 
+Running SVM again with a smaller cost parameter.
+```{r}
+svm_fit_lc <- svm(y~., df, kernel='linear', cost=0.1, scale=FALSE)
 
+summary(svm_fit_lc)
+plot(svm_fit_lc, df)
+```
 
+tune() preforms 10 fold CV on a model.
+```{r}
+set.seed(1)
+
+tune_svm <- tune(svm, y~., data=df, kernel='linear', ranges=list(cost=c(0.001, 0.01, 0.1, 1, 5, 10, 100)))
+
+summary(tune_svm)
+```
+
+tune() stores the model with the lowest error in a variable called best.model
+```{r}
+best_model <- tune_svm$best.model
+summary(best_model)
+```
 
 
 
