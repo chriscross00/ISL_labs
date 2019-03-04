@@ -119,7 +119,25 @@ Support vector classifier
 
 ![\\max\_{\\beta\_{0}, \\beta\_{1},...,\\beta\_{p},\\epsilon\_{1},..., \\epsilon\_{n}, M}M](https://latex.codecogs.com/png.latex?%5Cmax_%7B%5Cbeta_%7B0%7D%2C%20%5Cbeta_%7B1%7D%2C...%2C%5Cbeta_%7Bp%7D%2C%5Cepsilon_%7B1%7D%2C...%2C%20%5Cepsilon_%7Bn%7D%2C%20M%7DM "\max_{\beta_{0}, \beta_{1},...,\beta_{p},\epsilon_{1},..., \epsilon_{n}, M}M")
 
- subject to ![\\sum^{p}\_{j=1}\\beta^{2}\_{j}=1](https://latex.codecogs.com/png.latex?%5Csum%5E%7Bp%7D_%7Bj%3D1%7D%5Cbeta%5E%7B2%7D_%7Bj%7D%3D1 "\sum^{p}_{j=1}\beta^{2}_{j}=1"), ![y\_{i}(\\beta\_{0} + \\beta\_{1}x\_{i1} + ... + \\beta\_{p}x\_{ip} \\geq M(1-\\epsilon\_{i})](https://latex.codecogs.com/png.latex?y_%7Bi%7D%28%5Cbeta_%7B0%7D%20%2B%20%5Cbeta_%7B1%7Dx_%7Bi1%7D%20%2B%20...%20%2B%20%5Cbeta_%7Bp%7Dx_%7Bip%7D%20%5Cgeq%20M%281-%5Cepsilon_%7Bi%7D%29 "y_{i}(\beta_{0} + \beta_{1}x_{i1} + ... + \beta_{p}x_{ip} \geq M(1-\epsilon_{i})"), ![\\epsilon\_{i} \\geq0](https://latex.codecogs.com/png.latex?%5Cepsilon_%7Bi%7D%20%5Cgeq0 "\epsilon_{i} \geq0"), ![\\sum^{n}\_{i=1}\\epsilon\_{i}\\leq C](https://latex.codecogs.com/png.latex?%5Csum%5E%7Bn%7D_%7Bi%3D1%7D%5Cepsilon_%7Bi%7D%5Cleq%20C "\sum^{n}_{i=1}\epsilon_{i}\leq C")
+![\\text{subject to} \\sum^{p}\_{j=1}\\beta^{2}\_{j}=1,\\\\ 
+y\_{i}(\\beta\_{0} + \\beta\_{1}x\_{i1} + ... + \\beta\_{p}x\_{ip} \\geq M(1-\\epsilon\_{i}),\\\\ 
+\\epsilon\_{i} \\geq0,\\\\  
+\\sum^{n}\_{i=1}\\epsilon\_{i}\\leq C](https://latex.codecogs.com/png.latex?%5Ctext%7Bsubject%20to%7D%20%5Csum%5E%7Bp%7D_%7Bj%3D1%7D%5Cbeta%5E%7B2%7D_%7Bj%7D%3D1%2C%5C%5C%20%0Ay_%7Bi%7D%28%5Cbeta_%7B0%7D%20%2B%20%5Cbeta_%7B1%7Dx_%7Bi1%7D%20%2B%20...%20%2B%20%5Cbeta_%7Bp%7Dx_%7Bip%7D%20%5Cgeq%20M%281-%5Cepsilon_%7Bi%7D%29%2C%5C%5C%20%0A%5Cepsilon_%7Bi%7D%20%5Cgeq0%2C%5C%5C%20%20%0A%5Csum%5E%7Bn%7D_%7Bi%3D1%7D%5Cepsilon_%7Bi%7D%5Cleq%20C "\text{subject to} \sum^{p}_{j=1}\beta^{2}_{j}=1,\\ 
+y_{i}(\beta_{0} + \beta_{1}x_{i1} + ... + \beta_{p}x_{ip} \geq M(1-\epsilon_{i}),\\ 
+\epsilon_{i} \geq0,\\  
+\sum^{n}_{i=1}\epsilon_{i}\leq C")
+
+Alternative formula:
+
+![\\text{min}||\\beta|| \\text{subject to}
+\\begin{cases} 
+y\_i(x^T\_i\\beta + \\beta\_0) \\geq 1 - \\epsilon\_i \\forall,\\\\
+\\epsilon\_i \\geq 0 , \\sum\\epsilon\_i &lt; \\text{constant}
+\\end{cases}](https://latex.codecogs.com/png.latex?%5Ctext%7Bmin%7D%7C%7C%5Cbeta%7C%7C%20%5Ctext%7Bsubject%20to%7D%0A%5Cbegin%7Bcases%7D%20%0Ay_i%28x%5ET_i%5Cbeta%20%2B%20%5Cbeta_0%29%20%5Cgeq%201%20-%20%5Cepsilon_i%20%5Cforall%2C%5C%5C%0A%5Cepsilon_i%20%5Cgeq%200%20%2C%20%5Csum%5Cepsilon_i%20%3C%20%5Ctext%7Bconstant%7D%0A%5Cend%7Bcases%7D "\text{min}||\beta|| \text{subject to}
+\begin{cases} 
+y_i(x^T_i\beta + \beta_0) \geq 1 - \epsilon_i \forall,\\
+\epsilon_i \geq 0 , \sum\epsilon_i < \text{constant}
+\end{cases}")
 
 -   C is a nonnegative tuning parameter
 -   ![\\epsilon\_{1}, ..., \\epsilon\_{n}](https://latex.codecogs.com/png.latex?%5Cepsilon_%7B1%7D%2C%20...%2C%20%5Cepsilon_%7Bn%7D "\epsilon_{1}, ..., \epsilon_{n}") are slack variables

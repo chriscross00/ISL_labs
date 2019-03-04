@@ -107,7 +107,19 @@ subject to $\sum^{p}_{j=1}\beta^{2}_{j}=1$, $y_{i}(\beta_{0} + \beta_{1}x_{i1} +
 
 Support vector classifier
 $$\max_{\beta_{0}, \beta_{1},...,\beta_{p},\epsilon_{1},..., \epsilon_{n}, M}M$$
-subject to $\sum^{p}_{j=1}\beta^{2}_{j}=1$, $y_{i}(\beta_{0} + \beta_{1}x_{i1} + ... + \beta_{p}x_{ip} \geq M(1-\epsilon_{i})$, $\epsilon_{i} \geq0$,  $\sum^{n}_{i=1}\epsilon_{i}\leq C$
+$$\text{subject to} \sum^{p}_{j=1}\beta^{2}_{j}=1,\\ 
+y_{i}(\beta_{0} + \beta_{1}x_{i1} + ... + \beta_{p}x_{ip} \geq M(1-\epsilon_{i}),\\ 
+\epsilon_{i} \geq0,\\  
+\sum^{n}_{i=1}\epsilon_{i}\leq C$$
+
+Alternative formula:
+
+$$\text{min}||\beta|| \text{subject to}
+\begin{cases} 
+y_i(x^T_i\beta + \beta_0) \geq 1 - \epsilon_i \forall,\\
+\epsilon_i \geq 0 , \sum\epsilon_i < \text{constant}
+\end{cases}$$
+
 
 * C is a nonnegative tuning parameter
 * $\epsilon_{1}, ..., \epsilon_{n}$ are slack variables
