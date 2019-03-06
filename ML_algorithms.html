@@ -135,6 +135,7 @@ $(document).ready(function () {
 <li><a href="#log_reg">Logistic Regression</a></li>
 <li><a href="#nb">Naive Bayes</a></li>
 <li><a href="#trees">Trees</a></li>
+<li><a href="#svm">SVM</a></li>
 </ul>
 <div id="linear_regression" class="section level2">
 <h2>Linear Regression</h2>
@@ -185,15 +186,15 @@ $(document).ready(function () {
 </div>
 <div id="bagging" class="section level3">
 <h3>Bagging</h3>
-<p><span class="math display">\[\hat{f}_{bag}(x) = \frac{1}{B}\sum^{B}_{b=1}\hat{f}^{*b}(x)\]</span></p>
+<p>Regression <span class="math display">\[\hat{f}_{bag}(x) = \frac{1}{B}\sum^{B}_{b=1}\hat{f}^{*b}(x)\]</span> Classification <span class="math display">\[\hat{C^B_{\text{rf}}}(x) = \text{majority vote } \hat{C_b}(x)^B_1\]</span></p>
 </div>
 <div id="notes" class="section level3">
 <h3>Notes</h3>
 <p><span class="math inline">\(J\)</span> = Divides <span class="math inline">\(s\)</span> = cutoff point Divide <span class="math inline">\(X_1, X_2, ... X_p\)</span> into <span class="math inline">\(J\)</span> distinct non-overlapping regions, <span class="math inline">\(R_1, R_2, ..., R_J\)</span></p>
 </div>
 </div>
-<div id="support-vector-machines" class="section level1">
-<h1>Support Vector Machines</h1>
+<div id="svm" class="section level2">
+<h2>Support Vector Machines</h2>
 <p>Maximal Marigin classifier <span class="math display">\[\max_{\beta_{0}, \beta_{1},...,\beta_{p},M}M\]</span> subject to <span class="math inline">\(\sum^{p}_{j=1}\beta^{2}_{j}=1\)</span>, <span class="math inline">\(y_{i}(\beta_{0} + \beta_{1}x_{i1} + ... + \beta_{p}x_{ip} \geq M \forall i = 1, ..., n\)</span></p>
 <p>Support vector classifier <span class="math display">\[\max_{\beta_{0}, \beta_{1},...,\beta_{p},\epsilon_{1},..., \epsilon_{n}, M}M\]</span> <span class="math display">\[\text{subject to} \sum^{p}_{j=1}\beta^{2}_{j}=1,\\ 
 y_{i}(\beta_{0} + \beta_{1}x_{i1} + ... + \beta_{p}x_{ip} \geq M(1-\epsilon_{i}),\\ 
@@ -213,10 +214,37 @@ y_i(x^T_i\beta + \beta_0) \geq 1 - \epsilon_i \forall,\\
 <li>If <span class="math inline">\(\epsilon_{i} &gt; 1\)</span>, then <span class="math inline">\(i\)</span>th observation on wrong side of hyperplane</li>
 </ul></li>
 </ul>
+<p>Who is who:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(N\)</span></td>
+<td>Number of observations</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(J\)</span></td>
+<td>Distinct, non-overlapping regions in a tree model</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(s\)</span></td>
+<td>Cutoff point between regions in tree model</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\hat{C_b}(x)\)</span></td>
+<td>Class prediction of <em>b</em>th rf</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div id="notes-1" class="section level2">
 <h2>Notes</h2>
 <p><span class="math inline">\(x\)</span> parameterized by <span class="math inline">\(\theta\)</span>: <span class="math display">\[x;\theta\]</span></p>
-</div>
 </div>
 
 

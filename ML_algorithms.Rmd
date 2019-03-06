@@ -98,7 +98,10 @@ $$IG(T,a) = H(T) - H(T|a) = -\sum^{K}_{k=1}\hat{p}_{mk}log\hat{p}_{mk} - \sum_{a
 
 
 ### Bagging
+Regression
 $$\hat{f}_{bag}(x) = \frac{1}{B}\sum^{B}_{b=1}\hat{f}^{*b}(x)$$
+Classification
+$$\hat{C^B_{\text{rf}}}(x) = \text{majority vote } \hat{C_b}(x)^B_1$$
 
 ### Notes
 $J$ = Divides
@@ -133,6 +136,14 @@ y_i(x^T_i\beta + \beta_0) \geq 1 - \epsilon_i \forall,\\
     + If $\epsilon_{i} > 0$, then $i$th observation on wrong side of margin
     + If $\epsilon_{i} > 1$, then $i$th observation on wrong side of hyperplane
 
+Who is who:
+
+Symbol          | Meaning
+----------------|-----------------------------
+$N$             | Number of observations
+$J$             | Distinct, non-overlapping regions in a tree model
+$s$             | Cutoff point between regions in tree model
+$\hat{C_b}(x)$  | Class prediction of *b*th rf
 
 ## Notes
 $x$ parameterized by $\theta$: $$x;\theta$$
