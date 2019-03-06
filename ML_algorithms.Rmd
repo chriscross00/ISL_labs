@@ -2,16 +2,21 @@
 title: "ML Algorithms"
 author: "Christopher Chan"
 date: "January 23, 2019"
-output: 
-    rmarkdown::github_document:
-        pandoc_arg: --webtex
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+Algorithms
 
-### Linear Regression
+* [Linear Regression](#lin_reg)
+* [Logistic Regression](#log_reg)
+* [Naive Bayes](#nb)
+* [Trees](#trees)
+* [SVM](#svm)
+
+## Linear Regression {#linear_regression}
 Assumptions:
 
 1. Observations $y_i$ are uncorrelated
@@ -31,16 +36,16 @@ $$H = X(X^TX)^{-1}X^T$$
 Variance - unbiased 
 $$\hat{\sigma} = \frac{1}{N-p-1}\sum^N_{i=1}(y_i-\hat{y_i})^2$$
 
-#### Ridge Regression
+### Ridge Regression
 
 $$\hat{\beta}^{ridge} = argmin_\beta [\sum_{i=1}^N(y_i - \beta_0 -\sum^p_{j=1}x_{ij}\beta_j)^2 + \lambda\sum^p_{j=1}\beta^2_j]$$
 
-#### Lasso Regression
+### Lasso Regression
 
 $$\hat{\beta}^{lasso} = argmin_\beta [\frac{1}{2}\sum_{i=1}^N(y_i - \beta_0 -\sum^p_{j=1}x_{ij}\beta_j)^2 + \lambda\sum^p_{j=1}|\beta_j|]$$
 
 
-### Logistic Regresion
+## Logistic Regresion {#logistic_regression}
 
 In general modeling:
 $$p(X) = p(Y=y|X)$$
@@ -57,12 +62,12 @@ $$\ell(\beta_0, \beta_1 ... \beta_p) = \prod_{i:y_i=1}p(x_i) \prod_{i^{'}:y_i^{'
 Cost function:
 $$J(\theta) = -\frac{1}{m}\sum_{i=1}^m[y^{(i)}log(h_{\theta}(x^{(i)})) + (1-y^{(i)})log(1-h_{\theta}(x^{(i)}))]$$
 
-### Naive Bayes
+## Naive Bayes {#nb}
 
 $$p(y|x_1, ..., x_n)\propto p(y)\prod_{i}^{n}P(x_i|y)$$
 $$y = argmax_yP(y)\prod_{i}^{n}P(x_i|y)$$
 
-## Tree
+## Trees {#trees}
 
 ### Regression
 General cost function
@@ -72,11 +77,13 @@ Cost function at each split
 $$\sum_{i: x_i\in{R_1}(j,s)}(y_i-\hat{y}_{R_1})^2 + \sum_{i: x_i\in{R_2}(j,s)}(y_i-\hat{y}_{R_2})^2$$
 
 Pruned tree with $\alpha$ cost function
+Number of elements in each split
 $$N_m = \#{x_i\in{R_m}}$$
+Average $y_i$ for each split
 $$\hat{c}_m = \frac{1}{N_m}\sum_{x_i\in{R_m}}y_i$$
-
+MSE at $R_m$
 $$Q_m(T) = \frac{1}{N_m}\sum_{x_i\in{R_m}}(y_i - \hat{c}_m)^2$$
-
+Cost complexity with $\alpha$
 $$\mathcal{C}_{\alpha}(T) = \sum^{|T|}_{m=1}N_{m}Q_{m}(T) + \alpha\left|T\right|$$
 
 ### Classification
@@ -99,7 +106,7 @@ $s$ = cutoff point
 Divide $X_1, X_2, ... X_p$ into $J$ distinct non-overlapping regions, $R_1, R_2, ..., R_J$
 
 
-# Support Vector Machines
+## Support Vector Machines {#svm}
 
 Maximal Marigin classifier
 $$\max_{\beta_{0}, \beta_{1},...,\beta_{p},M}M$$
