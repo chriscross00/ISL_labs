@@ -2,7 +2,7 @@
 title: "ch9_lab"
 author: "Christoper Chan"
 date: "March 1, 2019"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -12,8 +12,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(e1071)
+library(caret)
 ```
 
+### 9.6.1
 Setting up our randomly generated data.
 ```{r}
 set.seed(1)
@@ -61,15 +63,55 @@ tune() stores the model with the lowest error in a variable called best.model
 best_model <- tune_svm$best.model
 summary(best_model)
 ```
+Testing the accuracy of our SVC model
+```{r}
+x_test <- matrix(rnorm(20*2), ncol=2)
+y_test <- sample(c(-1,1), 20, rep=TRUE)
+x_test[y_test==1,] <- x_test[y_test==1,] + 1
+test_data <- data.frame(x=x_test, y=as.factor(y_test))
+```
 
+```{r}
+y_pred <- predict(best_model, test_data)
 
+confusionMatrix(y_pred, test_data$y)
+```
 
+Running svm with cost=0.01. In this case it preforms far worse, with a accuracy of 0.7 and a much lower specificity.
+```{r}
+svm_fit_0.01 <- svm(y~., df, kernel='linear', cost=0.01, scale=FALSE)
 
+y_pred_0.01 <- predict(svm_fit_0.01, test_data)
+confusionMatrix(y_pred_0.01, test_data$y)
+```
 
+Classes are linearlly seperable.
+```{r}
+x[y==1,] <- x[y==1,]+0.5
+plot(x, col=(y+5)/2, pch=19)
+```
 
+Creating a SVC that linearly seperates the 2 classes. Very few observations, 3, are used in creating the hyperplane. There is a very narrow margin, which means it might perform poorly on test data. Let's see.
+```{r}
+df_linear <- data.frame(x=x, y=as.factor(y))
 
+svm_fit_linear <- svm(y~., df_linear, kernel='linear', cost=1e5)
 
+summary(svm_fit_linear)
+plot(svm_fit_linear, df_linear)
+```
 
+To generalize model above we'll use a much lower cost. This time 5 observations are used as support vectors and we have a much wider margin.
+```{r}
+svm_fit_linear <- svm(y~., df_linear, kernel='linear', cost=1)
+summary(svm_fit_linear)
+plot(svm_fit_linear, df_linear)
+```
+
+### 9.6.2
+```{r}
+
+```
 
 
 
