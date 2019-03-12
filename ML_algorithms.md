@@ -3,7 +3,16 @@ ML Algorithms
 Christopher Chan
 January 23, 2019
 
-### Linear Regression
+Algorithms
+
+-   [Linear Regression](#lin_reg)
+-   [Logistic Regression](#log_reg)
+-   [Naive Bayes](#nb)
+-   [Trees](#trees)
+-   [SVM](#svm)
+
+Linear Regression
+-----------------
 
 Assumptions:
 
@@ -29,15 +38,16 @@ Variance - unbiased
 
 ![\\hat{\\sigma} = \\frac{1}{N-p-1}\\sum^N\_{i=1}(y\_i-\\hat{y\_i})^2](https://latex.codecogs.com/png.latex?%5Chat%7B%5Csigma%7D%20%3D%20%5Cfrac%7B1%7D%7BN-p-1%7D%5Csum%5EN_%7Bi%3D1%7D%28y_i-%5Chat%7By_i%7D%29%5E2 "\hat{\sigma} = \frac{1}{N-p-1}\sum^N_{i=1}(y_i-\hat{y_i})^2")
 
-#### Ridge Regression
+### Ridge Regression
 
 ![\\hat{\\beta}^{ridge} = argmin\_\\beta \[\\sum\_{i=1}^N(y\_i - \\beta\_0 -\\sum^p\_{j=1}x\_{ij}\\beta\_j)^2 + \\lambda\\sum^p\_{j=1}\\beta^2\_j\]](https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D%5E%7Bridge%7D%20%3D%20argmin_%5Cbeta%20%5B%5Csum_%7Bi%3D1%7D%5EN%28y_i%20-%20%5Cbeta_0%20-%5Csum%5Ep_%7Bj%3D1%7Dx_%7Bij%7D%5Cbeta_j%29%5E2%20%2B%20%5Clambda%5Csum%5Ep_%7Bj%3D1%7D%5Cbeta%5E2_j%5D "\hat{\beta}^{ridge} = argmin_\beta [\sum_{i=1}^N(y_i - \beta_0 -\sum^p_{j=1}x_{ij}\beta_j)^2 + \lambda\sum^p_{j=1}\beta^2_j]")
 
-#### Lasso Regression
+### Lasso Regression
 
 ![\\hat{\\beta}^{lasso} = argmin\_\\beta \[\\frac{1}{2}\\sum\_{i=1}^N(y\_i - \\beta\_0 -\\sum^p\_{j=1}x\_{ij}\\beta\_j)^2 + \\lambda\\sum^p\_{j=1}|\\beta\_j|\]](https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D%5E%7Blasso%7D%20%3D%20argmin_%5Cbeta%20%5B%5Cfrac%7B1%7D%7B2%7D%5Csum_%7Bi%3D1%7D%5EN%28y_i%20-%20%5Cbeta_0%20-%5Csum%5Ep_%7Bj%3D1%7Dx_%7Bij%7D%5Cbeta_j%29%5E2%20%2B%20%5Clambda%5Csum%5Ep_%7Bj%3D1%7D%7C%5Cbeta_j%7C%5D "\hat{\beta}^{lasso} = argmin_\beta [\frac{1}{2}\sum_{i=1}^N(y_i - \beta_0 -\sum^p_{j=1}x_{ij}\beta_j)^2 + \lambda\sum^p_{j=1}|\beta_j|]")
 
-### Logistic Regresion
+Logistic Regresion
+------------------
 
 In general modeling:
 
@@ -55,14 +65,15 @@ Cost function:
 
 ![J(\\theta) = -\\frac{1}{m}\\sum\_{i=1}^m\[y^{(i)}log(h\_{\\theta}(x^{(i)})) + (1-y^{(i)})log(1-h\_{\\theta}(x^{(i)}))\]](https://latex.codecogs.com/png.latex?J%28%5Ctheta%29%20%3D%20-%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5Em%5By%5E%7B%28i%29%7Dlog%28h_%7B%5Ctheta%7D%28x%5E%7B%28i%29%7D%29%29%20%2B%20%281-y%5E%7B%28i%29%7D%29log%281-h_%7B%5Ctheta%7D%28x%5E%7B%28i%29%7D%29%29%5D "J(\theta) = -\frac{1}{m}\sum_{i=1}^m[y^{(i)}log(h_{\theta}(x^{(i)})) + (1-y^{(i)})log(1-h_{\theta}(x^{(i)}))]")
 
-### Naive Bayes
+Naive Bayes
+-----------
 
 ![p(y|x\_1, ..., x\_n)\\propto p(y)\\prod\_{i}^{n}P(x\_i|y)](https://latex.codecogs.com/png.latex?p%28y%7Cx_1%2C%20...%2C%20x_n%29%5Cpropto%20p%28y%29%5Cprod_%7Bi%7D%5E%7Bn%7DP%28x_i%7Cy%29 "p(y|x_1, ..., x_n)\propto p(y)\prod_{i}^{n}P(x_i|y)")
 
 ![y = argmax\_yP(y)\\prod\_{i}^{n}P(x\_i|y)](https://latex.codecogs.com/png.latex?y%20%3D%20argmax_yP%28y%29%5Cprod_%7Bi%7D%5E%7Bn%7DP%28x_i%7Cy%29 "y = argmax_yP(y)\prod_{i}^{n}P(x_i|y)")
 
-Tree
-----
+Trees
+-----
 
 ### Regression
 
@@ -74,13 +85,19 @@ Cost function at each split
 
 ![\\sum\_{i: x\_i\\in{R\_1}(j,s)}(y\_i-\\hat{y}\_{R\_1})^2 + \\sum\_{i: x\_i\\in{R\_2}(j,s)}(y\_i-\\hat{y}\_{R\_2})^2](https://latex.codecogs.com/png.latex?%5Csum_%7Bi%3A%20x_i%5Cin%7BR_1%7D%28j%2Cs%29%7D%28y_i-%5Chat%7By%7D_%7BR_1%7D%29%5E2%20%2B%20%5Csum_%7Bi%3A%20x_i%5Cin%7BR_2%7D%28j%2Cs%29%7D%28y_i-%5Chat%7By%7D_%7BR_2%7D%29%5E2 "\sum_{i: x_i\in{R_1}(j,s)}(y_i-\hat{y}_{R_1})^2 + \sum_{i: x_i\in{R_2}(j,s)}(y_i-\hat{y}_{R_2})^2")
 
-Pruned tree with ![\\alpha](https://latex.codecogs.com/png.latex?%5Calpha "\alpha") cost function
+Pruned tree with ![\\alpha](https://latex.codecogs.com/png.latex?%5Calpha "\alpha") cost function Number of elements in each split
 
 ![N\_m = \\\#{x\_i\\in{R\_m}}](https://latex.codecogs.com/png.latex?N_m%20%3D%20%5C%23%7Bx_i%5Cin%7BR_m%7D%7D "N_m = \#{x_i\in{R_m}}")
 
+ Average ![y\_i](https://latex.codecogs.com/png.latex?y_i "y_i") for each split
+
 ![\\hat{c}\_m = \\frac{1}{N\_m}\\sum\_{x\_i\\in{R\_m}}y\_i](https://latex.codecogs.com/png.latex?%5Chat%7Bc%7D_m%20%3D%20%5Cfrac%7B1%7D%7BN_m%7D%5Csum_%7Bx_i%5Cin%7BR_m%7D%7Dy_i "\hat{c}_m = \frac{1}{N_m}\sum_{x_i\in{R_m}}y_i")
 
+ MSE at ![R\_m](https://latex.codecogs.com/png.latex?R_m "R_m")
+
 ![Q\_m(T) = \\frac{1}{N\_m}\\sum\_{x\_i\\in{R\_m}}(y\_i - \\hat{c}\_m)^2](https://latex.codecogs.com/png.latex?Q_m%28T%29%20%3D%20%5Cfrac%7B1%7D%7BN_m%7D%5Csum_%7Bx_i%5Cin%7BR_m%7D%7D%28y_i%20-%20%5Chat%7Bc%7D_m%29%5E2 "Q_m(T) = \frac{1}{N_m}\sum_{x_i\in{R_m}}(y_i - \hat{c}_m)^2")
+
+ Cost complexity with ![\\alpha](https://latex.codecogs.com/png.latex?%5Calpha "\alpha")
 
 ![\\mathcal{C}\_{\\alpha}(T) = \\sum^{|T|}\_{m=1}N\_{m}Q\_{m}(T) + \\alpha\\left|T\\right|](https://latex.codecogs.com/png.latex?%5Cmathcal%7BC%7D_%7B%5Calpha%7D%28T%29%20%3D%20%5Csum%5E%7B%7CT%7C%7D_%7Bm%3D1%7DN_%7Bm%7DQ_%7Bm%7D%28T%29%20%2B%20%5Calpha%5Cleft%7CT%5Cright%7C "\mathcal{C}_{\alpha}(T) = \sum^{|T|}_{m=1}N_{m}Q_{m}(T) + \alpha\left|T\right|")
 
@@ -100,14 +117,20 @@ Information gain
 
 ### Bagging
 
+Regression
+
 ![\\hat{f}\_{bag}(x) = \\frac{1}{B}\\sum^{B}\_{b=1}\\hat{f}^{\*b}(x)](https://latex.codecogs.com/png.latex?%5Chat%7Bf%7D_%7Bbag%7D%28x%29%20%3D%20%5Cfrac%7B1%7D%7BB%7D%5Csum%5E%7BB%7D_%7Bb%3D1%7D%5Chat%7Bf%7D%5E%7B%2Ab%7D%28x%29 "\hat{f}_{bag}(x) = \frac{1}{B}\sum^{B}_{b=1}\hat{f}^{*b}(x)")
+
+ Classification
+
+![\\hat{C^B\_{\\text{rf}}}(x) = \\text{majority vote } \\hat{C\_b}(x)^B\_1](https://latex.codecogs.com/png.latex?%5Chat%7BC%5EB_%7B%5Ctext%7Brf%7D%7D%7D%28x%29%20%3D%20%5Ctext%7Bmajority%20vote%20%7D%20%5Chat%7BC_b%7D%28x%29%5EB_1 "\hat{C^B_{\text{rf}}}(x) = \text{majority vote } \hat{C_b}(x)^B_1")
 
 ### Notes
 
 ![J](https://latex.codecogs.com/png.latex?J "J") = Divides ![s](https://latex.codecogs.com/png.latex?s "s") = cutoff point Divide ![X\_1, X\_2, ... X\_p](https://latex.codecogs.com/png.latex?X_1%2C%20X_2%2C%20...%20X_p "X_1, X_2, ... X_p") into ![J](https://latex.codecogs.com/png.latex?J "J") distinct non-overlapping regions, ![R\_1, R\_2, ..., R\_J](https://latex.codecogs.com/png.latex?R_1%2C%20R_2%2C%20...%2C%20R_J "R_1, R_2, ..., R_J")
 
 Support Vector Machines
-=======================
+-----------------------
 
 Maximal Marigin classifier
 
@@ -143,6 +166,15 @@ y_i(x^T_i\beta + \beta_0) \geq 1 - \epsilon_i \forall,\\
 -   ![\\epsilon\_{1}, ..., \\epsilon\_{n}](https://latex.codecogs.com/png.latex?%5Cepsilon_%7B1%7D%2C%20...%2C%20%5Cepsilon_%7Bn%7D "\epsilon_{1}, ..., \epsilon_{n}") are slack variables
     -   If ![\\epsilon\_{i} &gt; 0](https://latex.codecogs.com/png.latex?%5Cepsilon_%7Bi%7D%20%3E%200 "\epsilon_{i} > 0"), then ![i](https://latex.codecogs.com/png.latex?i "i")th observation on wrong side of margin
     -   If ![\\epsilon\_{i} &gt; 1](https://latex.codecogs.com/png.latex?%5Cepsilon_%7Bi%7D%20%3E%201 "\epsilon_{i} > 1"), then ![i](https://latex.codecogs.com/png.latex?i "i")th observation on wrong side of hyperplane
+
+Who is who:
+
+| Symbol                                                                                        | Meaning                                           |
+|-----------------------------------------------------------------------------------------------|---------------------------------------------------|
+| ![N](https://latex.codecogs.com/png.latex?N "N")                                              | Number of observations                            |
+| ![J](https://latex.codecogs.com/png.latex?J "J")                                              | Distinct, non-overlapping regions in a tree model |
+| ![s](https://latex.codecogs.com/png.latex?s "s")                                              | Cutoff point between regions in tree model        |
+| ![\\hat{C\_b}(x)](https://latex.codecogs.com/png.latex?%5Chat%7BC_b%7D%28x%29 "\hat{C_b}(x)") | Class prediction of *b*th rf                      |
 
 Notes
 -----

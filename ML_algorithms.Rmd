@@ -2,7 +2,9 @@
 title: "ML Algorithms"
 author: "Christopher Chan"
 date: "January 23, 2019"
-output: html_document
+output: 
+    rmarkdown::github_document:
+        pandoc: --webtex
 ---
 
 ```{r setup, include=FALSE}
