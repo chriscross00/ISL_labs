@@ -172,6 +172,8 @@ Who is who:
 | Symbol                                                                                        | Meaning                                           |
 |-----------------------------------------------------------------------------------------------|---------------------------------------------------|
 | ![N](https://latex.codecogs.com/png.latex?N "N")                                              | Number of observations                            |
+| ![p()](https://latex.codecogs.com/png.latex?p%28%29 "p()")                                    | Probability                                       |
+|                                                                                               | Maximum likelihood                                |
 | ![J](https://latex.codecogs.com/png.latex?J "J")                                              | Distinct, non-overlapping regions in a tree model |
 | ![s](https://latex.codecogs.com/png.latex?s "s")                                              | Cutoff point between regions in tree model        |
 | ![\\hat{C\_b}(x)](https://latex.codecogs.com/png.latex?%5Chat%7BC_b%7D%28x%29 "\hat{C_b}(x)") | Class prediction of *b*th rf                      |
