@@ -29,8 +29,14 @@ $$f(X) = \beta_0 + \sum^p_{j=1}X_j\beta_j + \varepsilon$$
 
 Cost function
 $$RSS(\beta) = \sum^N_{i=1}(y_i-\beta_0-\sum^p_{j=1}x_{ij}\beta_j)^2$$
-Cost function matrix formula
+Normal equation
 $$\hat{\beta} = (X^TX)^{-1}X^Ty$$
+Gradient descent
+$$\beta_{j} := \beta_{j} -\alpha\frac{\partial}{\partial \beta_j}(\beta_0 ... \beta_p)$$
+
+Implement a gradient descent algorithm
+Gradient descent for $\beta_j$
+$$\beta_{j} := \beta_{j} -\alpha\frac{1}{p}\sum^{p}_{i=1}(\sum x_{j}\beta_j)$$
 
 Hat (Matrix) - predicts y
 $$H = X(X^TX)^{-1}X^T$$
