@@ -68,6 +68,11 @@ $$\ell(\beta_0, \beta_1 ... \beta_p) = \prod_{i:y_i=1}p(x_i) \prod_{i^{'}:y_i^{'
 Cost function:
 $$J(\theta) = -\frac{1}{m}\sum_{i=1}^m[y^{(i)}log(h_{\theta}(x^{(i)})) + (1-y^{(i)})log(1-h_{\theta}(x^{(i)}))]$$
 
+## K Nearest Neighbor
+
+
+
+
 ## Naive Bayes {#nb}
 
 $$p(y|x_1, ..., x_n)\propto p(y)\prod_{i}^{n}P(x_i|y)$$
