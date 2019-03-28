@@ -26,9 +26,23 @@ Cost function
 
 ![RSS(\\beta) = \\sum^N\_{i=1}(y\_i-\\beta\_0-\\sum^p\_{j=1}x\_{ij}\\beta\_j)^2](https://latex.codecogs.com/png.latex?RSS%28%5Cbeta%29%20%3D%20%5Csum%5EN_%7Bi%3D1%7D%28y_i-%5Cbeta_0-%5Csum%5Ep_%7Bj%3D1%7Dx_%7Bij%7D%5Cbeta_j%29%5E2 "RSS(\beta) = \sum^N_{i=1}(y_i-\beta_0-\sum^p_{j=1}x_{ij}\beta_j)^2")
 
- Cost function matrix formula
+![X = N \* (p+1)](https://latex.codecogs.com/png.latex?X%20%3D%20N%20%2A%20%28p%2B1%29 "X = N * (p+1)")
+
+Normal equation
 
 ![\\hat{\\beta} = (X^TX)^{-1}X^Ty](https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D%20%3D%20%28X%5ETX%29%5E%7B-1%7DX%5ETy "\hat{\beta} = (X^TX)^{-1}X^Ty")
+
+-   With
+
+    ![\\hat{y} = X\\hat{\\beta} = X(X^{T}X)^{-1}X^{T}y](https://latex.codecogs.com/png.latex?%5Chat%7By%7D%20%3D%20X%5Chat%7B%5Cbeta%7D%20%3D%20X%28X%5E%7BT%7DX%29%5E%7B-1%7DX%5E%7BT%7Dy "\hat{y} = X\hat{\beta} = X(X^{T}X)^{-1}X^{T}y")
+
+Gradient descent
+
+![\\beta\_{j} := \\beta\_{j} -\\alpha\\frac{\\partial}{\\partial \\beta\_j}(\\beta\_0 ... \\beta\_p)](https://latex.codecogs.com/png.latex?%5Cbeta_%7Bj%7D%20%3A%3D%20%5Cbeta_%7Bj%7D%20-%5Calpha%5Cfrac%7B%5Cpartial%7D%7B%5Cpartial%20%5Cbeta_j%7D%28%5Cbeta_0%20...%20%5Cbeta_p%29 "\beta_{j} := \beta_{j} -\alpha\frac{\partial}{\partial \beta_j}(\beta_0 ... \beta_p)")
+
+Implement a gradient descent algorithm Gradient descent for ![\\beta\_j](https://latex.codecogs.com/png.latex?%5Cbeta_j "\beta_j")
+
+![\\beta\_{j} := \\beta\_{j} -\\alpha\\frac{1}{p}\\sum^{p}\_{i=1}(\\sum x\_{j}\\beta\_j)](https://latex.codecogs.com/png.latex?%5Cbeta_%7Bj%7D%20%3A%3D%20%5Cbeta_%7Bj%7D%20-%5Calpha%5Cfrac%7B1%7D%7Bp%7D%5Csum%5E%7Bp%7D_%7Bi%3D1%7D%28%5Csum%20x_%7Bj%7D%5Cbeta_j%29 "\beta_{j} := \beta_{j} -\alpha\frac{1}{p}\sum^{p}_{i=1}(\sum x_{j}\beta_j)")
 
 Hat (Matrix) - predicts y
 
@@ -53,17 +67,22 @@ In general modeling:
 
 ![p(X) = p(Y=y|X)](https://latex.codecogs.com/png.latex?p%28X%29%20%3D%20p%28Y%3Dy%7CX%29 "p(X) = p(Y=y|X)")
 
+log-odds
+
 ![log\\frac{p(X)}{1-p(X)} = \\beta\_0 + \\beta\_1X\_1 + ... + \\beta\_pX\_p](https://latex.codecogs.com/png.latex?log%5Cfrac%7Bp%28X%29%7D%7B1-p%28X%29%7D%20%3D%20%5Cbeta_0%20%2B%20%5Cbeta_1X_1%20%2B%20...%20%2B%20%5Cbeta_pX_p "log\frac{p(X)}{1-p(X)} = \beta_0 + \beta_1X_1 + ... + \beta_pX_p")
 
 ![p(X) = \\frac{e^{\\beta\_0 + \\beta\_1X\_1 + ... + \\beta\_pX\_p}}{1 + e^{\\beta\_0 + \\beta\_1X\_1 + ... + \\beta\_pX\_p}}](https://latex.codecogs.com/png.latex?p%28X%29%20%3D%20%5Cfrac%7Be%5E%7B%5Cbeta_0%20%2B%20%5Cbeta_1X_1%20%2B%20...%20%2B%20%5Cbeta_pX_p%7D%7D%7B1%20%2B%20e%5E%7B%5Cbeta_0%20%2B%20%5Cbeta_1X_1%20%2B%20...%20%2B%20%5Cbeta_pX_p%7D%7D "p(X) = \frac{e^{\beta_0 + \beta_1X_1 + ... + \beta_pX_p}}{1 + e^{\beta_0 + \beta_1X_1 + ... + \beta_pX_p}}")
 
-Estimating regression coefficients:
+Estimating regression coefficients with likelihood function:
 
 ![\\ell(\\beta\_0, \\beta\_1 ... \\beta\_p) = \\prod\_{i:y\_i=1}p(x\_i) \\prod\_{i^{'}:y\_i^{'}=0} (1-p(x\_{i^{'}}))](https://latex.codecogs.com/png.latex?%5Cell%28%5Cbeta_0%2C%20%5Cbeta_1%20...%20%5Cbeta_p%29%20%3D%20%5Cprod_%7Bi%3Ay_i%3D1%7Dp%28x_i%29%20%5Cprod_%7Bi%5E%7B%27%7D%3Ay_i%5E%7B%27%7D%3D0%7D%20%281-p%28x_%7Bi%5E%7B%27%7D%7D%29%29 "\ell(\beta_0, \beta_1 ... \beta_p) = \prod_{i:y_i=1}p(x_i) \prod_{i^{'}:y_i^{'}=0} (1-p(x_{i^{'}}))")
 
 Cost function:
 
 ![J(\\theta) = -\\frac{1}{m}\\sum\_{i=1}^m\[y^{(i)}log(h\_{\\theta}(x^{(i)})) + (1-y^{(i)})log(1-h\_{\\theta}(x^{(i)}))\]](https://latex.codecogs.com/png.latex?J%28%5Ctheta%29%20%3D%20-%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5Em%5By%5E%7B%28i%29%7Dlog%28h_%7B%5Ctheta%7D%28x%5E%7B%28i%29%7D%29%29%20%2B%20%281-y%5E%7B%28i%29%7D%29log%281-h_%7B%5Ctheta%7D%28x%5E%7B%28i%29%7D%29%29%5D "J(\theta) = -\frac{1}{m}\sum_{i=1}^m[y^{(i)}log(h_{\theta}(x^{(i)})) + (1-y^{(i)})log(1-h_{\theta}(x^{(i)}))]")
+
+K Nearest Neighbor
+------------------
 
 Naive Bayes
 -----------
@@ -172,8 +191,9 @@ Who is who:
 | Symbol                                                                                        | Meaning                                           |
 |-----------------------------------------------------------------------------------------------|---------------------------------------------------|
 | ![N](https://latex.codecogs.com/png.latex?N "N")                                              | Number of observations                            |
+| ![p](https://latex.codecogs.com/png.latex?p "p")                                              | Number of parameters                              |
+| ![\\beta](https://latex.codecogs.com/png.latex?%5Cbeta "\beta")                               | GLM coefficient                                   |
 | ![p()](https://latex.codecogs.com/png.latex?p%28%29 "p()")                                    | Probability                                       |
-|                                                                                               | Maximum likelihood                                |
 | ![J](https://latex.codecogs.com/png.latex?J "J")                                              | Distinct, non-overlapping regions in a tree model |
 | ![s](https://latex.codecogs.com/png.latex?s "s")                                              | Cutoff point between regions in tree model        |
 | ![\\hat{C\_b}(x)](https://latex.codecogs.com/png.latex?%5Chat%7BC_b%7D%28x%29 "\hat{C_b}(x)") | Class prediction of *b*th rf                      |

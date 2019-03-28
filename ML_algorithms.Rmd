@@ -29,8 +29,17 @@ $$f(X) = \beta_0 + \sum^p_{j=1}X_j\beta_j + \varepsilon$$
 
 Cost function
 $$RSS(\beta) = \sum^N_{i=1}(y_i-\beta_0-\sum^p_{j=1}x_{ij}\beta_j)^2$$
+
+$$X = N * (p+1)$$
+
 Normal equation
 $$\hat{\beta} = (X^TX)^{-1}X^Ty$$
+
+* With 
+
+$$\hat{y} = X\hat{\beta} = X(X^{T}X)^{-1}X^{T}y$$
+
+
 Gradient descent
 $$\beta_{j} := \beta_{j} -\alpha\frac{\partial}{\partial \beta_j}(\beta_0 ... \beta_p)$$
 
