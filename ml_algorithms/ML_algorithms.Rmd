@@ -3,10 +3,11 @@ title: "ML Algorithms"
 author: "Christopher Chan"
 date: "January 23, 2019"
 output:
-  html_document:
-    keep_md: yes
+  pdf_document: default
   rmarkdown::github_document:
     pandoc: --webtex
+  html_document:
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
